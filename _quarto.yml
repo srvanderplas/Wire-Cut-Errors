@@ -1,0 +1,9 @@
+project:
+  output-dir: _output
+  render:
+    - Preparation/lit.qmd
+    - Preparation/shop_tools.qmd
+
+
+author: Susan Vanderplas, Alicia Carriquiry, Heike Hofmann
+bibliography: references.bib

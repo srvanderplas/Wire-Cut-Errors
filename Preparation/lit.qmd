@@ -1,0 +1,109 @@
+---
+title: "Lit Review"
+author: "Susan Vanderplas"
+format: html
+editor: visual
+bibliography: ../references.bib
+---
+
+## Screwdrivers/Chisels
+
+-   @garcia2017
+
+    -   Overall Rating: 🌈
+
+    -   Parameter definitions:\
+        ![](fig/Garcia_2017_fig1.png)
+
+        -   Angle of attack $\alpha$ vs. axial rotation $\gamma$
+
+    -   Experimental Design:
+
+        -   5 Sencys CR-V 10x200mm electrician's chisels (tip = 9.35x1.85mm)
+
+        -   $\alpha = 0$
+
+        -   $\gamma = \{0, 15, 30, 45, 60, 75\}^\circ$
+
+        -   2 repeat observations
+
+        -   marks were cast, scanned with 20x objective magnification, 800nm vertical resolution, $2\mu m$ lateral resolution, \~10x0.7mm scanning areas, 32 bit precision.
+
+    -   "Tool marks have to be created in a consistent manner that reduces factors that might induce variation in or between marks. Most of these factors are caused by the manual creation of marks" (pg 206)
+
+        -   does this mean that manual creation of marks is less reliable?
+
+        -   Can toolmarks hold up to practical situations where both the examiner and the accused would have made manual marks?
+
+    -   Results:
+
+        -   Based on a preliminary investigation it was observed that the tool mark width (y-axis) compressed with increasing axial rotation. Based on the widths of the experimental marks the average deviation from the theoretical compression factors (1.000, 0.966, 0.866, 0.707, 0.500 and, 0.258) was calculated to be 0.792% $\pm$ 2.068
+
+        -   Without resizing, can only compare $0^\circ$ to $15^\circ$ within guidelines; with resampling and resizing, can compare across the $\gamma$ values chosen
+
+        -   Used wavelength filters to compare structural similarities:
+
+            -   Wavelength ranges included were 1000--5, 1000--200, 200--100, 100--50, 50--25, 25--10 and 10--5 mm. This resulted in a similarity scores which depended solely on the comparison of structural details belonging to a certain wavelength range.
+
+        -   Without resizing:![](fig/Garcia_2017_tab1.png)
+
+        -   With resizing:\
+            ![](fig/Garcia_2017_tab2-3.png)
+
+        -   ![](fig/Garcia_2017_fig12.png)
+
+        -   Results somewhat dependent on noise removal threshold
+
+-   @bachrach2010
+
+-   @yang2019
+
+-   @petraco2012
+
+## Wire Cutters
+
+-   @heikkinen2014
+
+    -   Overall rating: 💩💩
+
+    -   Introduction
+
+        -   When diagonal cutters are used to cut wires, they leave marks that were created by a part of the blade on the cut surface (4,5). Small (less than mm2) partial marks may not allow matching the tool to a mark using standard comparison microscopy (e.g., Leica FSC used in this study \[8\]) because there may be too few recognizable features to declare a match or nonmatch with sufficient certainty [@nichols2]. 3D imaging provides a potential way to address this issue: It allows seeing small features and potentially recognizing a match from a small partial toolmark. With precise 3D imaging, fewer striations are needed to declare that two marks were made using the same tool (Table 1). [@nichols2]
+
+            -   Quote from @nichols2:
+
+                > In three dimensional toolmarks when at least two different groups of at least three consecutive matching striae appear in the same relative position, or one group of six consecutive matching striae are in agreement in an evidence toolmark compared to a test toolmark. In two dimensional toolmarks when at least two groups of at least five consecutive matching striae appear in the same relative position, or one group of eight consecutive matching striae are in agreement in an evidence toolmark. For these criteria to apply, however, the possibility of sub-class characteristics must be ruled out.
+
+    -   Design:
+
+        -   2mm wires cut with 2 different diagonal cutters from the same production batch and what seems to be a 3rd cutter that wasn't from the batch? (description NOT clear)
+
+        -   blades marked to ensure cuts were with same part of the blade (5 cutting positions, but only 3 )
+
+        -   3D optical imaging
+
+    -   Results
+
+        -   74/80 profiles identified using CMS (even using images taken w/ different 3D scanners)
+
+        -   Wear is visible after 500 cuts but can still be assessed using CMS (and from Fig 7, probably using crosscorr as well)
+
+        -   Different blades have different characteristics
+
+        -   different parts of the same blade have different characteristics
+
+        -   3D imaging provides more details relative to 2D imaging
+
+## Bolt Cutters
+
+-   @butcher1975
+
+-   @yang2019
+
+## Pliers
+
+-   @bachrach2010
+
+-   @kassamakov2010
+
+-   @yang2019
