@@ -1,0 +1,129 @@
+---
+title: "Multiple Comparisons in Toolmark Evidence"
+author: "Susan Vanderplas, Heike Hofmann"
+format: pdf
+---
+```{r setup, include = F}
+knitr::opts_chunk$set(echo = F, message = F, warning = F)
+```
+
+## Introduction
+
+-   Problems with database searches and multiple comparisons in forensics
+-   Fingerprint - madrid bombing
+-   DNA databases
+-   Firearms and toolmarks?? NIBIN/IBIS issues, but more broadly there are issues
+
+## Thought Experiment
+
+```{r shop-data}
+library(tibble)
+library(dplyr)
+
+cutting_surfaces <- tribble(
+  ~type, ~length, ~surfaces, ~tools,
+  "Pliers", 1.5, 2, 10,
+  "Needlenose pliers", 1, 4, 3,
+  "Side cutters", 1, 4, 1,
+  "Side cutters", 2, 4, 2,
+  "Scissors", 8.89, 2, 14,
+  "Tin snips", 3.81, 2, 4,
+  "Lineman pliers", 2, 4, 2,
+  "Lineman pliers", 1, 4, 1,
+  "Wire strippers", 1, 2, 2,
+  "Long handled cutting pliers", 2, 4, 1,
+  "Long handled cutting pliers", 3, 4, 1,
+  "Utility knife blades", 7.62, 2, 50
+) %>%
+  mutate(total_cutting_length = length*surfaces*tools)
+
+total_cutting_surface = sum(cutting_surfaces$total_cutting_length)
+```
+
+Consider, for example a situation where someone builds a bomb, and a wire fragment is recovered from un-detonated explosive. We will examine how the forensic examination might proceed in three different cases:
+
+1.  Examiners identify a suspect and locate a single tool which is believed to have been used to construct the bomb. Examiners would like to determine whether this tool is a forensic match to wires within the undetonated bomb.
+
+2.  Examiners identify a suspect and locate a garage full of tools, one of which may have been used to construct the bomb. Examiners would like to identify which tool(s) were used to cut the wires during bomb construction.
+
+3.  Examiners identify several suspect, each of whom has a set of tools, and wish to determine which suspect(s) may have constructed the bomb based off of the toolmark comparisons.
+
+We will consider wires ranging in diameter from 2mm (solid 12 gauge wire) to 0.0116 mm (stranded 12 gauge wire may be composed of 49 strands of 0.0116 mm diameter wire) for the purposes of this thought experiment; these values represent wire easily obtainable at a local hardware store.
+
+<!-- https://www.calmont.com/wp-content/uploads/calmont-eng-wire-gauge.pdf -->
+
+<!-- https://en.wikipedia.org/wiki/American_wire_gauge -->
+
+### Single Tool Comparisons
+
+Let us first consider the situation where a single tool is recovered from the suspect's house that is viewed as likely to have made the wire cut. Then, a forensic examiner might take the tool and use it to cut a piece of metal, known as a blade, in order to record the markings of the entire cutting surface simultaneously. This process might be repeated at multiple angles in order to record the effect of different contact surfaces on the resulting striations. For simplicity, let us assume that angles are not a factor. Let us further define the blade to be of length $\ell$ and the wire to have diameter $d$ which is fully covered with striations that are untouched by the blast.
+
+At minimum, the examiner will have to do $\ell/d$ comparisons in order to assess whether the tool matches the wire; when a comparison algorithm is used, and both the blade and the wire are scanned at the same resolution of $r$ mm, there may be as many as $\ell/r- d/r + 1$ comparisons performed automatically in order to find the optimal alignment between the two samples[^1].
+
+[^1]: This assumes we restrict the wire to be completely contained within the bounds of the blade surface. If we allow for partial matches and restrict these matches to require at least $k$ points of overlap, then this becomes $\ell/r - d/r + k + 1$.
+
+To make this more concrete, consider the pair of pliers shown in @fig-wire-cutter, which has a 1.5 cm cutting surface machined on both sides to produce a peaked cross-section. When used to cut a wire, the wire rests against a rectangular surface used to hold it in place; the blade is pushed into the wire, producing striae resulting from imperfections in side A on one half of the wire and striae from imperfections and wear in side B on the other.
+
+![Wire cutter with 1.5 cm cutting surface beveled on both sides](../fig/wire_cutter.png){#fig-wire-cutter}
+
+A scan of a cut made by the blade at $0.625\mu m$ resolution would produce approximately $15/0.0000625 = 240000$ observations; a scan of a 2mm wire would produce $2/0.0000625 = 32000$ observations, and computationally aligning these two data sequences using maximum cross-correlation would require $240000 - 32000 + 1 = 208001$ comparisons. Under an optical microscope, an examiner might move the wire at 0.2mm increments along the blade cut surface for a total of $15/.2 - 2/.2 + 1 = 66$ distinct and discrete comparisons. Then, we must consider that the examiner or algorithm must compare the wire to both side A and side B; we then double the number of total comparisons made to $416002$ and $132$ for the algorithm and the examiner, respectively.
+
+Ultimately, in order to compare tool marks in this scenario, the examiner or algorithm completes the equivalent to a database search resulting from a single piece of evidence. The dangers of such searches are well known and have been cited in forensic missteps such as the Madrid bombing case, as discussed in @li2023; @newman2007; @mayfield2006report [Pg 137].
+
+While 132 visual comparisons might not seem so terrible, this is the simplest of the 3 scenarios we consider; each scenario presents a progressively more complex problem.
+
+### A Garage of Comparisons
+
+In our next scenario, investigators identify a suspect and collect all of the tools in the suspect's residence which might have been used to construct the bomb.
+
+Let us consider the garage of one of the authors of this paper; @fig-shop-layout shows the garage work bench and tool storage in typical condition. While there is no reason to think the author's garage is representative of all garages, the general setup and number of tools in the garage does not seem unusual for a suburban household where residents may dabble in automotive repair, home improvement, or woodworking.
+
+::: {#fig-shop-layout layout-ncol="2"}
+![Shop Bench Tool rack](../fig/PXL_20231110_190517827.jpg)
+
+![Shop Side Tool rack](../fig/PXL_20231110_190522765.jpg)
+
+Layout of tool storage in the author's garage. For this study, we considered only tools which might reasonably be used to cut wires.
+:::
+
+```{r}
+#| label: tbl-shop-surfaces
+#| tbl-cap: "Shop cutting surfaces. All lengths in cm."
+#| echo: false
+#| message: false
+knitr::kable(cutting_surfaces)
+```
+```{r}
+#| label: tbl-shop-comparisons
+#| tbl-cap: "Comparions performed by tool type, assuming digital scans at a resolution of $0.625\\mu m$ and visual comparisons performed at $0.2 mm$ intervals along the test blade impression."
+#| echo: false
+#| message: false
+comparisons <- cutting_surfaces %>%
+  mutate(digital = (length*10/0.0000625 - 2/0.0000625+1)*surfaces*tools,
+         analog = (length*10/.2 - 2/.2 + 1)) %>%
+  group_by(type) %>%
+  summarize(digital = sum(digital), analog = sum(analog)) %>%
+  rename(`Tool type` = type, Algorithm = digital, Examiner = analog) 
+
+knitr::kable(comparisons)
+```
+
+We assembled the easily available tools from the house and garage which might reasonably be used to cut wires[^2], including pliers, wire cutters and strippers, scissors, tongs, and utility knives. Estimated cutting surface length and quantity of each type of tool is provided in @tbl-shop-surfaces. The total length of all cutting surfaces of relevant tools in the author's garage is `r total_cutting_surface` cm; primary contributions to the total length are the 50 pack of utility knife blades and the 14 pairs of full-size scissors which could be located throughout the house. Of course, a thorough search of the garage and house would come up with far more cutting surfaces to compare against during an actual crime investigation.
+
+[^2]: Reasonably is defined as we have used a tool like this to cut wires during electrical work in the past.
+
+As in Scenario 1, the wire fragment recovered from the un-detonated explosive would be compared to blade surface test impressions generated from each cutting surface in the garage. However, unlike in Scenario 1, we have `r total_cutting_surface` cm of cutting surfaces to work with. We can apply our comparison formula on a by-surface basis to yield the digital and analog comparison estimates shown in @tbl-shop-comparisons. Overall, our algorithm would make `r sum(comparisons$Algorithm)` comparisons and an examiner doing a visual inspection would make `r sum(comparisons$Examiner)` comparisons under the assumptions we made in Scenario 1. XXX fill this in with proper formatting XXX
+
+### Multiple Suspects
+
+## The Problems with Database Searches
+
+### Random Match Probability
+
+### Score-based Distributions
+
+## Potential Solutions
+
+We need to have an explicit relationship between random match probability and amount of signal (assessed by length, number of features, overall striae depth, etc.). Until we have this kind of relationship, it will be hard to use error rates (even if they were known for toolmarks) from algorithms or  black-box studies in practical situations. 
+
+We need much more study of real data, examiner evaluations, and performance of algorithms in situations which mimic real casework. We also need to quantify the strength, distinctiveness, and total number of striations to ensure that comparisons are being made only in situations where random matches are unlikely to occur. 

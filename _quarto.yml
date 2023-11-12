@@ -3,7 +3,6 @@ project:
   render:
     - Preparation/lit.qmd
     - Preparation/shop_tools.qmd
+    - LPR/index.qmd
 
-
-author: Susan Vanderplas, Alicia Carriquiry, Heike Hofmann
 bibliography: references.bib
