@@ -3,6 +3,7 @@ title: "Multiple Comparisons in Toolmark Evidence"
 author: "Susan Vanderplas, Heike Hofmann"
 format: pdf
 ---
+
 ```{r setup, include = F}
 knitr::opts_chunk$set(echo = F, message = F, warning = F)
 ```
@@ -13,6 +14,10 @@ knitr::opts_chunk$set(echo = F, message = F, warning = F)
 -   Fingerprint - madrid bombing
 -   DNA databases
 -   Firearms and toolmarks?? NIBIN/IBIS issues, but more broadly there are issues
+
+One of the common suggestions in the 2016 PCAST report across pattern disciplines in forensic science was the importance of creating huge databases of e.g. known prints and firearms to support research into matches and closest non-matches\[@pcast, fingerprints pg 11, 88, firearms pg 12\]. As researchers, we concur with this suggestion, as it is critical for developing objective algorithms and creating useful black-box studies. We have spent considerable time assembling large data sets of tool marks, bullets, and cartridge cases to support our research as well as create public resources to accelerate future research \[@csafeDataPortal\]. However, we are wary about the implications of database searches across forensic disciplines, for reasons also mentioned in the PCAST report: the necessity of understanding the random match probability for searches against these databases, in particular when using degraded evidence often found in crime scenes\[@pcast, pg 52\].
+
+This issue has been raised in the past with regard to DNA [@thompson2003] and fingerprints [@fine2006]; one of the many issues identified in the aftermath of the 2004 Madrid bombing case was that the IAFIS database used to locate similar prints is extremely large and thus it is possible for the database to locate unusually similar non-matches. This issue will almost certainly become an issue in other pattern disciplines as databases of firearms evidence such as NIBIN @nibin2021 become more commonly utilized by law enforcement. In this paper, however, we examine a more subtle issue present in tool mark examinations: searches within evidence collected as part of a single case. We begin with a hypothetical set of three scenarios involving the collection of tool mark evidence and then assess the statistical issues involved with each scenario and explore possible resolutions to those issues.
 
 ## Thought Experiment
 
@@ -48,7 +53,7 @@ Consider, for example a situation where someone builds a bomb, and a wire fragme
 
 3.  Examiners identify several suspect, each of whom has a set of tools, and wish to determine which suspect(s) may have constructed the bomb based off of the toolmark comparisons.
 
-We will consider wires ranging in diameter from 2mm (solid 12 gauge wire) to 0.0116 mm (stranded 12 gauge wire may be composed of 49 strands of 0.0116 mm diameter wire) for the purposes of this thought experiment; these values represent wire easily obtainable at a local hardware store.
+We will consider wires ranging in diameter from 2mm (solid 12 gauge wire) to 0.0116 mm (stranded 12 gauge wire may be composed of 49 strands of 0.0116 mm diameter wire) for the purposes of this thought experiment; these values represent types of wire easily obtainable at a local hardware store.
 
 <!-- https://www.calmont.com/wp-content/uploads/calmont-eng-wire-gauge.pdf -->
 
@@ -93,6 +98,7 @@ Layout of tool storage in the author's garage. For this study, we considered onl
 #| message: false
 knitr::kable(cutting_surfaces)
 ```
+
 ```{r}
 #| label: tbl-shop-comparisons
 #| tbl-cap: "Comparions performed by tool type, assuming digital scans at a resolution of $0.625\\mu m$ and visual comparisons performed at $0.2 mm$ intervals along the test blade impression."
@@ -124,6 +130,6 @@ As in Scenario 1, the wire fragment recovered from the un-detonated explosive wo
 
 ## Potential Solutions
 
-We need to have an explicit relationship between random match probability and amount of signal (assessed by length, number of features, overall striae depth, etc.). Until we have this kind of relationship, it will be hard to use error rates (even if they were known for toolmarks) from algorithms or  black-box studies in practical situations. 
+We need to have an explicit relationship between random match probability and amount of signal (assessed by length, number of features, overall striae depth, etc.). Until we have this kind of relationship, it will be hard to use error rates (even if they were known for toolmarks) from algorithms or black-box studies in practical situations.
 
-We need much more study of real data, examiner evaluations, and performance of algorithms in situations which mimic real casework. We also need to quantify the strength, distinctiveness, and total number of striations to ensure that comparisons are being made only in situations where random matches are unlikely to occur. 
+We need much more study of real data, examiner evaluations, and performance of algorithms in situations which mimic real casework. We also need to quantify the strength, distinctiveness, and total number of striations to ensure that comparisons are being made only in situations where random matches are unlikely to occur.
