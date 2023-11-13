@@ -1,0 +1,36 @@
+---
+title: "Time Series"
+format: html
+editor: visual
+---
+
+## Effective Number of Observations in a Single Series
+
+In order to calculate the number of comparisons performed by an algorithm, we must calculate the effective number of observations. After all, if we use two different microscopes with different resolutions, we will see more detail but still have effectively the same evidence.
+
+Laying this out mathematically, let us assume that we have a series of observations of a physical object of length $\ell$, $x_i = {x_1, …, x_n}$ taken at resolution $\ell/n$.
+
+```{r}
+# Using Hamby 44 barrel 6, Bullet 1, Land 1 as an example
+library(x3ptools)
+library(bulletxtrctr)
+library(tibble)
+library(dplyr)
+library(tidyr)
+library(purrr)
+
+bullet_x3p <- read_bullet("../data/Barrel 6/Bullet 1/")
+
+df <- bullet_x3p %>%
+  mutate(x3p = x3p %>% map(x3p_m_to_mum),
+         scale = map_dbl(x3p, x3p_get_scale))
+
+```
+
+Useful refs:
+
+-   https://imedea.uib-csic.es/master/cambioglobal/Modulo_V_cod101615/Theory/TSA_theory_part1.pdf
+
+-   https://andrewcharlesjones.github.io/journal/21-effective-sample-size.html
+
+-   
