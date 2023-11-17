@@ -22,7 +22,7 @@ Laying this out mathematically, let us assume that we have a series of observati
 
 ```{r wire-cut-example-data}
 wce <- wire_sigs %>% 
-  filter(id == "T1AW-LI-R1", edge == "A") 
+  filter(id == "T1AW-LI-R1", edge == "A")
 ```
 
 For instance, consider the cut edge of 16 gauge wire (1.5 mm diameter), scanned at a resolution of 0.645 $\mu m$. We have `r nrow(wce)` observations spaced at $0.645 \mu m$ for a total sample length of $2144*0.645/1000 = `r sprintf("%.02f", nrow(wce)*0.645/1000)` mm$, which represents the cut edge of the 1.5mm diameter wire, as shown in @fig-wire-scan-process.
@@ -41,11 +41,10 @@ wce %>%
   theme_bw() + 
   ylab("Signature height") + xlab("Position")
 ```
-No matter how small our resolution, the real-world surface is never more than 1.383 mm in length and the underlying striations are essentially fixed - what changes is what level of detail we can observe. 
-At some point, adding additional resolution doesn't get us any more information about the striations; thus, we cannot depend solely on $n$, the number of observations, to tell us how much information is contained in our sequence.
-In order to correct for this, time series analysts use an effective sample size calculation of $N^\prime = N \cdot \frac{1-r_1}{1+r_1}$ when there is first-order autocorrelation. 
 
-We can test for autocorrelation by looking at the auto correlation function plot, which tests the correlation between $x_t$ and $x_{t+i}$, where $i$ is the order of the autocorrelation function (e.g. the number of positions offset from the observation). 
+No matter how small our resolution, the real-world surface is never more than 1.383 mm in length and the underlying striations are essentially fixed - what changes is what level of detail we can observe. At some point, adding additional resolution doesn't get us any more information about the striations; thus, we cannot depend solely on $n$, the number of observations, to tell us how much information is contained in our sequence. In order to correct for this, time series analysts use an effective sample size calculation of $N^\prime = N \cdot \frac{1-r_1}{1+r_1}$ when there is first-order autocorrelation.
+
+We can test for autocorrelation by looking at the auto correlation function plot, which tests the correlation between $x_t$ and $x_{t+i}$, where $i$ is the order of the autocorrelation function (e.g. the number of positions offset from the observation).
 
 ```{r}
 acf(na.omit(wce$sig), type = "correlation")
@@ -53,7 +52,6 @@ myacf <- acf(na.omit(wce$sig), plot = F)
 ```
 
 It is obvious that there is a significant amount of autocorrelation in our striae.
-
 
 ```{r}
 library(lmtest)
@@ -64,7 +62,8 @@ wce_ts <- wce %>%
 model <- lm(sig ~ x, data = wce_ts)
 lmtest::dwtest(model)
 ```
-The null hypothesis of the Durbin-Watson test is that there is no autocorrelation; we can conclude that there is evidence of autocorrelation in our data. 
+
+The null hypothesis of the Durbin-Watson test is that there is no autocorrelation; we can conclude that there is evidence of autocorrelation in our data.
 
 Our next task is to examine different orders of autocorrelation. We can use the `auto.arima` function to determine the best class of time series model structure for our data.
 
@@ -80,9 +79,9 @@ ggtsdisplay(df$sig, theme = ggplot2::theme_bw(), main = "Signature")
 ggtsdisplay(resid(aamodel), theme = ggplot2::theme_bw(), main = "Residuals from Auto.Arima model")
 ```
 
-There are multiple ways to calculate "effective sample size" which seem to differ in what level of ARIMA modeling they account for and the underlying method to compute the autocorrelations. 
+There are multiple ways to calculate "effective sample size" which seem to differ in what level of ARIMA modeling they account for and the underlying method to compute the autocorrelations.
 
-The `coda` package uses $ESS = N \frac{\lamda^2}{\sigma^2}$ where $\lamda^2$ is the variance and $\sigma^2$ is the spectral density at frequency 0. 
+The `coda` package uses $ESS = N \frac{\lamda^2}{\sigma^2}$ where $\lamda^2$ is the variance and $\sigma^2$ is the spectral density at frequency 0.
 
 ```{r}
 coda::effectiveSize(df$sig)
@@ -92,7 +91,7 @@ coda::effectiveSize(df$sig[seq(1, length(df$sig), 2)])
 coda::effectiveSize(df$sig[seq(1, length(df$sig), 4)])
 ```
 
-Another calculation for first-order autocorrelation (which doesn't apply here...) is 
+Another calculation for first-order autocorrelation (which doesn't apply here...) is
 
 ```{r}
 ar1_ess <- sum(!is.na(df$sig)) * (1-myacf$acf[2])/(1 + myacf$acf[2])
@@ -101,7 +100,6 @@ ar1_ess <- sum(!is.na(df$sig)) * (1-myacf$acf[2])/(1 + myacf$acf[2])
 $ESS = N \frac{1 - \rho(1)}{1 + \rho(1)}$ where $\rho(1)$ is the sample autocorrelation at lag 1. As we have an ARMA(3,2) model, we can't really use this with a straight face, however, if we did, the result would be `r ar1_ess`... e.g. not reasonable on its face.
 
 I'm going to quit now, but this turns out to be a real pain in the ass. I don't find 25 or 26 observations to be particularly realistic, but neither do I think .5 observations is realistic. To my mind, something like 50-100 observations would be reasonable, but I don't know that I have enough of a gut feeling for this yet.
-
 
 ```{r, echo = F, warning = F}
 #| fig-width: 8
@@ -116,18 +114,15 @@ wce %>%
   ylab("Signature height") + xlab("Position")
 ```
 
-
 Useful refs:
 
-- https://stats.stackexchange.com/questions/429470/what-is-the-correct-effective-sample-size-ess-calculation
+-   https://stats.stackexchange.com/questions/429470/what-is-the-correct-effective-sample-size-ess-calculation
 
 -   https://imedea.uib-csic.es/master/cambioglobal/Modulo_V_cod101615/Theory/TSA_theory_part1.pdf
 
 -   https://andrewcharlesjones.github.io/journal/21-effective-sample-size.html
 
-
 ## Leaving out the last X%
-
 
 ```{r}
 library(forecast)
