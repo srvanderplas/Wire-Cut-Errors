@@ -19,6 +19,17 @@ One of the common suggestions in the 2016 PCAST report across pattern discipline
 
 This issue has been raised in the past with regard to DNA [@thompson2003] and fingerprints [@fine2006]; one of the many issues identified in the aftermath of the 2004 Madrid bombing case was that the IAFIS database used to locate similar prints is extremely large and thus it is possible for the database to locate unusually similar non-matches. This issue will almost certainly become an issue in other pattern disciplines as databases of firearms evidence such as NIBIN @nibin2021 become more commonly utilized by law enforcement. In this paper, however, we examine a more subtle issue present in tool mark examinations: searches within evidence collected as part of a single case. We begin with a hypothetical set of three scenarios involving the collection of tool mark evidence and then assess the statistical issues involved with each scenario and explore possible resolutions to those issues.
 
+
+### Examination Process
+
+
+### Comparison counts
+
+When assessing the total number of comparisons, we will consider two extremes: first, a set of completely independent comparisons made by dividing the blade cut up into a series of non-overlapping segments the same size as the wire. XXX add picture XXX The second extreme is a series of comparisons made by sliding the wire along the blade cut in increments equal to the resolution of the scan or optical viewer (depending on whether this comparison is done automatically or visually). Of course, the reality is that an algorithm or examiner will likely make a number of comparisons between these two extremes, however, rather than consider all possible comparison numbers within this span, it is more efficient to explore what happens at each endpoint first.
+
+
+
+
 ## Thought Experiment
 
 ```{r shop-data}
@@ -77,6 +88,7 @@ Consider, for example a situation where someone builds a bomb, and a wire fragme
 3.  Examiners identify several suspect, each of whom has a set of tools, and wish to determine which suspect(s) may have constructed the bomb based off of the toolmark comparisons.
 
 We will consider wires ranging in diameter from 2mm (solid 12 gauge wire) to 0.0116 mm (stranded 12 gauge wire may be composed of 49 strands of 0.0116 mm diameter wire) for the purposes of this thought experiment; these values represent types of wire easily obtainable at a local hardware store.
+
 
 <!-- https://www.calmont.com/wp-content/uploads/calmont-eng-wire-gauge.pdf -->
 
