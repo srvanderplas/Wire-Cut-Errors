@@ -8,11 +8,6 @@
       }
     ]
   },
-  "Python": {
-    "Version": "3.11.2",
-    "Type": "virtualenv",
-    "Name": "/home/susan/.virtualenvs/r-reticulate"
-  },
   "Packages": {
     "MASS": {
       "Package": "MASS",
