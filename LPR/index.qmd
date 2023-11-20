@@ -82,9 +82,11 @@ We will consider wires ranging in diameter from 2mm (solid 12 gauge wire) to 0.0
 
 <!-- https://en.wikipedia.org/wiki/American_wire_gauge -->
 
-### Single Tool Comparisons
 
-Let us first consider the situation where a single tool is recovered from the suspect's house that is viewed as likely to have made the wire cut. Then, a forensic examiner might take the tool and use it to cut a piece of metal, known as a blade, in order to record the markings of the entire cutting surface simultaneously. This process might be repeated at multiple angles in order to record the effect of different contact surfaces on the resulting striations. For simplicity, let us assume that angles are not a factor. Let us further define the blade to be of length $\ell$ and the wire to have diameter $d$ which is fully covered with striations that are untouched by the blast.
+### Single Tool, Single Cut Comparisons
+
+Let us first consider the situation where a single tool is recovered from the suspect's house that is viewed as likely to have made the wire cut. Then, a forensic examiner might take the tool and use it to cut a piece of metal, known as a blade cut, in order to record the markings of the entire cutting surface simultaneously. This process might be repeated at multiple angles in order to record the effect of different contact surfaces on the resulting striations. 
+For simplicity, let us for now assume that only a single cut under one set angle was made. Let us further define the blade to be of length $\ell$ and the wire to have diameter $d$ which is fully covered with striations that are untouched by the blast.
 
 At minimum, the examiner will have to do $\ell/d$ comparisons in order to assess whether the tool matches the wire; when a comparison algorithm is used, and both the blade and the wire are scanned at the same resolution of $r$ mm, there may be as many as $\ell/r- d/r + 1$ comparisons performed automatically in order to find the optimal alignment between the two samples[^1].
 
