@@ -25,7 +25,11 @@ Let us consider the process of toolmark examination - an examiner is given a too
 
 The examiner will compare blade cuts from all cutting surfaces during this process. Tools used for wire cuts typically have either 2 or 4 cutting surfaces. Examiners may make multiple cuts at multiple angles; this will increase the number of available blade cuts for comparison.
 
-For simplicity, let us for now assume that only a single cut under one controlled angle was made.
+<!-- For simplicity, let us for now assume that only a single cut under one controlled angle was made. -->
+
+<!-- ### Blade Configurations -->
+
+<!-- There are 3 major types of blade configurations we observed -->
 
 ### Counting Comparisons
 
@@ -38,30 +42,6 @@ At a maximum, both the blade and the wire are either digitally scanned at the sa
 [^1]: This assumes we restrict the wire to be completely contained within the bounds of the blade surface. If we allow for partial matches and restrict these matches to require at least $k$ points of overlap, then this becomes $\ell/r - d/r + k + 1$.
 
 Thus, we will consider the two extremes: $\ell/d$ completely independent comparisons and $\ell/r - d/r + 1$ dependent comparisons. The true number of visual or numerical comparisons lies somewhere between these two values.
-
-To make this more concrete, consider the pair of pliers shown in @fig-wire-cutter, which has a 1.5 cm cutting surface machined on both sides to produce a peaked cross-section. When used to cut a wire, the wire rests against a rectangular surface used to hold it in place; the blade is pushed into the wire, producing striae resulting from imperfections in side A on one half of the wire and striae from imperfections and wear in side B on the other.
-
-![Wire cutter with 1.5 cm cutting surface beveled on both sides](../fig/wire_cutter.png){#fig-wire-cutter}
-
-```{r}
-resolution <- 0.645 # res in mum
-length_blade <- 15 # length in mm
-wire_diam <- 2 # diameter in mm
-mm_to_mum <- 1000 # conversion
-
-obs_blade <- round(length_blade * mm_to_mum/resolution)
-obs_wire <- round(wire_diam * mm_to_mum/resolution)
-alg_compare <- obs_blade - obs_wire + 1
-
-examiner_increment <- 0.2 # increment in mm
-examiner_compare <- (length_blade - wire_diam)/examiner_increment + 1
-```
-
-A scan of a cut made by the blade at $`r resolution`\mu m$ resolution will produce approximately $`r length_blade` \times `r mm_to_mum`/`r resolution` = `r format(obs_blade, big.mark = ',')`$ observations; a scan of a 2mm wire would produce $`r wire_diam` \times `r mm_to_mum`/`r resolution` = `r format(obs_wire, big.mark = ',')`$ observations, and computationally aligning these two data sequences using maximum cross-correlation would require $`r obs_blade` - `r obs_wire` + 1 = `r format(alg_compare, big.mark = ',')`$ (obviously dependent) comparisons. Under an optical microscope, an examiner might move the wire at 0.2mm increments along the blade cut surface for a total of $`r length_blade`/`r examiner_increment` - `r wire_diam`/`r examiner_increment` + 1 = `r format(examiner_compare, big.mark = ',')`$ distinct comparisons. Then, we must consider that the examiner or algorithm must compare the wire to both side A and side B; we then double the number of total comparisons made to $`r format(alg_compare*2, big.mark = ',')`$ and $`r examiner_compare*2`$ for the algorithm and the examiner, respectively.
-
-### Comparison counts
-
-When assessing the total number of comparisons, we will consider two extremes: first, a set of completely independent comparisons made by dividing the blade cut up into a series of non-overlapping segments the same size as the wire. XXX add picture XXX The second extreme is a series of comparisons made by sliding the wire along the blade cut in increments equal to the resolution of the scan or optical viewer (depending on whether this comparison is done automatically or visually). Of course, the reality is that an algorithm or examiner will likely make a number of comparisons between these two extremes, however, rather than consider all possible comparison numbers within this span, it is more efficient to explore what happens at each endpoint first.
 
 ## Thought Experiment
 
@@ -112,15 +92,13 @@ dad_surfaces <- tribble(
 dad_total_cutting_surface = sum(dad_surfaces$total_cutting_length)
 ```
 
-Consider, for example a situation where someone builds a bomb, and a wire fragment is recovered from un-detonated explosive. We will examine how the forensic examination might proceed in three different cases:
+Consider, for example a situation where someone builds a bomb (badly), and a wire fragment is recovered from the un-detonated explosive device. We will examine how the forensic examination might proceed in three different cases:
 
 1.  Examiners identify a suspect and locate a single tool which is believed to have been used to construct the bomb. Examiners would like to determine whether this tool is a forensic match to wires within the undetonated bomb.
 
-2.  Examiners identify a suspect and locate a garage full of tools, one of which may have been used to construct the bomb. Examiners would like to identify which tool(s) were used to cut the wires during bomb construction.
+2.  Examiners identify a suspect and locate a garage full of tools, one of which may have been used to construct the bomb. Examiners would like to identify which tool(s) were used to cut the wire during bomb construction.
 
 3.  Examiners identify several suspect, each of whom has a set of tools, and wish to determine which suspect(s) may have constructed the bomb based off of the toolmark comparisons.
-
-We will consider wires ranging in diameter from 2mm (solid 12 gauge wire) to 0.0116 mm (stranded 12 gauge wire may be composed of 49 strands of 0.0116 mm diameter wire) for the purposes of this thought experiment; these values represent types of wire easily obtainable at a local hardware store.
 
 <!-- https://www.calmont.com/wp-content/uploads/calmont-eng-wire-gauge.pdf -->
 
@@ -128,9 +106,31 @@ We will consider wires ranging in diameter from 2mm (solid 12 gauge wire) to 0.0
 
 ### Single Tool, Single Cut Comparisons
 
-Let us first consider the situation where a single tool is recovered from the suspect's house that is viewed as likely to have made the wire cut. Ultimately, in order to compare tool marks in this scenario, the examiner or algorithm completes the equivalent to a database search resulting from a single piece of evidence. The dangers of such searches are well known and have been cited in forensic missteps such as the Madrid bombing case, as discussed in @li2023; @newman2007; @mayfield2006report [Pg 137].
+To make the calculations of number of comparisons more concrete, consider the pair of pliers shown in @fig-wire-cutter, which has a 1.5 cm cutting surface machined on both sides to produce a peaked cross-section. When used to cut a wire, the wire rests against a rectangular surface used to hold it in place; the blade is pushed into the wire, producing striae resulting from imperfections in side A on one half of the wire and striae from imperfections and wear in side B on the other.
 
-While $`r examiner_compare*2`$ visual comparisons might not seem so terrible, this is the simplest of the 3 scenarios we consider; each scenario presents a progressively more complex problem.
+![Wire cutter with 1.5 cm cutting surface beveled on both sides](../fig/wire_cutter.png){#fig-wire-cutter alt="Wire cutter with 1.5 cm cutting surface beveled on both sides"}
+
+```{r}
+resolution <- 0.645 # res in mum
+length_blade <- 15 # length in mm
+wire_diam <- 2 # diameter in mm
+mm_to_mum <- 1000 # conversion
+
+obs_blade <- round(length_blade * mm_to_mum/resolution)
+obs_wire <- round(wire_diam * mm_to_mum/resolution)
+alg_compare <- obs_blade - obs_wire + 1
+
+examiner_increment <- wire_diam # increment in mm
+examiner_compare <- (length_blade - wire_diam)/examiner_increment + 1
+```
+
+A scan of a cut made by the blade at $`r resolution`\mu m$ resolution will produce a sequence of approximately $`r length_blade` \times `r mm_to_mum`/`r resolution` = `r format(obs_blade, big.mark = ',')`$ observations. A scan of a 2 mm wire would produce $`r wire_diam` \times `r mm_to_mum`/`r resolution` = `r format(obs_wire, big.mark = ',')`$ observations.
+
+In the minimal comparisons case, we would have `r examiner_compare` comparisons for each side of the blade's cutting surface for a total of `r 2*examiner_compare` comparisons.
+
+In the extreme case, computationally aligning the wire sequence to one blade cut using maximum cross-correlation would require $`r obs_blade` - `r obs_wire` + 1 = `r format(alg_compare, big.mark = ',')`$ (obviously dependent) comparisons. As there are two or more blade cuts for each cutting tool, there are at most $2(`r obs_blade` - `r obs_wire` + 1) = `r format(2*alg_compare, big.mark = ',')`$ comparisons including the full wire surface.
+
+While $`r examiner_compare*2`$ comparisons might not seem so terrible, this is the simplest of the 3 scenarios we consider; each scenario presents a progressively more complex problem.
 
 ### A Garage of Comparisons
 
@@ -236,6 +236,15 @@ garage_sum_tot %>%
 If investigators were to attempt to determine which of the suspected individuals cut the wire in evidence, they would need to do `r format(sum(garage_sum$analog), big.mark = ',')` distinct visual comparisons. Even if there is an incredibly small false positive error rate, the odds of a false identification are much more likely in this scenario than either of the previous two scenarios. But how likely? In the next section, we describe two different scenarios for calculating the overall likelihood of a false identification using simple probability calculations and estimated coincidental match probabilities as well as a theoretical approach designed to mimic the approach used with database searches that return the $N$ most similar results.
 
 ## The Problems with Database Searches
+
+Let us first consider the simplest situation where a single tool is recovered from the suspect's house that is viewed as likely to have made the wire cut. 
+In order to compare tool marks in this scenario, the examiner or algorithm completes the equivalent to a database search resulting from comparing a single wire in evidence to a single tool. 
+This multiple comparison problem becomes more severe at each step of our thought experiment - considering a single shop of tools adds multiple orders of magnitude to the number of comparisons. 
+
+In addition, we might expect that if the guilty party in our thought experiment had succeeded in exploding the bomb, the evidence might be reduced in quality - the proportion of the wire with usable striae might be significantly smaller, which would compound the problem even further.
+
+
+The dangers of database searches in forensics are well known; database searches have been implicated in forensic missteps such as the Madrid bombing case, as discussed in @li2023; @newman2007; @mayfield2006report [Pg 137]. In this section, we illustrate the problems with database searches in two different ways: first, considering the implications for random match probabilities under multiple comparisons, and second, considering the impact of "best $N$ matches" search queries on the distribution of match scores. These issues are separate, but related, and represent different ways searches and databases (formal or informal) might be used in practice. While law enforcement sanctioned wire or toolmark databases used for forensic intelligence do not currently exist to the best of our knowledge, similar systems exist for bullets and cartridge cases (IBIS), fingerprints (AFIS), and footwear (NFS, a UK database). It seems reasonable to consider both the informal databases created from an extensive investigation and the formal databases which might be created in the future. 
 
 ### Random Match Probability
 
