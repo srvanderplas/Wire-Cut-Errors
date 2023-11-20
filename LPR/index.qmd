@@ -19,16 +19,49 @@ One of the common suggestions in the 2016 PCAST report across pattern discipline
 
 This issue has been raised in the past with regard to DNA [@thompson2003] and fingerprints [@fine2006]; one of the many issues identified in the aftermath of the 2004 Madrid bombing case was that the IAFIS database used to locate similar prints is extremely large and thus it is possible for the database to locate unusually similar non-matches. This issue will almost certainly become an issue in other pattern disciplines as databases of firearms evidence such as NIBIN @nibin2021 become more commonly utilized by law enforcement. In this paper, however, we examine a more subtle issue present in tool mark examinations: searches within evidence collected as part of a single case. We begin with a hypothetical set of three scenarios involving the collection of tool mark evidence and then assess the statistical issues involved with each scenario and explore possible resolutions to those issues.
 
-
 ### Examination Process
 
+Let us consider the process of toolmark examination - an examiner is given a tool recovered from a suspect as well as a wire recovered from the scene. The examiner will typically take the tool and use it to cut a piece of metal, known as a blade cut, in order to record the markings of the entire cutting surface simultaneously. This process may be repeated at multiple angles in order to record the effect of different contact surfaces on the resulting striations. The resulting blade cut will be compared to the wire using either visual inspection or perhaps in the future a numerical comparison algorithm similar to those developed for bullet striations [@hare2017automatic] and cartridge cases [@zemmels2023].
+
+The examiner will compare blade cuts from all cutting surfaces during this process. Tools used for wire cuts typically have either 2 or 4 cutting surfaces. Examiners may make multiple cuts at multiple angles; this will increase the number of available blade cuts for comparison.
+
+For simplicity, let us for now assume that only a single cut under one controlled angle was made.
+
+### Counting Comparisons
+
+Let us consider a single blade cut from a single cutting surface. Define the blade cut to be of length $\ell$ and the wire to have diameter $d$; we will also assume that the wire is fully covered with striations suitable for comparison.
+
+At minimum, there must be $\ell/d$ comparisons in order to assess whether the tool matches the wire; in this case, the comparisons are essentially independent of each other (conditional on the striation patterns) because no overlapping data is used. Of course, in this situation, we are overlooking the potential for partial matches and assuming that everything is lined up perfectly to produce this minimum number of comparisons; in practice, of course, the number of comparisons in this situation would likely be much higher.
+
+At a maximum, both the blade and the wire are either digitally scanned at the same resolution of $r$ mm, or visually examined using a microscope with a digital view of a certain resolution which can be translated into an equivalent resolution to the digital scan. In this case, there may be as many as $\ell/r- d/r + 1$ comparisons performed in order to find the optimal alignment between the two samples[^1]. Of course, these comparisons are highly dependent, as each sequential comparison shares much of the same data with the previous and next comparisons. While it is likely possible to model this autocorrelation and compute an effective number of comparisons accounting for the autocorrelation, developing this model is outside the scope of this paper.
+
+[^1]: This assumes we restrict the wire to be completely contained within the bounds of the blade surface. If we allow for partial matches and restrict these matches to require at least $k$ points of overlap, then this becomes $\ell/r - d/r + k + 1$.
+
+Thus, we will consider the two extremes: $\ell/d$ completely independent comparisons and $\ell/r - d/r + 1$ dependent comparisons. The true number of visual or numerical comparisons lies somewhere between these two values.
+
+To make this more concrete, consider the pair of pliers shown in @fig-wire-cutter, which has a 1.5 cm cutting surface machined on both sides to produce a peaked cross-section. When used to cut a wire, the wire rests against a rectangular surface used to hold it in place; the blade is pushed into the wire, producing striae resulting from imperfections in side A on one half of the wire and striae from imperfections and wear in side B on the other.
+
+![Wire cutter with 1.5 cm cutting surface beveled on both sides](../fig/wire_cutter.png){#fig-wire-cutter}
+
+```{r}
+resolution <- 0.645 # res in mum
+length_blade <- 15 # length in mm
+wire_diam <- 2 # diameter in mm
+mm_to_mum <- 1000 # conversion
+
+obs_blade <- round(length_blade * mm_to_mum/resolution)
+obs_wire <- round(wire_diam * mm_to_mum/resolution)
+alg_compare <- obs_blade - obs_wire + 1
+
+examiner_increment <- 0.2 # increment in mm
+examiner_compare <- (length_blade - wire_diam)/examiner_increment + 1
+```
+
+A scan of a cut made by the blade at $`r resolution`\mu m$ resolution will produce approximately $`r length_blade` \times `r mm_to_mum`/`r resolution` = `r format(obs_blade, big.mark = ',')`$ observations; a scan of a 2mm wire would produce $`r wire_diam` \times `r mm_to_mum`/`r resolution` = `r format(obs_wire, big.mark = ',')`$ observations, and computationally aligning these two data sequences using maximum cross-correlation would require $`r obs_blade` - `r obs_wire` + 1 = `r format(alg_compare, big.mark = ',')`$ (obviously dependent) comparisons. Under an optical microscope, an examiner might move the wire at 0.2mm increments along the blade cut surface for a total of $`r length_blade`/`r examiner_increment` - `r wire_diam`/`r examiner_increment` + 1 = `r format(examiner_compare, big.mark = ',')`$ distinct comparisons. Then, we must consider that the examiner or algorithm must compare the wire to both side A and side B; we then double the number of total comparisons made to $`r format(alg_compare*2, big.mark = ',')`$ and $`r examiner_compare*2`$ for the algorithm and the examiner, respectively.
 
 ### Comparison counts
 
 When assessing the total number of comparisons, we will consider two extremes: first, a set of completely independent comparisons made by dividing the blade cut up into a series of non-overlapping segments the same size as the wire. XXX add picture XXX The second extreme is a series of comparisons made by sliding the wire along the blade cut in increments equal to the resolution of the scan or optical viewer (depending on whether this comparison is done automatically or visually). Of course, the reality is that an algorithm or examiner will likely make a number of comparisons between these two extremes, however, rather than consider all possible comparison numbers within this span, it is more efficient to explore what happens at each endpoint first.
-
-
-
 
 ## Thought Experiment
 
@@ -89,42 +122,13 @@ Consider, for example a situation where someone builds a bomb, and a wire fragme
 
 We will consider wires ranging in diameter from 2mm (solid 12 gauge wire) to 0.0116 mm (stranded 12 gauge wire may be composed of 49 strands of 0.0116 mm diameter wire) for the purposes of this thought experiment; these values represent types of wire easily obtainable at a local hardware store.
 
-
 <!-- https://www.calmont.com/wp-content/uploads/calmont-eng-wire-gauge.pdf -->
 
 <!-- https://en.wikipedia.org/wiki/American_wire_gauge -->
 
-
 ### Single Tool, Single Cut Comparisons
 
-Let us first consider the situation where a single tool is recovered from the suspect's house that is viewed as likely to have made the wire cut. Then, a forensic examiner might take the tool and use it to cut a piece of metal, known as a blade cut, in order to record the markings of the entire cutting surface simultaneously. This process might be repeated at multiple angles in order to record the effect of different contact surfaces on the resulting striations. 
-For simplicity, let us for now assume that only a single cut under one set angle was made. Let us further define the blade to be of length $\ell$ and the wire to have diameter $d$ which is fully covered with striations that are untouched by the blast.
-
-At minimum, the examiner will have to do $\ell/d$ comparisons in order to assess whether the tool matches the wire; when a comparison algorithm is used, and both the blade and the wire are scanned at the same resolution of $r$ mm, there may be as many as $\ell/r- d/r + 1$ comparisons performed automatically in order to find the optimal alignment between the two samples[^1].
-
-[^1]: This assumes we restrict the wire to be completely contained within the bounds of the blade surface. If we allow for partial matches and restrict these matches to require at least $k$ points of overlap, then this becomes $\ell/r - d/r + k + 1$.
-
-To make this more concrete, consider the pair of pliers shown in @fig-wire-cutter, which has a 1.5 cm cutting surface machined on both sides to produce a peaked cross-section. When used to cut a wire, the wire rests against a rectangular surface used to hold it in place; the blade is pushed into the wire, producing striae resulting from imperfections in side A on one half of the wire and striae from imperfections and wear in side B on the other.
-
-![Wire cutter with 1.5 cm cutting surface beveled on both sides](../fig/wire_cutter.png){#fig-wire-cutter}
-
-```{r}
-resolution <- 0.645 # res in mum
-length_blade <- 15 # length in mm
-wire_diam <- 2 # diameter in mm
-mm_to_mum <- 1000 # conversion
-
-obs_blade <- round(length_blade * mm_to_mum/resolution)
-obs_wire <- round(wire_diam * mm_to_mum/resolution)
-alg_compare <- obs_blade - obs_wire + 1
-
-examiner_increment <- 0.2 # increment in mm
-examiner_compare <- (length_blade - wire_diam)/examiner_increment + 1
-```
-
-A scan of a cut made by the blade at $`r resolution`\mu m$ resolution will produce approximately $`r length_blade` \times `r mm_to_mum`/`r resolution` = `r format(obs_blade, big.mark = ',')`$ observations; a scan of a 2mm wire would produce $`r wire_diam` \times `r mm_to_mum`/`r resolution` = `r format(obs_wire, big.mark = ',')`$ observations, and computationally aligning these two data sequences using maximum cross-correlation would require $`r obs_blade` - `r obs_wire` + 1 = `r format(alg_compare, big.mark = ',')`$ (obviously dependent) comparisons. Under an optical microscope, an examiner might move the wire at 0.2mm increments along the blade cut surface for a total of $`r length_blade`/`r examiner_increment` - `r wire_diam`/`r examiner_increment` + 1 = `r format(examiner_compare, big.mark = ',')`$ distinct comparisons. Then, we must consider that the examiner or algorithm must compare the wire to both side A and side B; we then double the number of total comparisons made to $`r format(alg_compare*2, big.mark = ',')`$ and $`r examiner_compare*2`$ for the algorithm and the examiner, respectively.
-
-Ultimately, in order to compare tool marks in this scenario, the examiner or algorithm completes the equivalent to a database search resulting from a single piece of evidence. The dangers of such searches are well known and have been cited in forensic missteps such as the Madrid bombing case, as discussed in @li2023; @newman2007; @mayfield2006report [Pg 137].
+Let us first consider the situation where a single tool is recovered from the suspect's house that is viewed as likely to have made the wire cut. Ultimately, in order to compare tool marks in this scenario, the examiner or algorithm completes the equivalent to a database search resulting from a single piece of evidence. The dangers of such searches are well known and have been cited in forensic missteps such as the Madrid bombing case, as discussed in @li2023; @newman2007; @mayfield2006report [Pg 137].
 
 While $`r examiner_compare*2`$ visual comparisons might not seem so terrible, this is the simplest of the 3 scenarios we consider; each scenario presents a progressively more complex problem.
 
@@ -170,7 +174,7 @@ We assembled the easily available tools from the house and garage which might re
 
 [^2]: Reasonably is defined as we (the authors) have used a tool like this to cut wires while doing home improvement projects in the past.
 
-As in Scenario 1, the wire fragment recovered from the un-detonated explosive would be compared to blade surface test impressions generated from each cutting surface in the garage. However, unlike in Scenario 1, we have `r format(total_cutting_surface, big.mark=',')` cm of cutting surfaces to work with. We can apply our comparison formula on a by-surface basis to yield the digital and analog comparison estimates shown in @tbl-shop-comparisons. Overall, our algorithm would make `r format(sum(comparisons$Algorithm), big.mark=',')` (dependent) comparisons and an examiner doing a visual inspection would make `r format(sum(comparisons$Examiner), big.mark=',')` comparisons under the assumptions we made in Scenario 1. 
+As in Scenario 1, the wire fragment recovered from the un-detonated explosive would be compared to blade surface test impressions generated from each cutting surface in the garage. However, unlike in Scenario 1, we have `r format(total_cutting_surface, big.mark=',')` cm of cutting surfaces to work with. We can apply our comparison formula on a by-surface basis to yield the digital and analog comparison estimates shown in @tbl-shop-comparisons. Overall, our algorithm would make `r format(sum(comparisons$Algorithm), big.mark=',')` (dependent) comparisons and an examiner doing a visual inspection would make `r format(sum(comparisons$Examiner), big.mark=',')` comparisons under the assumptions we made in Scenario 1.
 
 ### Multiple Suspects
 
@@ -229,7 +233,7 @@ garage_sum_tot %>%
   knitr::kable(format.args = list(big.mark = ','))
 ```
 
-If investigators were to attempt to determine which of the suspected individuals cut the wire in evidence, they would need to do `r format(sum(garage_sum$analog), big.mark = ',')` distinct visual comparisons. Even if there is an incredibly small false positive error rate, the odds of a false identification are much more likely in this scenario than either of the previous two scenarios. But how likely? In the next section, we describe two different scenarios for calculating the overall likelihood of a false identification using simple probability calculations and estimated coincidental match probabilities as well as a theoretical approach designed to mimic the approach used with database searches that return the $N$ most similar results. 
+If investigators were to attempt to determine which of the suspected individuals cut the wire in evidence, they would need to do `r format(sum(garage_sum$analog), big.mark = ',')` distinct visual comparisons. Even if there is an incredibly small false positive error rate, the odds of a false identification are much more likely in this scenario than either of the previous two scenarios. But how likely? In the next section, we describe two different scenarios for calculating the overall likelihood of a false identification using simple probability calculations and estimated coincidental match probabilities as well as a theoretical approach designed to mimic the approach used with database searches that return the $N$ most similar results.
 
 ## The Problems with Database Searches
 
