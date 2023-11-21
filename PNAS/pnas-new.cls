@@ -38,11 +38,11 @@
 
 %% Fonts and language
 \RequirePackage[utf8]{inputenc}
-\RequirePackage[english]{babel}
+\RequirePackage{babel}
 \RequirePackage{amsmath,amsfonts,amssymb}
 \RequirePackage{lmodern}
 \RequirePackage[scaled]{helvet}
-%\RequirePackage[T1]{fontenc}
+\RequirePackage[T1]{fontenc}
 \RequirePackage{lettrine} % For dropped capitals
 
 %% For the Significance Statement & footnote on the first page
@@ -90,7 +90,7 @@
     \else  \AB@authors\fi\fi}
 
 %% Choose template type
-\newcommand*{\templatetype}[1]{%
+\newcommand*{\templatetype}[1]{
   \RequirePackage{#1}}
 
 %% Options for element switching
