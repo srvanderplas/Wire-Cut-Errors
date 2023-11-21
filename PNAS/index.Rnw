@@ -43,21 +43,50 @@ Please provide an abstract of no more than 250 words in a single paragraph. Abst
 \thispagestyle{firststyle}
 \ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
 
-\firstpage{12}
+\firstpage[4]{6}
 % Use \firstpage to indicate which paragraph and line will start the second page and subsequent formatting. In this example, there are a total of 11 paragraphs on the first page, counting the first level heading as a paragraph. The value {12} represents the number of the paragraph starting the second page. If a paragraph runs over onto the second page, include a bracket with the paragraph line number starting the second page, followed by the paragraph number in curly brackets, e.g. "\firstpage[4]{11}".
 
 
 % If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
-\dropcap{T}his PNAS journal template is provided to help you write your work in the correct journal format. Instructions for use are provided below.
+% \dropcap{T}his PNAS journal template is provided to help you write your work in the correct journal format. Instructions for use are provided below.
 
-Multiple comparisons are a persistent problem for statistical methods and for science more generally. XXX cite XXX In forensic statistics, we have been focusing on the necessity of building up research databases which can be used to develop objective algorithms for evidence comparisons and explore closest non-matches as suggested in \cite{pcast}. While these databases (and open data more generally) are critically important, we also need to be careful about how our methods are affected by the multiple comparison problem.
+\dropcap{M}ultiple comparisons are a persistent problem for statistical methods and for science more generally. XXX cite XXX In forensic statistics, we have been focusing on the necessity of building up research databases which can be used to develop objective algorithms for evidence comparisons and explore closest non-matches as suggested in \cite{pcast}. While these databases (and open data more generally) are critically important, we also need to be careful about how our methods are affected by the multiple comparison problem.
 
 As we develop objective algorithms and standardize laboratory procedures in forensic pattern evidence, we need to be aware of the fact that we often are conducting many comparisons, either implicitly or explicitly. Algorithms in pattern evidence often utilize cross-correlation \cite{vorburgerApplicationsCrosscorrelationFunctions2011} to align different data sources, implicitly making comparisons along the entire length or surface of the data. Similarly, forensic examiners visually rotate or align two pieces of evidence under comparison microscopes. When we conduct database searches, these searches often return the $N$ best matches from the database, but this requires making comparisons to all of the database entries which meet the search criteria.
 
-Partial matches in fingerprint evidence have been shown to be problematic XXX cite XXX, and the AFIS database search conducted while investigating the Madrid bombing in 2004 was one factor cited in the inquiry into the false accusation of Brandon Mayfield. As forensic intelligence databases in other disciplines are implemented (such as IBIS in firearms), we must confront the issues with multiple comparisons and false positive rates before more embarrasing false accusations lead the public to question the validity of forensic science.
+Partial matches in fingerprint evidence have been shown to be problematic XXX cite XXX, and the AFIS database search conducted while investigating the Madrid bombing in 2004 was one factor cited in the inquiry into the false accusation of Brandon Mayfield. As forensic intelligence databases in other disciplines are implemented (such as IBIS in firearms), we must confront the issues with multiple comparisons and false positive rates before more embarrassing false accusations lead the public to question the validity of forensic science.
+
+In this paper, we consider the multiple comparisons problems that arise from a relatively simple toolmark comparison: matching a cut wire to a wire-cutting tool. We describe the approach and calculate the number of comparisons performed, and then assess the likelihood of a false positive error under multiple comparisons using rates from published black-box studies.
+
+\section*{Wire Cut Forensics}
+
+A forensics examiner tasked with determining whether a wire in evidence was cut by a specific tool will create one or more blade cuts which can be compared to the cut surface of the wire. These cuts are made in a sheet of material similar to the wire's composition, and may be performed at multiple angles, as the angle of the tool to the substrate can affect which striations are recorded on the substrate surface. The blade cuts will then be compared to the wire under a comparison microscope; eventually, automatic comparison algorithms may also be validated for lab use. Each side of each blade cut will be compared to each side of the wire; depending on the tool design, there can be between 2 and 4 cutting surfaces in contact with the substrate.
 
 \section*{Calculating the Number of Comparisons}
 
+In order to calculate the number of comparisons, we define $\ell$ to be the length of the blade cut, and $d$ to be the diameter of the wire. Without loss of generality, we will assume that the wire is fully covered with striations suitable for comparison; if this is not the case, it is equivalent to changing the value of $d$. At minimum, there must be $\ell/d$ comparisons in order to assess whether one side of the blade cut matches one side of the wire; in this case, the comparisons are independent of each other (conditional on striation patterns) because no overlapping data is used. Of course, this overlooks the possibility of partial matches and assumes perfect alignment between the diameter of the wire and the portion of the blade used to cut the wire, which is unrealistic.
+
+At a maximum, both the blade and the wire are either digitally scanned at resolution $r$ mm, or visually examined using a microscope with a digital resolution that can be expressed as $r$ equivalent to the digital scan. In this case, there may be as many as $\ell/r - d/r + 1$ full comparisons performed in order to find the optimal alignment between the two samples. These comparisons are of course highly dependent, as each sequential comparison shares much of the same data with the previous and next comparisons; such dependency could be expressed via autocorrelation, but we will defer that derivation to a later paper. In this paper, let us consider the number of comparisons to lie somewhere between the minimum and maximum number of comparisons.
+
+Then, we must consider the number of surfaces which must be compared: the wire may have between one and two sets of striae (depending on tool configuration) and there may be between 2 and 4 different blade cut surfaces to examine. This results in a multiplier of between 2 and 8 comparisons to be conducted to compare the striations on the wire to the striations on the blade cuts, even before we consider the problem of cutting angles.
+
+\subsection*{A concrete example}
+Let us consider a wire-cutting tool with a 1.5 cm razor blade that meets a cast surface; the wire is held against this rectangular cast surface as the blade is pushed into the wire, splitting it in two. This is a minimal scenario - the wire will have striations from one side of the blade, while the blade itself has two cutting edges, which we will call side A and side B. The blade cuts of a sheet of aluminum that is 1.5 cm in width thus produce two striated edges corresponding to side A and side B which can be compared to other cuts to assess similarity.
+
+In addition, we have a 12 gauge aluminum wire (2 mm diameter) which may have been cut  by the wire-cutting tool described above. Class characteristics, which are shared by all tools of similar manufacture, appear to match: there is a flat impression on one side of the wire corresponding to the cast metal backstop of the tool, and the wire is cut such that the blade and the backstop appear to be perpendicular (that is, the wire appears to have been cut with a blade similar to the blade configuration of the tool in question).
+
+<<simple-problem-setup, echo = F, warning = F, message = F>>=
+ell <- 15
+d <- 2
+res <- 0.645/1000
+ncomp_min <- ell/d
+ncomp_max <- ell/res - d/res + 1
+@
+
+
+In this example, $\ell = \Sexpr{ell} mm$, $d = \Sexpr{2} mm$, and the minimal number of comparisons between the wire and one blade cut is $\ell/d = \Sexpr{ncomp_min}$. As there are two blade cuts (side A and side B), the minimal number of comparisons overall is \Sexpr{ncomp_min*2}, and these comparisons are independent.
+
+If the blade cuts and the wire edge are scanned at a resolution of $\Sexpr{res*1000} \mu m$, the resulting digital files will require $\Sexpr{ncomp_max}$ comparisons per blade cut, or $\Sexpr{ncomp_max*2}$ comparisons overall. These comparisons are required in order to find the optimal alignment between the wire and the blade cut; they are implicit in the calculation of cross-correlation which is either the first step or the only step used to objectively assess the similarity between striated evidence such as bullets, aperture shear, and firing pin impressions. This problem is not unique to algorithms, however; and examiner would need to physically align the wire and the blade cut by searching along the length of the cut to visually match striations, performing the same process physically that the algorithm performs computationally. While these sequential comparisons are of course highly autocorrelated, and we cannot assume sequential independence when calculating the probability of an error, they serve as an upper bound on the number of comparisons which could be performed.
 
 
 

@@ -1,2 +1,8 @@
 *.log
 *.tex
+*.bbl
+*.aux
+*.ldf
+*.run.xml
+index-blx.bib
+Brief_report.synctex.gz
