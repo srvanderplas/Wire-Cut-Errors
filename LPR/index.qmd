@@ -21,7 +21,7 @@ This issue has been raised in the past with regard to DNA [@thompson2003] and fi
 
 ### Examination Process
 
-Let us consider the process of toolmark examination - an examiner is given a tool recovered from a suspect as well as a wire recovered from the scene. The examiner will typically take the tool and use it to cut a piece of metal, known as a blade cut, in order to record the markings of the entire cutting surface simultaneously. This process may be repeated at multiple angles in order to record the effect of different contact surfaces on the resulting striations. The resulting blade cut will be compared to the wire using either visual inspection or perhaps in the future a numerical comparison algorithm similar to those developed for bullet striations [@hare2017automatic] and cartridge cases [@zemmels2023].
+When an examiner conducts a toolmark assessment of wire cut evidence, they are typically working with a tool recovered from the suspect as well as a wire recovered from the scene. The examiner will typically take the tool and use it to cut a piece of metal, known as a blade cut, in order to record the markings of the entire cutting surface simultaneously. This process may be repeated at multiple angles in order to record the effect of different contact surfaces on the resulting striations. The resulting blade cut will be compared to the wire using either visual inspection or perhaps in the future a numerical comparison algorithm similar to those developed for bullet striations [@hare2017automatic] and cartridge cases [@zemmels2023].
 
 The examiner will compare blade cuts from all cutting surfaces during this process. Tools used for wire cuts typically have either 2 or 4 cutting surfaces. Examiners may make multiple cuts at multiple angles; this will increase the number of available blade cuts for comparison.
 
@@ -108,7 +108,7 @@ Consider, for example a situation where someone builds a bomb (badly), and a wir
 
 To make the calculations of number of comparisons more concrete, consider the pair of pliers shown in @fig-wire-cutter, which has a 1.5 cm cutting surface machined on both sides to produce a peaked cross-section. When used to cut a wire, the wire rests against a rectangular surface used to hold it in place; the blade is pushed into the wire, producing striae resulting from imperfections in side A on one half of the wire and striae from imperfections and wear in side B on the other.
 
-![Wire cutter with 1.5 cm cutting surface beveled on both sides](../fig/wire_cutter.png){#fig-wire-cutter alt="Wire cutter with 1.5 cm cutting surface beveled on both sides"}
+![Wire cutter with 1.5 cm cutting surface beveled on both sides](../fig/wire_cutter.png){#fig-wire-cutter}
 
 ```{r}
 resolution <- 0.645 # res in mum
@@ -237,21 +237,87 @@ If investigators were to attempt to determine which of the suspected individuals
 
 ## The Problems with Database Searches
 
-Let us first consider the simplest situation where a single tool is recovered from the suspect's house that is viewed as likely to have made the wire cut. 
-In order to compare tool marks in this scenario, the examiner or algorithm completes the equivalent to a database search resulting from comparing a single wire in evidence to a single tool. 
-This multiple comparison problem becomes more severe at each step of our thought experiment - considering a single shop of tools adds multiple orders of magnitude to the number of comparisons. 
+Let us first consider the simplest situation where a single tool is recovered from the suspect's house that is viewed as likely to have made the wire cut. In order to compare tool marks in this scenario, the examiner or algorithm completes the equivalent to a database search resulting from comparing a single wire in evidence to a single tool. This multiple comparison problem becomes more severe at each step of our thought experiment - considering a single shop of tools adds multiple orders of magnitude to the number of comparisons.
 
 In addition, we might expect that if the guilty party in our thought experiment had succeeded in exploding the bomb, the evidence might be reduced in quality - the proportion of the wire with usable striae might be significantly smaller, which would compound the problem even further.
 
+The dangers of database searches in forensics are well known; database searches have been implicated in forensic missteps such as the Madrid bombing case, as discussed in @li2023; @newman2007; @mayfield2006report [Pg 137]. In this section, we illustrate the problems with database searches in two different ways: first, considering the implications for random match probabilities under multiple comparisons, and second, considering the impact of "best $N$ matches" search queries on the distribution of match scores. These issues are separate, but related, and represent different ways searches and databases (formal or informal) might be used in practice. While law enforcement sanctioned wire or toolmark databases used for forensic intelligence do not currently exist to the best of our knowledge, similar systems exist for bullets and cartridge cases (IBIS), fingerprints (AFIS), and footwear (NFS, a UK database). It seems reasonable to consider both the informal databases created from an extensive investigation and the formal databases which might be created in the future.
 
-The dangers of database searches in forensics are well known; database searches have been implicated in forensic missteps such as the Madrid bombing case, as discussed in @li2023; @newman2007; @mayfield2006report [Pg 137]. In this section, we illustrate the problems with database searches in two different ways: first, considering the implications for random match probabilities under multiple comparisons, and second, considering the impact of "best $N$ matches" search queries on the distribution of match scores. These issues are separate, but related, and represent different ways searches and databases (formal or informal) might be used in practice. While law enforcement sanctioned wire or toolmark databases used for forensic intelligence do not currently exist to the best of our knowledge, similar systems exist for bullets and cartridge cases (IBIS), fingerprints (AFIS), and footwear (NFS, a UK database). It seems reasonable to consider both the informal databases created from an extensive investigation and the formal databases which might be created in the future. 
+### Probability of a False Identification
 
-### Random Match Probability
+Let us briefly consider a non-exhaustive list of ways an examiner or algorithm might arrive at a false identification:
+
+-   class characteristics match + decider doesn't recognize class characteristics as such
+
+-   coincidental similarity between two items + decider doesn't see/recognize dissimilarities
+
+-   the items randomly match on identifying characteristics
+
+All of these situations may occur during white box studies (though the final situation is very improbable). As a result, perhaps the best estimate of the probability of a false identification that we can obtain is the false identification rate of one or more white box studies. We have previously published a paper detailing the error rates of different firearms and toolmark studies; to our knowledge there are no similar white box studies for wire cuts. However, if we confine ourselves to error rates for striated materials (bullets, aperture shear, ejectors, screwdrivers) we may be able to get a reasonable estimate for the error rate of wire cuts. We assembled 3 black-box error rate studies of striated toolmarks (bullets and firing pins) [@bajic2020; @mattijssen2021; @best2022]; these studies estimate the false positive rate (e.g. the number of different-source identifications relative to the total number of different-source comparisons) rate to be between 0.07235 [@mattijssen2021, firing pins only] and 0.004545 [@best2022]. While there are a number of problems with these studies (which we have detailed in previous papers, i.e. @inconclusives), our goal here is to use the best estimates we can get of false positive error rates in particular, as the false positive rate is the main driver of the problem with multiple comparisons. If we calculate a pooled false positive rate from all studies, we arrive at a false positive rate of $\frac{20 + 56 + 1}{2842 + 774 + 220} = `r sprintf('%0.02f', 77/(2842+774+220))`$, that is, about 2%.
+
+```{r}
+comparisons <- examiner_compare*2
+fpr = (20+56+1)/(2842+774+220) 
+fprformat = sprintf("%0.04f", fpr)
+```
+
+If we start out by considering the first scenario (a single tool with a 1.5 cm blade compared to a single 2mm wire) and completely independent non-overlapping comparisons (7.5 comparisons) with only 2 cutting surfaces, we would effectively have 15 independent comparisons. Using this information, we can calculate the probability of at least one false positive error to be `r sprintf("%0.04f%%", 1-(1-fpr)^comparisons * 100)` as shown in Equation \ref{eq:fpr}. While far more comparisons are likely to be performed, these comparisons may have some dependencies (at which point our formula would need to account for the covariance between successive comparisons). Ultimately, the number of comparisons cannot drop below `r comparisons` without leaving some evidence unexamined, which means this overall false positive rate is the lower bound.
+
+This is the simplest situation of the three different scenarios we have considered, and we still have an unacceptably high rate of at least one false positive conclusion. If the wire size decreases or the blade length increases, the overall chance of at least one false positive error will increase because the number of comparisons increases. If examiners consider cuts made at multiple angles, the same conclusion holds - the chance of at least one false positive error will increase from this point.
+
+\begin{align*}
+P(\text{False positive error in one comparison}) &= `r fprformat`\\
+P(\text{No false positive error in one comparison}) &= `r sprintf('%0.04f', 1-fpr)`\\
+P(\text{no false positive errors in } N \text{ comparisons}) &= `r sprintf('%0.04f', 1-fpr)`^N\\
+P(\text{at least one false positive error in } N \text{ comparisons}) &= 1 - `r sprintf('%0.04f', 1-fpr)`^N  \tag{A}\label{eq:fpr}\\
+&= `r sprintf("%.04f", 1-(1-fpr)^comparisons)` %>% 
+\end{align*}
+
+It then becomes relevant to consider how low the error rate would need to be for striated comparisons in order to make wire cut examination plausible. If we control the overall error rate amid $N$ independent comparisons, our estimated FPR for a single comparison can be calculated by solving Equation \ref{eq:fpr-control} for $r$.
+
+Let $F_n:=\{\text{at least one false positive in }n\text{ comparisons}\}$
+
+\begin{align*}
+P(F_1) &= r\\
+P(\overline{F_1}) &= 1-r\\
+P(F_n) &= \left[1-r\right]^n\\
+P(\overline{F_n}) &= 1 - \left[P(\overline{F_1})\right]^n = 1 - \left[1 - r\right]^n\tag{B}\label{eq:fpr-control}\\
+r &= 1 - \left[1 - P(F_n)\right]^{1/n}
+\end{align*}
+
+We can explore what this means visually by considering different values of $N$ and $r$ to see how the overall false positive error rate behaves, as shown in @fig-control-overall-fpr. The astonishing conclusion is that even at the smallest error rate for striated comparisons, 0.45% [@bajic2020], we have about a 3% chance of at least one false positive conclusion when 10 comparisons are made and about a 37.5% chance of at least one false positive conclusion when 100 comparisons are made! These results suggest that under current estimates of false positive error rates, it is nearly impossible for toolmark comparisons of wires to provide compelling, "beyond a reasonable doubt" levels of evidence.
+
+```{r control-overall-fpr}
+#| echo: false
+#| message: false
+#| fig-cap: Exploration of overall error rate estimates for different values of $r$, the false positive rate for a single comparison. Dotted vertical lines show false positive error rate estimates (from left to right, @bajic2020; @best2022; @mattijssen2021). 
+#| label: fig-control-overall-fpr
+library(ggplot2)
+library(tidyr)
+single_rmp = exp(seq(-1000, 0, .1))
+N = c(10, 100, 1000, 10000)
+
+res = crossing(single_rmp, N) %>%
+  mutate(overall = 1 - (1 - single_rmp)^N)
+
+ggplot(res, aes(x = single_rmp, y = overall, group = factor(N), color = factor(N))) + 
+  geom_line() +
+  coord_cartesian(xlim = c(0, 0.07), ylim = c(0, 1)) + 
+  ylab("Probability of at least one false positive\nin N comparisons") + 
+  xlab("Probability of false positive for 1 comparison") + 
+  ggtitle("Wire Comparison: Controlling Overall False Positive Rate") + 
+  geom_vline(xintercept = 0.02, linetype = "dashed", color = "grey40") + 
+  geom_vline(xintercept = c(0.00704, 0.0724, 0.004545), linetype = "dotted", color = "grey50") + 
+  annotate(geom = "text", x = 0.021, y = 0.125, label = "Striated toolmark error rate estimate\nused in this paper", color = "grey40", hjust=0) + 
+  scale_color_discrete("# comparisons") + 
+  theme_bw()
+
+```
 
 ### Score-based Distributions
 
 ## Potential Solutions
 
-We need to have an explicit relationship between random match probability and amount of signal (assessed by length, number of features, overall striae depth, etc.). Until we have this kind of relationship, it will be hard to use error rates (even if they were known for toolmarks) from algorithms or black-box studies in practical situations.
+We need to have an explicit relationship between false positive rate and amount of signal (assessed by length, number of features, overall striae depth, etc.). Until we have this kind of relationship, it will be hard to use error rates (even if they were known for toolmarks) from algorithms or black-box studies in practical situations.
 
 We need much more study of real data, examiner evaluations, and performance of algorithms in situations which mimic real casework. We also need to quantify the strength, distinctiveness, and total number of striations to ensure that comparisons are being made only in situations where random matches are unlikely to occur.
