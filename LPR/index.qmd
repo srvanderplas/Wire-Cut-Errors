@@ -8,6 +8,7 @@ format: pdf
 knitr::opts_chunk$set(echo = F, message = F, warning = F)
 ```
 
+
 ## Introduction
 
 -   Problems with database searches and multiple comparisons in forensics
@@ -35,7 +36,7 @@ The examiner will compare blade cuts from all cutting surfaces during this proce
 
 Let us consider a single blade cut from a single cutting surface. Define the blade cut to be of length $\ell$ and the wire to have diameter $d$; we will also assume that the wire is fully covered with striations suitable for comparison.
 
-At minimum, there must be $\ell/d$ comparisons in order to assess whether the tool matches the wire; in this case, the comparisons are essentially independent of each other (conditional on the striation patterns) because no overlapping data is used. Of course, in this situation, we are overlooking the potential for partial matches and assuming that everything is lined up perfectly to produce this minimum number of comparisons; in practice, of course, the number of comparisons in this situation would likely be much higher.
+At minimum, there must be $\ell/d$  comparisons in order to assess whether the tool matches the wire; in this case, the comparisons are essentially independent of each other (conditional on the striation patterns) because no overlapping data is used. Of course, in this situation, we are overlooking the potential for partial matches and assuming that everything is lined up perfectly to produce this minimum number of comparisons; in practice, of course, the number of comparisons in this situation would likely be much higher.
 
 At a maximum, both the blade and the wire are either digitally scanned at the same resolution of $r$ mm, or visually examined using a microscope with a digital view of a certain resolution which can be translated into an equivalent resolution to the digital scan. In this case, there may be as many as $\ell/r- d/r + 1$ comparisons performed in order to find the optimal alignment between the two samples[^1]. Of course, these comparisons are highly dependent, as each sequential comparison shares much of the same data with the previous and next comparisons. While it is likely possible to model this autocorrelation and compute an effective number of comparisons accounting for the autocorrelation, developing this model is outside the scope of this paper.
 
