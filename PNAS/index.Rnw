@@ -161,7 +161,7 @@ studies <- tibble(single_rmp = c( 0.004545,0.00704, 0.0724), study = c("Best (20
 ggplot(res, aes(x = single_rmp, y = overall, group = factor(N), color = factor(N))) +
   geom_line() +
   coord_cartesian(xlim = c(0, 0.07), ylim = c(0, 1)) +
-  ylab("Probability of a coincidental match (N comparisons)") +
+  ylab("Probability of a false positive (N comparisons)") +
   xlab("Probability of a false positive (1 comparison)") +
   scale_y_continuous(breaks = seq(0, 1, .1), minor_breaks = seq(0, 1, .05)) +
   ggtitle("Wire Comparison: Controlling Overall False Positive Rate") +
