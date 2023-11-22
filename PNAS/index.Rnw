@@ -57,15 +57,23 @@ opts_chunk$set(error=F, warning=F, message = F, dpi=300, echo = F)
 % If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
 % \dropcap{T}his PNAS journal template is provided to help you write your work in the correct journal format. Instructions for use are provided below.
 
-\dropcap{M}ultiple comparisons are a persistent problem when developing statistical methods for scientific problems \citep{benjaminiControllingFalseDiscovery1995}. In forensic statistics, researchers have been focusing on the necessity of building up research databases which can be used to develop objective algorithms for evidence comparisons and explore closest non-matches \citep{pcast}. While these databases (and open data) are critically important in forensics, we also need to be careful about how our methods are affected by the multiple comparison problem.
+\dropcap{I}n forensic evidence a single conclusion is often based on  many comparisons, either implicitly or explicitly.
+Multiple comparisons are a persistent problem when developing statistical methods for scientific problems \citep{benjaminiControllingFalseDiscovery1995}.
+In forensic statistics, researchers have been focusing on building up research databases to develop algorithms for objective evidence comparisons.
+\hh{In practice, these algorithms then allow searches across (vast) databases and report the best $N$ matches to a particular piece of evidence, raising the critically important problem of close non-matches }\citep{pcast}.
 
-As we develop objective algorithms and standardize laboratory procedures in forensic pattern evidence, we must remain cognizant that a single conclusion is often based on  many comparisons, either implicitly or explicitly. \hh{Algorithms, in particular, make a large number of comparisons out of a user's sight. The cross-correlation function, for example, has been suggested \citep{vorburgerApplicationsCrosscorrelationFunctions2011} as one of the first quantitative measures in response to the NAS report\citep{nas2009}, and is used in most pattern searching algorithms to find the best alignment between two sources and also evaluate the overall similarity. }
+%and explore closest non-matches . While these databases (and open data) are critically important in forensics, we also need to be careful about how our methods are affected by the multiple comparison problem.
+
+This issue has been raised in the past with regard to DNA \citep{thompson2003} and fingerprints \citep{@fine2006}: one of the issues leading to the wrongful accusation of Brandon Mayfield in the 2004 Madrid bombing case was that the large size of the IAFIS database used to locate similar prints made it possible to locate `unusually' similar non-matches.
+
+
+ \hh{Algorithms, in particular, make a large number of implicit comparisons out of a user's sight. The cross-correlation function, for example, has been suggested \citep{vorburgerApplicationsCrosscorrelationFunctions2011} as one of the first quantitative measures in response to the NAS report \citep{nas2009}, and is used in most pattern searching algorithms to find the best alignment between two sources and also evaluate the overall similarity. }
 \hh{Finding the best} \svp{alignment} \hh{requires implicitly} \svp{sliding} \hh{one source across the whole length (for one-dimensional sources, such as striations) or area (for two dimensional sources, such as impression marks) of the other source and} \svp{keeping} \hh{track of the similarity measure.}
 \svp{This mirrors the forensic examination process, as examiners visually}
 rotate or align two pieces of evidence under comparison microscopes.
 
-An explicit search, in constrast, occurs when we conduct database searches.
-These searches often return the $N$ best matches from the database, but this requires making comparisons to all of the database entries which meet the search criteria.
+%An explicit search, in constrast, occurs when we conduct database searches.
+%These searches often return the $N$ best matches from the database, but this requires making comparisons to all of the database entries which meet the search criteria.
 
 The multiple comparison problems in forensics are distinct from the familywise error rate and false discovery rate problems that have been previously addressed in major ways: our tests are sequential, not concurrent, with dependencies depending on both the testing procedure and the data. In addition, an identification might be sufficient to end the search; as a result, this problem is more akin to a ``search until you find" problem than a situation where a family-wise error rate or false discovery rate is applicable - we are interested in the probability of at least one error in a series of sequential comparisons.
 
