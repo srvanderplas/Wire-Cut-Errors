@@ -51,7 +51,7 @@ opts_chunk$set(error=F, warning=F, message = F, dpi=300, echo = F)
 \thispagestyle{firststyle}
 \ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
 
-\firstpage[4]{7}
+\firstpage{6}
 % Use \firstpage to indicate which paragraph and line will start the second page and subsequent formatting. In this example, there are a total of 11 paragraphs on the first page, counting the first level heading as a paragraph. The value {12} represents the number of the paragraph starting the second page. If a paragraph runs over onto the second page, include a bracket with the paragraph line number starting the second page, followed by the paragraph number in curly brackets, e.g. "\firstpage[4]{11}".
 
 
@@ -66,17 +66,19 @@ In forensic statistics, researchers have been focusing on building up research d
 %and explore closest non-matches . While these databases (and open data) are critically important in forensics, we also need to be careful about how our methods are affected by the multiple comparison problem.
 
 This issue has been raised in the past with regard to DNA \citep{thompson2003} and fingerprints \citep{koehlerFingerprintErrorRate2021}: one of the issues \citep{fine2006} leading to the wrongful accusation of Brandon Mayfield in the 2004 Madrid bombing case was that the large size of the IAFIS database used to locate similar prints made it possible to locate `unusually' similar non-matches.
+\svp{Very close non-matches are a direct consequence of a large number of comparisons; they will occur more frequently as databases increase in size and algorithms become more powerful.}
+% In this paper, we discuss that very close non-matches are far from an unusual phenomenon  but a direct consequence of a large number of comparisons, and simply reflect the power of the search algorithms.
 %
-\hh{In this paper, we discuss that very close non-matches are far from an unusual phenomenon  but a direct consequence of a large number of comparisons, and simply reflect the power of the search algorithms.}
+In order to avoid embarassing false accusations and a further erosion of the public's trust in science, we need to address the problem of multiple comparisons by controlling their effect on false discovery rates.
 %
-\hh{In order to avoid embarassing false accusation and a further erosion of the public's trust in science, we need to address the problem of multiple comparisons by controlling their effect on false discovery rates.}
-%
-\hh{Database searches are an example where the number of searches is explicitly available as the number of objects meeting the search criteria. }
+% \hh{Database searches are an example where the number of searches is explicitly available as the number of objects meeting the search criteria. } % This doesn't seem super-relevant and distracts from the continuity between the algorithm discussion above and the next paragraph
 
 %\hh{XXX director's notes: XXX what is different between full and partial matches is that error rates in the literature are generally reported based on full length comparisons, where macro features are used to anchor comparisons (align along grooves, then zoom in and only 'wiggle' a bit to the left and right to adjust at the micro-scale). These kind of adjustments are 'baked' into published error rates. }
 
- \hh{Algorithms, in particular, make a large number of implicit comparisons out of a user's sight. The cross-correlation function, for example, has been suggested \citep{vorburgerApplicationsCrosscorrelationFunctions2011} as one of the first quantitative measures in response to the NAS report \citep{nas2009}, and is used in most pattern searching algorithms to find the best alignment between two sources and also evaluate the overall similarity. }
-\hh{Finding the best} \svp{alignment} \hh{requires implicitly} \svp{sliding} \hh{one source across the whole length (for one-dimensional sources, such as striations) or area (for two dimensional sources, such as impression marks) of the other source and} \svp{keeping} \hh{track of the similarity measure.}
+Algorithms make a large number of comparisons \svp{that are not obvious to the user}
+%out of a user's sight.
+The cross-correlation function, for example, \svp{was} \citep{vorburgerApplicationsCrosscorrelationFunctions2011} one of the first quantitative measures \svp{proposed} in response to the NAS report \citep{nas2009}, and is used in \svp{many} pattern searching algorithms to find the best alignment between two sources and also evaluate the overall similarity.
+Finding the best \svp{alignment} requires implicitly sliding one source across the whole length (for one-dimensional sources, such as striations) or area (for two dimensional sources, such as impression marks) of the other source \svp{ while keeping} track of \svp{the value of a} similarity measure.
 \svp{This mirrors the forensic examination process, as examiners visually}
 rotate or align two pieces of evidence under comparison microscopes.
 
