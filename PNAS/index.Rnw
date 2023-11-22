@@ -3,7 +3,7 @@
 \usepackage{cleveref}
 \usepackage[dvipsnames]{xcolor} % colors
 \newcommand{\svp}[1]{{\textcolor{RedOrange}{#1}}}
-\newcommand{\hh}[1]{{\textcolor{Green}{#1}}}
+\newcommand{\hh}[1]{{\textcolor{ForestGreen}{#1}}}
 \templatetype{pnasbriefreport} % Choose template
 % {pnasresearcharticle} = Template for a two-column research article
 % {pnasmathematics} %= Template for a one-column mathematics article
