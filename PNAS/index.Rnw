@@ -25,7 +25,7 @@
 
 % Please include corresponding author, author contribution and author declaration information
 \authorcontributions{Please provide details of author contributions here.}
-\authordeclaration{Please declare any competing interests here.}
+\authordeclaration{The authors have no competing interests to declare.}
 \equalauthors{\textsuperscript{1}SVP (Author One) contributed equally to this work with HH (Author Two).}
 \correspondingauthor{\textsuperscript{2}To whom correspondence should be addressed. E-mail: susan.vanderplas@unl.edu}
 
@@ -60,9 +60,12 @@ opts_chunk$set(error=F, warning=F, message = F, dpi=300, echo = F)
 \dropcap{M}ultiple comparisons are a persistent problem when developing statistical methods for scientific problems \citep{benjaminiControllingFalseDiscovery1995}. In forensic statistics, researchers have been focusing on the necessity of building up research databases which can be used to develop objective algorithms for evidence comparisons and explore closest non-matches \citep{pcast}. While these databases (and open data) are critically important in forensics, we also need to be careful about how our methods are affected by the multiple comparison problem.
 
 As we develop objective algorithms and standardize laboratory procedures in forensic pattern evidence, we must remain cognizant that a single conclusion is often based on  many comparisons, either implicitly or explicitly. \hh{Algorithms, in particular, make a large number of comparisons out of a user's sight. The cross-correlation function, for example, has been suggested \citep{vorburgerApplicationsCrosscorrelationFunctions2011} as one of the first quantitative measures in response to the NAS report\citep{nas2009}, and is used in most pattern searching algorithms to find the best alignment between two sources and also evaluate the overall similarity. }
-\hh{Finding the best} \svp{alignment} \hh{requires implicitly to slide one source across the whole length (for one-dimensional sources, such as striations) or area (for two dimensional sources, such as impression marks) of the other source and keep track of the similarity measure.}
+\hh{Finding the best} \svp{alignment} \hh{requires implicitly} \svp{sliding} \hh{one source across the whole length (for one-dimensional sources, such as striations) or area (for two dimensional sources, such as impression marks) of the other source and} \svp{keeping} \hh{track of the similarity measure.}
+\svp{This mirrors the forensic examination process, as examiners visually}
+rotate or align two pieces of evidence under comparison microscopes.
 
-Similarly, forensic examiners visually rotate or align two pieces of evidence under comparison microscopes. When we conduct database searches, these searches often return the $N$ best matches from the database, but this requires making comparisons to all of the database entries which meet the search criteria.
+An explicit search, in constrast, occurs when we conduct database searches.
+These searches often return the $N$ best matches from the database, but this requires making comparisons to all of the database entries which meet the search criteria.
 
 The multiple comparison problems in forensics are distinct from the familywise error rate and false discovery rate problems that have been previously addressed in major ways: our tests are sequential, not concurrent, with dependencies depending on both the testing procedure and the data. In addition, an identification might be sufficient to end the search; as a result, this problem is more akin to a ``search until you find" problem than a situation where a family-wise error rate or false discovery rate is applicable - we are interested in the probability of at least one error in a series of sequential comparisons.
 
@@ -121,7 +124,10 @@ P(\overline{F_n}) &= 1 - \left[P(\overline{F_1})\right]^n = 1 - \left[1 - r\righ
 \end{align}
 Using this relationship between $F_n$ and the false positive rate $r$, we can determine what $r$ must be in order to limit $P(F_n)$ to an acceptable level by solving for $r$: $r = 1 - \left[1 - P(F_n)\right]^{1/n}$.
 
-\Cref{fig:control-overall-fpr} explores the implications of this relationship. The astonishing conclusion is that even at the smallest error rate for striated comparisons, we have about a 3\% chance of at least one false positive conclusion when 10 comparisons are made and about a 37.5\% chance of at least one false positive conclusion when 100 comparisons are made. These results suggest that using current estimates of false positive error rates, it is nearly impossible for wire comparisons to provide compelling, 'beyond a reasonable doubt' levels of evidence.
+\Cref{fig:control-overall-fpr} explores the implications of this relationship.
+The astonishing conclusion is that even at the smallest false positive error rate for striated comparisons, we have about a 3\% chance of at least one false positive conclusion when 10 comparisons are made and about a 37.5\% chance of at least one false positive conclusion when 100 comparisons are made.
+These results suggest that using current estimates of false positive error rates, it is nearly impossible for wire comparisons to provide compelling, 'beyond a reasonable doubt' levels of evidence.
+
 <<control-overall-fpr, fig.cap="Exploration of overall error rate estimates for different values of $r$, the false positive rate for a single comparison. Dotted vertical lines show false positive error rate estimates (from left to right, \\citep{best2022,bajic2020,mattijssen2021}).", fig.width = 8, fig.height = 4>>=
 library(ggplot2)
 library(tidyr)
@@ -153,7 +159,11 @@ ggplot(res, aes(x = single_rmp, y = overall, group = factor(N), color = factor(N
   theme(legend.position = c(1, 0), legend.justification = c(1, 0), legend.background = element_rect(color = "black"))
 @
 
-If we look at this data differently, we can assess the probability that $N$ comparisons are made accurately (e.g. there are no coincidental matches). It is clear from \Cref{fig:Accuracy} that with existing false positive error rate estimates between 0.07 and 0.0045, the accuracy of the aggregate comparison between a wire and a tool becomes questionable, as the number of candidate alignments that must be examined is too high. Even the most innocuous example we could come up with (small blade, only 2 cutting surfaces, and a relatively large wire) involved a minimum of \Sexpr{2*ncomp_min} completely independent comparisons. As a result, it seems improbable that a wire comparison made under current protocols (with corresponding error rates) would have an overall accuracy rate which would be reliable enough to be presented at trial. When we then consider that examiners would make cuts at multiple angles \citep{baikerToolmarkVariabilityQuality2015}, increasing the number of comparisons even in the simple case we have presented here, the probability of a coincidental match increases
+If we look at this data differently, we can assess the probability that $N$ comparisons are made accurately (e.g. there are no coincidental matches or examiner errors).
+It is clear from \Cref{fig:Accuracy} that with existing false positive error rate estimates between 0.07 and 0.0045, the accuracy of the aggregate comparison between a wire and a tool becomes questionable, as the number of candidate alignments that must be examined is too high.
+Even the most innocuous example we could come up with (small blade, only 2 cutting surfaces, and a relatively large wire) involved a minimum of \Sexpr{2*ncomp_min} completely independent comparisons.
+As a result, it seems improbable that a wire comparison made under current protocols (with corresponding error rates) would have an overall accuracy rate which would be reliable enough to be presented at trial.
+When we then consider that examiners would make cuts at multiple angles \citep{baikerToolmarkVariabilityQuality2015}, increasing the number of comparisons even in the simple case we have presented here, the probability of a coincidental match increases
 
 <<Accuracy, fig.cap="Probability of accurate decisions for $N$ comparisons for different error rates.", fig.width = 8, fig.height = 4>>=
 r_vals <- tibble(r = c(.0005, 0.001, 0.005, .01, 0.05),
