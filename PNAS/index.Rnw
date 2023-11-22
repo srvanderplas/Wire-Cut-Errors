@@ -64,7 +64,7 @@ The multiple testing problem is closely related to issues which have caused emba
 
 In this paper, we consider the multiple comparisons problem that arises from a relatively simple toolmark comparison: matching a cut wire to a wire-cutting tool. We describe the approach and calculate the number of comparisons performed, and then assess the likelihood of a false positive error considering the multiple comparisons performed, using error rates derived from published black-box studies.
 
-\section*{Wire Cut Forensics}
+\section*{Examination Process}
 
 A forensics examiner tasked with determining whether a wire in evidence was cut by a specific tool will create one or more blade cuts which can be compared to the cut surface of the wire. These cuts are made in a sheet of material similar to the wire's composition, and may be performed at multiple angles, as the angle of the tool to the substrate can affect which striations are recorded on the substrate surface. The blade cuts will then be compared to the wire under a comparison microscope; eventually, automatic comparison algorithms may also be validated for lab use. Each side of each blade cut will be compared to each side of the wire; depending on the tool design, there can be between 2 and 4 cutting surfaces in contact with the substrate.
 
