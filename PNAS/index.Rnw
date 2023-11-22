@@ -213,6 +213,7 @@ ggplot(data = res2, aes(x = N, y = overall, color = factor(r), label = rlab)) +
   xlab("Number of comparisons") +
   scale_x_log10(
     breaks = c(1, 1000, 10000, res2sum$N),
+    labels = c("1", "1000", "10000", round(res2sum$N)),
     minor_breaks = c((1:9)[-2],10*(3:9), 100*3:9, 1000*1:9)
   ) +
   geom_hline(yintercept = breakpt, linewidth = 1) +
