@@ -72,9 +72,8 @@ This issue has been raised in the past with regard to DNA \citep{thompson2003} a
 \hh{In order to avoid embarassing false accusation and a further erosion of the public's trust in science, we need to address the problem of multiple comparisons by controlling their effect on false discovery rates.}
 %
 \hh{Database searches are an example where the number of searches is explicitly available as the number of objects meeting the search criteria. }
-\hh{Another source of (implicit) multiple comparisons are partial matches. }
 
-\hh{XXX director's notes: XXX what is different between full and partial matches is that error rates in the literature are generally reported based on full length comparisons, where macro features are used to anchor comparisons (align along grooves, then zoom in and only 'wiggle' a bit to the left and right to adjust at the micro-scale). These kind of adjustments are 'baked' into published error rates. }
+%\hh{XXX director's notes: XXX what is different between full and partial matches is that error rates in the literature are generally reported based on full length comparisons, where macro features are used to anchor comparisons (align along grooves, then zoom in and only 'wiggle' a bit to the left and right to adjust at the micro-scale). These kind of adjustments are 'baked' into published error rates. }
 
  \hh{Algorithms, in particular, make a large number of implicit comparisons out of a user's sight. The cross-correlation function, for example, has been suggested \citep{vorburgerApplicationsCrosscorrelationFunctions2011} as one of the first quantitative measures in response to the NAS report \citep{nas2009}, and is used in most pattern searching algorithms to find the best alignment between two sources and also evaluate the overall similarity. }
 \hh{Finding the best} \svp{alignment} \hh{requires implicitly} \svp{sliding} \hh{one source across the whole length (for one-dimensional sources, such as striations) or area (for two dimensional sources, such as impression marks) of the other source and} \svp{keeping} \hh{track of the similarity measure.}
@@ -89,6 +88,7 @@ rotate or align two pieces of evidence under comparison microscopes.
 %The multiple testing problem is closely related to issues which have caused embarrassing false accusations and mistrust of forensic pattern evidence: partial matches and database searches. %As we assemble research databases for explicitly making many comparisons and tackle problems which implicitly involve multiple comparisons, we must confront these issues before more embarrassing missteps lead the public to question the validity of forensic science.
 
 Here, we consider the multiple comparisons problem that arises from a relatively simple toolmark comparison: matching a cut wire to a wire-cutting tool. We describe the approach and calculate the number of comparisons performed, and then assess the likelihood of a false positive error considering the multiple comparisons performed, using error rates derived from published black-box studies.
+
 
 \section*{Examination Process}
 
