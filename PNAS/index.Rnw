@@ -1,6 +1,9 @@
 \documentclass[9pt,twocolumn,twoside]{pnas-new}
 % Use the lineno option to display guide line numbers if required.
 \usepackage{cleveref}
+\usepackage[dvipsnames]{xcolor} % colors
+\newcommand{\svp}[1]{{\textcolor{RedOrange}{#1}}}
+\newcommand{\hh}[1]{{\textcolor{Green}{#1}}}
 \templatetype{pnasbriefreport} % Choose template
 % {pnasresearcharticle} = Template for a two-column research article
 % {pnasmathematics} %= Template for a one-column mathematics article
@@ -181,6 +184,11 @@ ggplot(data = res2, aes(x = N, y = overall, color = factor(r), label = rlab)) +
   theme(axis.text.y = element_text(hjust = 0.5, vjust = 0.5, angle = 90))
 
 @
+
+
+\section*{Discussion}
+
+
 
 % Note: please start your introduction without including the word ``Introduction'' as a section heading (except for math articles in the Physical Sciences section); this heading is implied in the first paragraph.
 
