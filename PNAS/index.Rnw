@@ -50,7 +50,7 @@ opts_chunk$set(error=F, warning=F, message = F, dpi=300, echo = F)
 \thispagestyle{firststyle}
 \ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
 
-\firstpage[8]{7}
+\firstpage[3]{8}
 % Use \firstpage to indicate which paragraph and line will start the second page and subsequent formatting. In this example, there are a total of 11 paragraphs on the first page, counting the first level heading as a paragraph. The value {12} represents the number of the paragraph starting the second page. If a paragraph runs over onto the second page, include a bracket with the paragraph line number starting the second page, followed by the paragraph number in curly brackets, e.g. "\firstpage[4]{11}".
 
 
@@ -59,8 +59,8 @@ opts_chunk$set(error=F, warning=F, message = F, dpi=300, echo = F)
 
 \dropcap{M}ultiple comparisons are a persistent problem when developing statistical methods for scientific problems \citep{benjaminiControllingFalseDiscovery1995}. In forensic statistics, researchers have been focusing on the necessity of building up research databases which can be used to develop objective algorithms for evidence comparisons and explore closest non-matches \citep{pcast}. While these databases (and open data) are critically important in forensics, we also need to be careful about how our methods are affected by the multiple comparison problem.
 
-As we develop objective algorithms and standardize laboratory procedures in forensic pattern evidence, we must remain cognizant that a single conclusion is often based on  many comparisons, either implicitly or explicitly. \hh{Algorithms, in particular, make a large number of comparisons out of a user's sight. The cross-correlation function, for example, has been suggested \citep{vorburgerApplicationsCrosscorrelationFunctions2011} as one of the first quantitative measures in response to the NAS report (cite!!!), and is used in most pattern searching algorithms to 'find the best' alignment between two sources and also evaluate the overall similarity. }  %Algorithms in pattern evidence often utilize cross-correlation \citep{vorburgerApplicationsCrosscorrelationFunctions2011} to align different data sources, implicitly making comparisons along the entire length or surface of the data.
-\hh{'Finding the best' requires implicitly to slide one source across the whole length (for one-dimensional sources, such as striations) or area (for two dimensional sources, such as impression marks) of the other source and keep track of the similarity measure. }
+As we develop objective algorithms and standardize laboratory procedures in forensic pattern evidence, we must remain cognizant that a single conclusion is often based on  many comparisons, either implicitly or explicitly. \hh{Algorithms, in particular, make a large number of comparisons out of a user's sight. The cross-correlation function, for example, has been suggested \citep{vorburgerApplicationsCrosscorrelationFunctions2011} as one of the first quantitative measures in response to the NAS report\citep{nas2009}, and is used in most pattern searching algorithms to find the best alignment between two sources and also evaluate the overall similarity. }
+\hh{Finding the best} \svp{alignment} \hh{requires implicitly to slide one source across the whole length (for one-dimensional sources, such as striations) or area (for two dimensional sources, such as impression marks) of the other source and keep track of the similarity measure.}
 
 Similarly, forensic examiners visually rotate or align two pieces of evidence under comparison microscopes. When we conduct database searches, these searches often return the $N$ best matches from the database, but this requires making comparisons to all of the database entries which meet the search criteria.
 

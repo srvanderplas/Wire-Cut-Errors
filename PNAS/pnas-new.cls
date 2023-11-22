@@ -54,7 +54,7 @@
     \pdfpagewidth=\paperwidth
     \pdfpageheight=\paperheight
 \fi\fi
-\RequirePackage{xcolor}
+\RequirePackage[dvipsnames]{xcolor}
 \RequirePackage{tikz}
 \RequirePackage[framemethod=tikz]{mdframed}
 
