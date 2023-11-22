@@ -113,7 +113,7 @@ knm <- c(2842, 774, 220)
 fpr <- sum(errors)/sum(knm)
 @
 
-Compounding this problem, open-set studies of striated comparisons (bullets, firing pin impressions) \citep{bajic2020, mattijssen2021,best2022} suggest the false positive rate for these comparisons is between 0.004545 \citep{best2022} and 0.07235 \citep{mattijssen2021}; pooling data from these three studies yields a false positive rate of is \Sexpr{sprintf("%.2f", fpr)}. %, which is high relative to the consequences of a false identification of evidence from different sources.
+Compounding this problem, open-set studies of striated comparisons (bullets, firing pin impressions) \citep{bajic2020, mattijssen2021,best2022} suggest the false positive rate for these comparisons is between 0.004545 \citep{best2022} and 0.07235 \citep{mattijssen2021}; pooling data from these three studies yields a false positive rate of \Sexpr{sprintf("%.2f", fpr)}. %, which is high relative to the consequences of a false identification of evidence from different sources.
 
 If we begin by considering the multiple comparison problem relative to the $\ell/d$ independent comparisons between a blade cut and a wire, we can calculate the overall false positive rate for all comparisons using $r$, the false positive rate for one comparison, and simple probability. Let $F_n:=\{\text{at least one false positive in }n\text{ comparisons}\}$. Then,
 \begin{align}
@@ -199,9 +199,23 @@ ggplot(data = res2, aes(x = N, y = overall, color = factor(r), label = rlab)) +
 @
 
 
-\section*{Discussion}
+\section*{Discussion \& Conclusions}
 
+In this short example, we have shown that the implicit comparisons performed during the forensic analysis of wire cuts have the potential to vastly increase the overall chance that at least one false positive error occurs.
+Our example is the simplest possible case for a wire cut analysis, but the conclusions apply to many other situations where we make multiple comparisons against a set of accumulated information, either in a database or in a series of test samples created during the examination process.
+As a result, it is critically important that forensic science grapple with this multiple comparison problem and modify lab procedures and testimony accordingly.
+We have three primary suggestions for improvements targeted at the problem of multiple comparisons.
 
+First, examiners should report (or defense attorneys should request) the overall length or area of surfaces generated from blade cuts, test fires, and equivalent procedures intended to assess the marks made by a tool submitted for comparison with evidence. Examiners should also report the total consecutive length or area of the recovered evidence. These pieces of information will allow for calculations of minimum and maximum number of comparisons (as we have demonstrated in this paper), and will facilitate calculation of overall error rates.
+
+Second, researchers in this field should conduct studies relating the length/area of comparison surface to the error rate. For instance, here, we have combined studies looking at bullet striations with studies on firing pin shear marks - the striated surfaces are of orders of magnitude different lengths, but they represent our best estimate of the error rate for striated comparisons.
+This was necessary, because we could not find black-box studies of wire cuts.
+These studies should be Type II studies as defined by Koehler \citep{koehlerIntuitiveErrorRate2017a} in that they should be designed to assess the actual error rate when examiners are making difficult comparisons.
+
+Finally, when databases are used at any stage of the forensic evidence evaluation process (from suitability assessment and triage to reports which will be used at trial), the number of database items searched and the number of results resturned must be reported. Furthermore, the number of results used for futher manual comparison should also be reported.
+This will help make the multiple comparison issue visible for everyone involved in evaluating the forensic evidence, from examiners themselves to jurors and judges.
+
+We believe that some of the multiple comparison problems we have assessed here can be overcome with targeted research and changes in how evidence is assessed, but the first step in this process has to be making the number of comparisons performed more visible to everyone involved in the process.
 
 % Note: please start your introduction without including the word ``Introduction'' as a section heading (except for math articles in the Physical Sciences section); this heading is implied in the first paragraph.
 
