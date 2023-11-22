@@ -70,7 +70,6 @@ This issue has been raised in the past with regard to DNA \citep{thompson2003} a
 \svp{Very close non-matches are a direct consequence of a large number of comparisons; they will occur more frequently as databases increase in size and algorithms become more powerful.}
 % In this paper, we discuss that very close non-matches are far from an unusual phenomenon  but a direct consequence of a large number of comparisons, and simply reflect the power of the search algorithms.
 
-In order to avoid embarassing false accusations and a further erosion of the public's trust in science, we need to address the problem of multiple comparisons by controlling their effect on false discovery rates.
 %
 % \hh{Database searches are an example where the number of searches is explicitly available as the number of objects meeting the search criteria. } % This doesn't seem super-relevant and distracts from the continuity between the algorithm discussion above and the next paragraph
 
@@ -82,7 +81,7 @@ The cross-correlation function, for example, \svp{was} \citep{vorburgerApplicati
 Finding the best \svp{alignment} requires implicitly sliding one source across the whole length (for one-dimensional sources, such as striations) or area (for two dimensional sources, such as impression marks) of the other source \svp{ while keeping} track of \svp{the value of a} similarity measure.
 \svp{This mirrors the forensic examination process, as examiners visually}
 rotate or align two pieces of evidence under comparison microscopes.
-
+In order to avoid embarassing false accusations and a further erosion of the public's trust in science, we need to address the problem of multiple comparisons by controlling their effect on false discovery rates.
 %An explicit search, in constrast, occurs when we conduct database searches.
 %These searches often return the $N$ best matches from the database, but this requires making comparisons to all of the database entries which meet the search criteria.
 
