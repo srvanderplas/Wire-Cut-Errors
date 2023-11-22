@@ -219,9 +219,10 @@ ggplot(data = res2, aes(x = N, y = overall, color = factor(r), label = rlab)) +
 #    aes(x = N, y = breakpt, label = paste0("N == ", round(N))),
 #    parse = T, vjust = 1, hjust = 1) +
   geom_segment(data = res2sum,
-     aes(x = N, xend=N, y = -Inf, yend=0.9), colour="grey30", linewidth=0.5) +
-  geom_line(data = error_res, linetype = 2, linewidth = 0.75) +
-  ylab("Probability false positive\n(N comparisons)") +
+     aes(x = N, xend=N, y = -Inf, yend=0.9, color=factor(r)),
+     linewidth=0.5) +
+  geom_line(data = error_res, linetype = 2, linewidth = 0.75, alpha =0.5) +
+  ylab("1 - Probability of false positive\n(N comparisons)") +
   ggtitle("# Comparisons and Overall Accuracy") +
   scale_color_discrete("FP Rate for single comparison", guide = 'none') +
   theme_bw() +
