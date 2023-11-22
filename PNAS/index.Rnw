@@ -9,7 +9,7 @@
 % {pnasmathematics} %= Template for a one-column mathematics article
 % {pnasinvited} %= Template for a PNAS invited submission
 
-\title{Template for preparing your Brief Report submission to PNAS using Overleaf}
+\title{Mirror, mirror on the wall. Who's the best match of them all?}
 
 % Use letters for affiliations, numbers to show equal authorship (if applicable) and to indicate the corresponding author
 \author[a,1,2]{Susan Vanderplas}
