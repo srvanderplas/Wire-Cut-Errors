@@ -202,9 +202,12 @@ ggplot(data = res2, aes(x = N, y = overall, color = factor(r), label = rlab)) +
 \section*{Discussion \& Conclusions}
 
 In this short example, we have shown that the implicit comparisons performed during the forensic analysis of wire cuts have the potential to vastly increase the overall chance that at least one false positive error occurs.
+While often a forensic conclusion is presented as a single decision, underlying that decision are many more comparisons which are not discussed or reported upon.
+This omission is not necessarily the result of malice; it is the result of a protocol which focuses on finding the best possible match between two items and then evaluating that match.
+
 Our example is the simplest possible case for a wire cut analysis, but the conclusions apply to many other situations where we make multiple comparisons against a set of accumulated information, either in a database or in a series of test samples created during the examination process.
 As a result, it is critically important that forensic science grapple with this multiple comparison problem and modify lab procedures and testimony accordingly.
-We have three primary suggestions for improvements targeted at the problem of multiple comparisons.
+We have three primary suggestions for improvements targeted at making the multiple comparisons visible to everyone involved in the process of evidence evaluation.
 
 First, examiners should report (or defense attorneys should request) the overall length or area of surfaces generated from blade cuts, test fires, and equivalent procedures intended to assess the marks made by a tool submitted for comparison with evidence. Examiners should also report the total consecutive length or area of the recovered evidence. These pieces of information will allow for calculations of minimum and maximum number of comparisons (as we have demonstrated in this paper), and will facilitate calculation of overall error rates.
 
