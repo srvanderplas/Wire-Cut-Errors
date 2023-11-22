@@ -8,7 +8,6 @@ format: pdf
 knitr::opts_chunk$set(echo = F, message = F, warning = F)
 ```
 
-
 ## Introduction
 
 -   Problems with database searches and multiple comparisons in forensics
@@ -22,7 +21,7 @@ This issue has been raised in the past with regard to DNA [@thompson2003] and fi
 
 ### Examination Process
 
-When an examiner conducts a toolmark assessment of wire cut evidence, they are typically working with a tool recovered from the suspect as well as a wire recovered from the scene. The examiner will typically take the tool and use it to cut a piece of metal, known as a blade cut, to record the markings of the entire cutting surface simultaneously. This process may be repeated at multiple angles in order to record the effect of different contact surfaces on the resulting striations. Markings on the wire will then be compared to these blade cuts using either visual inspection or perhaps in the future a numerical comparison algorithm similar to those developed for bullet striations [@hare2017automatic] and cartridge cases [@zemmels2023]. \hh{let's not just cite CSAFE we are not the only ones. }
+When an examiner conducts a tool mark assessment of wire cut evidence, they are typically working with a tool recovered from the suspect as well as a wire recovered from the scene. The examiner will typically take the tool and use it to cut a piece of metal, known as a blade cut, to record the markings of the entire cutting surface simultaneously. This process may be repeated at multiple angles in order to record the effect of different contact surfaces on the resulting striations. Markings on the wire will then be compared to these blade cuts using either visual inspection or perhaps in the future a numerical comparison algorithm similar to those developed for bullet striations [@hare2017automatic; @mattijssen2021] and cartridge cases [@zemmels2023; @tong2014; @geradts2001].
 
 The examiner will compare blade cuts from all cutting surfaces during this process. Tools used for wire cuts typically have either 2 or 4 cutting surfaces. Examiners may make multiple cuts at multiple angles; this will increase the number of available blade cuts for comparison.
 
@@ -36,7 +35,7 @@ The examiner will compare blade cuts from all cutting surfaces during this proce
 
 Let us consider a single blade cut from a single cutting surface. Define the blade cut to be of length $\ell$ and the wire to have diameter $d$; we will also assume that the wire is fully covered with striations suitable for comparison.
 
-At minimum, there must be $\ell/d$  comparisons in order to assess whether the tool matches the wire; in this case, the comparisons are essentially independent of each other (conditional on the striation patterns) because no overlapping data is used. Of course, in this situation, we are overlooking the potential for partial matches and assuming that everything is lined up perfectly to produce this minimum number of comparisons; in practice, of course, the number of comparisons in this situation would likely be much higher.
+At minimum, there must be $\ell/d$ comparisons in order to assess whether the tool matches the wire; in this case, the comparisons are essentially independent of each other (conditional on the striation patterns) because no overlapping data is used. Of course, in this situation, we are overlooking the potential for partial matches and assuming that everything is lined up perfectly to produce this minimum number of comparisons; in practice, of course, the number of comparisons in this situation would likely be much higher.
 
 At a maximum, both the blade and the wire are either digitally scanned at the same resolution of $r$ mm, or visually examined using a microscope with a digital view of a certain resolution which can be translated into an equivalent resolution to the digital scan. In this case, there may be as many as $\ell/r- d/r + 1$ comparisons performed in order to find the optimal alignment between the two samples[^1]. Of course, these comparisons are highly dependent, as each sequential comparison shares much of the same data with the previous and next comparisons. While it is likely possible to model this autocorrelation and compute an effective number of comparisons accounting for the autocorrelation, developing this model is outside the scope of this paper.
 
@@ -254,7 +253,7 @@ Let us briefly consider a non-exhaustive list of ways an examiner or algorithm m
 
 -   the items randomly match on identifying characteristics
 
-All of these situations may occur during white box studies (though the final situation is very improbable). As a result, perhaps the best estimate of the probability of a false identification that we can obtain is the false identification rate of one or more white box studies. We have previously published a paper detailing the error rates of different firearms and toolmark studies; to our knowledge there are no similar white box studies for wire cuts. However, if we confine ourselves to error rates for striated materials (bullets, aperture shear, ejectors, screwdrivers) we may be able to get a reasonable estimate for the error rate of wire cuts. We assembled 3 black-box error rate studies of striated toolmarks (bullets and firing pins) [@bajic2020; @mattijssen2021; @best2022]; these studies estimate the false positive rate (e.g. the number of different-source identifications relative to the total number of different-source comparisons) rate to be between 0.07235 [@mattijssen2021, firing pins only] and 0.004545 [@best2022]. While there are a number of problems with these studies (which we have detailed in previous papers, i.e. @inconclusives), our goal here is to use the best estimates we can get of false positive error rates in particular, as the false positive rate is the main driver of the problem with multiple comparisons. If we calculate a pooled false positive rate from all studies, we arrive at a false positive rate of $\frac{20 + 56 + 1}{2842 + 774 + 220} = `r sprintf('%0.02f', 77/(2842+774+220))`$, that is, about 2%.
+All of these situations may occur during black box studies (though the final situation is very improbable). As a result, perhaps the best estimate of the probability of a false identification that we can obtain is the false identification rate of one or more white box studies. We have previously published a paper detailing the error rates of different firearms and toolmark studies; to our knowledge there are no similar white box studies for wire cuts. However, if we confine ourselves to error rates for striated materials (bullets, aperture shear, ejectors, screwdrivers) we may be able to get a reasonable estimate for the error rate of wire cuts. We assembled 3 black-box error rate studies of striated toolmarks (bullets and firing pins) [@bajic2020; @mattijssen2021; @best2022]; these studies estimate the false positive rate (e.g. the number of different-source identifications relative to the total number of different-source comparisons) rate to be between 0.07235 [@mattijssen2021, firing pins only] and 0.004545 [@best2022]. While there are a number of problems with these studies (which we have detailed in previous papers, i.e. @inconclusives), our goal here is to use the best estimates we can get of false positive error rates in particular, as the false positive rate is the main driver of the problem with multiple comparisons. If we calculate a pooled false positive rate from all studies, we arrive at a false positive rate of $\frac{20 + 56 + 1}{2842 + 774 + 220} = `r sprintf('%0.02f', 77/(2842+774+220))`$, that is, about 2%.
 
 ```{r}
 comparisons <- examiner_compare*2
@@ -266,6 +265,7 @@ If we start out by considering the first scenario (a single tool with a 1.5 cm b
 
 This is the simplest situation of the three different scenarios we have considered, and we still have an unacceptably high rate of at least one false positive conclusion. If the wire size decreases or the blade length increases, the overall chance of at least one false positive error will increase because the number of comparisons increases. If examiners consider cuts made at multiple angles, the same conclusion holds - the chance of at least one false positive error will increase from this point.
 
+```{=tex}
 \begin{align*}
 P(\text{False positive error in one comparison}) &= `r fprformat`\\
 P(\text{No false positive error in one comparison}) &= `r sprintf('%0.04f', 1-fpr)`\\
@@ -273,11 +273,12 @@ P(\text{no false positive errors in } N \text{ comparisons}) &= `r sprintf('%0.0
 P(\text{at least one false positive error in } N \text{ comparisons}) &= 1 - `r sprintf('%0.04f', 1-fpr)`^N  \tag{A}\label{eq:fpr}\\
 &= `r sprintf("%.04f", 1-(1-fpr)^comparisons)` %>% 
 \end{align*}
-
+```
 It then becomes relevant to consider how low the error rate would need to be for striated comparisons in order to make wire cut examination plausible. If we control the overall error rate amid $N$ independent comparisons, our estimated FPR for a single comparison can be calculated by solving Equation \ref{eq:fpr-control} for $r$.
 
 Let $F_n:=\{\text{at least one false positive in }n\text{ comparisons}\}$
 
+```{=tex}
 \begin{align*}
 P(F_1) &= r\\
 P(\overline{F_1}) &= 1-r\\
@@ -285,8 +286,8 @@ P(F_n) &= \left[1-r\right]^n\\
 P(\overline{F_n}) &= 1 - \left[P(\overline{F_1})\right]^n = 1 - \left[1 - r\right]^n\tag{B}\label{eq:fpr-control}\\
 r &= 1 - \left[1 - P(F_n)\right]^{1/n}
 \end{align*}
-
-We can explore what this means visually by considering different values of $N$ and $r$ to see how the overall false positive error rate behaves, as shown in @fig-control-overall-fpr. The astonishing conclusion is that even at the smallest error rate for striated comparisons, 0.45% [@bajic2020], we have about a 3% chance of at least one false positive conclusion when 10 comparisons are made and about a 37.5% chance of at least one false positive conclusion when 100 comparisons are made! These results suggest that under current estimates of false positive error rates, it is nearly impossible for toolmark comparisons of wires to provide compelling, "beyond a reasonable doubt" levels of evidence.
+```
+We can explore what this means visually by considering different values of $N$ and $r$ to see how the overall false positive error rate behaves, as shown in @fig-control-overall-fpr. The astonishing conclusion is that even at the smallest error rate for striated comparisons, 0.45% [@best2022], we have about a 3% chance of at least one false positive conclusion when 10 comparisons are made and about a 37.5% chance of at least one false positive conclusion when 100 comparisons are made! These results suggest that under current estimates of false positive error rates, it is nearly impossible for toolmark comparisons of wires to provide compelling, "beyond a reasonable doubt" levels of evidence.
 
 ```{r control-overall-fpr}
 #| echo: false

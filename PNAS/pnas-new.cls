@@ -37,7 +37,7 @@
 \hyphenpenalty=750 % For proper hyphenation
 
 %% Fonts and language
-\RequirePackage[utf8]{inputenc}
+% \RequirePackage[utf8]{inputenc}
 \RequirePackage{babel}
 \RequirePackage{amsmath,amsfonts,amssymb}
 \RequirePackage{lmodern}

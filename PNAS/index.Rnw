@@ -1,6 +1,6 @@
 \documentclass[9pt,twocolumn,twoside]{pnas-new}
 % Use the lineno option to display guide line numbers if required.
-
+\usepackage{cleveref}
 \templatetype{pnasbriefreport} % Choose template
 % {pnasresearcharticle} = Template for a two-column research article
 % {pnasmathematics} %= Template for a one-column mathematics article
@@ -36,6 +36,10 @@ Please provide an abstract of no more than 250 words in a single paragraph. Abst
 
 \dates{This manuscript was compiled on \today}
 \doi{\url{www.pnas.org/cgi/doi/10.1073/pnas.XXXXXXXXXX}}
+<<setup, include = F>>=
+library(knitr)
+opts_chunk$set(error=F, warning=F, message = F, dpi=300, echo = F)
+@
 
 \begin{document}
 
@@ -50,9 +54,9 @@ Please provide an abstract of no more than 250 words in a single paragraph. Abst
 % If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
 % \dropcap{T}his PNAS journal template is provided to help you write your work in the correct journal format. Instructions for use are provided below.
 
-\dropcap{M}ultiple comparisons are a persistent problem for statistical methods and for science more generally. XXX cite XXX In forensic statistics, we have been focusing on the necessity of building up research databases which can be used to develop objective algorithms for evidence comparisons and explore closest non-matches as suggested in \cite{pcast}. While these databases (and open data more generally) are critically important, we also need to be careful about how our methods are affected by the multiple comparison problem.
+\dropcap{M}ultiple comparisons are a persistent problem for statistical methods and for science. In forensic statistics, researchers have been focusing on the necessity of building up research databases which can be used to develop objective algorithms for evidence comparisons and explore closest non-matches \citep{pcast}. While these databases (and open data) are critically important in forensics, we also need to be careful about how our methods are affected by the multiple comparison problem.
 
-As we develop objective algorithms and standardize laboratory procedures in forensic pattern evidence, we need to be aware of the fact that we often are conducting many comparisons, either implicitly or explicitly. Algorithms in pattern evidence often utilize cross-correlation \cite{vorburgerApplicationsCrosscorrelationFunctions2011} to align different data sources, implicitly making comparisons along the entire length or surface of the data. Similarly, forensic examiners visually rotate or align two pieces of evidence under comparison microscopes. When we conduct database searches, these searches often return the $N$ best matches from the database, but this requires making comparisons to all of the database entries which meet the search criteria.
+As we develop objective algorithms and standardize laboratory procedures in forensic pattern evidence, we must remain cognizant that we often are conducting many comparisons, either implicitly or explicitly. Algorithms in pattern evidence often utilize cross-correlation \citep{vorburgerApplicationsCrosscorrelationFunctions2011} to align different data sources, implicitly making comparisons along the entire length or surface of the data. Similarly, forensic examiners visually rotate or align two pieces of evidence under comparison microscopes. When we conduct database searches, these searches often return the $N$ best matches from the database, but this requires making comparisons to all of the database entries which meet the search criteria.
 
 Partial matches in fingerprint evidence have been shown to be problematic XXX cite XXX, and the AFIS database search conducted while investigating the Madrid bombing in 2004 was one factor cited in the inquiry into the false accusation of Brandon Mayfield. As forensic intelligence databases in other disciplines are implemented (such as IBIS in firearms), we must confront the issues with multiple comparisons and false positive rates before more embarrassing false accusations lead the public to question the validity of forensic science.
 
@@ -88,10 +92,93 @@ In this example, $\ell = \Sexpr{ell} mm$, $d = \Sexpr{2} mm$, and the minimal nu
 
 If the blade cuts and the wire edge are scanned at a resolution of $\Sexpr{res*1000} \mu m$, the resulting digital files will require $\Sexpr{ncomp_max}$ comparisons per blade cut, or $\Sexpr{ncomp_max*2}$ comparisons overall. These comparisons are required in order to find the optimal alignment between the wire and the blade cut; they are implicit in the calculation of cross-correlation which is either the first step or the only step used to objectively assess the similarity between striated evidence such as bullets, aperture shear, and firing pin impressions. This problem is not unique to algorithms, however; and examiner would need to physically align the wire and the blade cut by searching along the length of the cut to visually match striations, performing the same process physically that the algorithm performs computationally. While these sequential comparisons are of course highly autocorrelated, and we cannot assume sequential independence when calculating the probability of an error, they serve as an upper bound on the number of comparisons which could be performed.
 
+\section*{Probability of False Identifications}
+
+There are two components to a false positive rate: coincidental matches (that is, two pieces of evidence that happen to have similar characteristics but are not from the same source) and human/technical failures \citep[p 50]{pcast}. In objective disciplines with matching rules, such as DNA, these sources can be distinguished, and when coincidental match rates are very low, human/technical failures make up a large component of the error rate. However, in toolmark examination, we do not have an objective matching rule; examiners testify based on subjective, individual rules for how much similarity is enough for an identification. As a result, we cannot separate coincidental match rates from human/technical failures.
+<<fpr, include = F>>=
+errors <- c(20, 56, 1)
+knm <- c(2842, 774, 220)
+
+fpr <- sum(errors)/sum(knm)
+@
+
+Compounding this problem, open-set studies of striated comparisons (bullets, firing pin impressions) \citep{bajic2020, mattijssen2021,best2022} suggest the false positive rate for these comparisons is between 0.004545\citep{best2022} and 0.07235\citep{mattijssen2021}; pooling data from these three studies yields a false positive rate of is \Sexpr{sprintf("%.02f%%", fpr*100)}, which is high relative to the consequences of a false identification of evidence from different sources.
+
+If we begin by considering the multiple comparison problem relative to the $\ell/d$ independent comparisons between a blade cut and a wire, we can calculate the overall false positive rate for all comparisons using $r$, the false positive rate for one comparison, and simple probability. Let $F_n:=\{\text{at least one false positive in }n\text{ comparisons}\}$. Then,
+\begin{align}
+P(F_1) &= r\nonumber\\
+P(\overline{F_1}) &= 1-r\nonumber\\
+P(F_n) &= \left[1-r\right]^n\nonumber\\
+P(\overline{F_n}) &= 1 - \left[P(\overline{F_1})\right]^n = 1 - \left[1 - r\right]^n.\label{eq:fpr-control}
+\end{align}
+Using this relationship between $F_n$ and the false positive rate $r$, we can determine what $r$ must be in order to limit $P(F_n)$ to an acceptable level by solving for $r$: $r = 1 - \left[1 - P(F_n)\right]^{1/n}$.
+
+\Cref{fig:control-overall-fpr} explores the implications of this relationship. The astonishing conclusion is that even at the smallest error rate for striated comparisons, we have about a 3\% chance of at least one false positive conclusion when 10 comparisons are made and about a 37.5\% chance of at least one false positive conclusion when 100 comparisons are made. These results suggest that using current estimates of false positive error rates, it is nearly impossible for wire comparisons to provide compelling, 'beyond a reasonable doubt' levels of evidence.
+<<control-overall-fpr, fig.cap="Exploration of overall error rate estimates for different values of $r$, the false positive rate for a single comparison. Dotted vertical lines show false positive error rate estimates (from left to right, \\citep{best2022,bajic2020,mattijssen2021}).", fig.width = 8, fig.height = 4>>=
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(latex2exp)
+library(geomtextpath)
+single_rmp = exp(seq(-1000, 0, .1))
+N = c(10, 100, 1000, 10000)
+
+res = crossing(single_rmp, N) %>%
+  mutate(overall = 1 - (1 - single_rmp)^N)
+
+studies <- tibble(single_rmp = c( 0.004545,0.00704, 0.0724), study = c("Best (2022)","Bajic (2020)",  "Mattijssen (2021)"), y = c(-0.025, .15, 0.6), hjust = c(0, 0, 1))
+ggplot(res, aes(x = single_rmp, y = overall, group = factor(N), color = factor(N))) +
+  geom_line() +
+  coord_cartesian(xlim = c(0, 0.07), ylim = c(0, 1)) +
+  ylab("Probability of a coincidental match (N comparisons)") +
+  xlab("Probability of a false positive (1 comparison)") +
+  scale_y_continuous(breaks = seq(0, 1, .1), minor_breaks = seq(0, 1, .05)) +
+  ggtitle("Wire Comparison: Controlling Overall False Positive Rate") +
+  geom_vline(xintercept = 0.02, linetype = "dashed", color = "grey40") +
+  geom_vline(xintercept = studies$single_rmp, linetype = "51", color = "grey50") +
+  geom_label(data = studies[1,], aes(x = single_rmp, y = y, label = study), inherit.aes = F, hjust = studies$hjust[1], vjust = 0) +
+  geom_label(data = studies[2,], aes(x = single_rmp, y = y, label = study), inherit.aes = F, hjust = studies$hjust[2], vjust = 0) +
+  geom_label(data = studies[3,], aes(x = single_rmp, y = y, label = study), inherit.aes = F, hjust = studies$hjust[3], vjust = 0) +
+  annotate(geom = "label", x = 0.02, y = 0.1, label = "Pooled error rate \nused in this paper", color = "grey40", hjust=0) +
+  scale_color_discrete("# comparisons") +
+  theme_bw() +
+  theme(legend.position = c(1, 0), legend.justification = c(1, 0), legend.background = element_rect(color = "black"))
+@
+
+If we look at this data differently, we can assess the probability that $N$ comparisons are made accurately (e.g. there are no coincidental matches). It is clear from \Cref{fig:Accuracy} that with existing false positive error rate estimates between 0.07 and 0.0045, the accuracy of the aggregate comparison between a wire and a tool becomes questionable, as the number of candidate alignments that must be examined is too high. Even the most innocuous example we could come up with (small blade, only 2 cutting surfaces, and a relatively large wire) involved a minimum of \Sexpr{2*ncomp_min} completely independent comparisons. As a result, it seems improbable that a wire comparison made under current protocols (with corresponding error rates) would have an overall accuracy rate which would be reliable enough to be presented at trial. When we then consider that examiners would make cuts at multiple angles \citep{baikerToolmarkVariabilityQuality2015}, increasing the number of comparisons even in the simple case we have presented here, the probability of a coincidental match increases
+
+<<Accuracy, fig.cap="Probability of accurate decisions for $N$ comparisons for different error rates.", fig.width = 8, fig.height = 4>>=
+r_vals <- tibble(r = c(.0005, 0.001, 0.005, .01, 0.05),
+                 rlab = sprintf("P(F[1])==%0.05f", r))
+res2 <- crossing(r = r_vals$r,
+                 N = c(seq(1, 11, .01),seq(11.1, 109.9, .1), seq(110, 1100, 1), seq(1110, 10000, 10))) %>%
+  mutate(overall = (1 - r)^N) %>%
+  left_join(r_vals)
 
 
+breakpt <- .9
+
+error_res <- filter(res2, lead(overall, 1) <= breakpt)
+res2 <- filter(res2, overall >= breakpt)
+
+res2sum <- res2 %>% group_by(r) %>% filter(overall == min(overall))
 
 
+ggplot(data = res2, aes(x = N, y = overall, color = factor(r), label = rlab)) +
+  geom_textline(parse = T, gap = F, straight = F, padding = unit(1, "mm"), vjust = 0, linewidth = 0.75) +
+  geom_line(data = error_res, linetype = 2, linewidth = 0.75) +
+  xlab("Number of comparisons") +
+  scale_x_log10() +
+  geom_hline(yintercept = breakpt, linewidth = 1) +
+  geom_label(data = res2sum, aes(x = N, y = breakpt, label = paste0("N == ", round(N))), parse = T, vjust = 1, hjust = 1) +
+  ylab("Probability of no coincidental matches (N comparisons)") +
+  ggtitle("# Comparisons and Overall Accuracy") +
+  scale_color_discrete("FP Rate for single comparison", guide = 'none') +
+  theme_bw() +
+  coord_cartesian(ylim = c(0.75, 1.0)) +
+  theme(axis.text.y = element_text(hjust = 0.5, vjust = 0.5, angle = 90))
+
+@
 
 % Note: please start your introduction without including the word ``Introduction'' as a section heading (except for math articles in the Physical Sciences section); this heading is implied in the first paragraph.
 
@@ -211,19 +298,19 @@ If the blade cuts and the wire edge are scanned at a resolution of $\Sexpr{res*1
 %
 %
 %
-\matmethods{Please describe your materials and methods here. This can be more than one paragraph, and may contain subsections and equations as required.
-
-\subsection*{Subsection for Method}
-Example text for subsection.
-}
-
-\showmatmethods{} % Display the Materials and Methods section
+% \matmethods{Please describe your materials and methods here. This can be more than one paragraph, and may contain subsections and equations as required.
+%
+% \subsection*{Subsection for Method}
+% Example text for subsection.
+% }
+%
+% \showmatmethods{} % Display the Materials and Methods section
 
 \acknow{Please include your acknowledgments here, set in a single paragraph. Please do not include any acknowledgments in the Supporting Information, or anywhere else in the manuscript.}
 
 \showacknow{} % Display the acknowledgments section
 
-\bibsplit[3]
+% \bibsplit[3]
 % %Use \bibsplit to split the references from the body of the text. Value "[3]" represents the number of reference in the left column (Note: Please avoid single column figures & tables on this page.)
 
 
