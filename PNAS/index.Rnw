@@ -101,7 +101,7 @@ The blade cuts will then be compared to the wire under a comparison microscope; 
 Each side of each blade cut will be compared to each side of the wire; depending on the tool design, there can be between 2 and 4 cutting surfaces in contact with the substrate.
 
 \begin{figure}[t]
-\includegraphics[width=\linewidth]{../fig/wire-blade-comparison.png}
+\includegraphics[width=\columnwidth]{../fig/wire-blade-comparison.png}
 \caption{A comparison between a wire and a blade cut requires sliding the wire along the entire blade cut length to determine the best match (or whether there is a match).}\label{fig:wire-blade}
 \end{figure}
 
