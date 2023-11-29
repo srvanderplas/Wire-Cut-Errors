@@ -35,7 +35,7 @@
 
 
 \begin{abstract}
-Please provide an abstract of no more than 250 words in a single paragraph. Abstracts should explain to the general reader the major contributions of the article. References in the abstract must be cited in full within the abstract itself and cited in the text.
+Wires have striations left from the cutting process; as in other forms of toolmark analysis, these striae are used to connect the wire to the tool used. In this paper, we show that the process of wire comparison introduces complexities not present in better-investigated forensic toolmark areas such as bullets, as wire comparison inherently requires multiple distinct comparisons, increasing the expected false positive rate. We call attention to the multiple comparison problem in wire examination and relate it to other situations in forensics that involve multiple comparisons, such as database searches.
 \end{abstract}
 
 \dates{This manuscript was compiled on \today}
@@ -53,7 +53,7 @@ options(digits = 4)
 \ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
 
 
-\firstpage[11]{6}
+\firstpage[8]{6}
 % Use \firstpage to indicate which paragraph and line will start the second page and subsequent formatting. In this example, there are a total of 11 paragraphs on the first page, counting the first level heading as a paragraph. The value {12} represents the number of the paragraph starting the second page. If a paragraph runs over onto the second page, include a bracket with the paragraph line number starting the second page, followed by the paragraph number in curly brackets, e.g. "\firstpage[4]{11}".
 
 
@@ -62,8 +62,9 @@ options(digits = 4)
 
 \dropcap{I}n forensic evidence a single conclusion is often based on  many comparisons, either implicitly or explicitly.
 Multiple comparisons are a persistent problem when developing statistical methods for scientific problems \citep{benjaminiControllingFalseDiscovery1995}.
-In forensic statistics, researchers have been focusing on building up research databases to develop algorithms for objective evidence comparisons.
-In practice, these algorithms then allow searches across (vast) databases and report the best $N$ matches to a particular piece of evidence, raising the critically important problem of close non-matches\citep{pcast}.
+Researchers have been focusing on building up databases to develop algorithms for objective evidence comparisons.
+\svp{Then, the algorithms facilitate} searches across (vast) databases, reporting the best $N$ matches to a particular piece of evidence.
+This raises the critically important problem of close non-matches\citep{pcast}.
 
 %and explore closest non-matches . While these databases (and open data) are critically important in forensics, we also need to be careful about how our methods are affected by the multiple comparison problem.
 
@@ -76,18 +77,11 @@ Very close non-matches are a direct consequence of a large number of comparisons
 
 %\hh{XXX director's notes: XXX what is different between full and partial matches is that error rates in the literature are generally reported based on full length comparisons, where macro features are used to anchor comparisons (align along grooves, then zoom in and only 'wiggle' a bit to the left and right to adjust at the micro-scale). These kind of adjustments are 'baked' into published error rates. }
 
-Algorithms make a large number of comparisons \svp{that are not obvious to the user}
-%out of a user's sight.
-The cross-correlation function\citep{vorburgerApplicationsCrosscorrelationFunctions2011}, for example, was one of the first quantitative measures proposed in response to the NAS report \citep{nas2009}, and is used in many pattern searching algorithms to find the best alignment between two sources and also evaluate the overall similarity.
+\svp{Compounding this issue,} algorithms make a large number of comparisons that are not obvious to the user.
+The cross-correlation function\citep{vorburgerApplicationsCrosscorrelationFunctions2011} was one of the first quantitative measures proposed in response to the NAS report \citep{nas2009}, and is used in many pattern searching algorithms to find the best alignment between two sources and also evaluate the overall similarity.
 Finding the best alignment requires implicitly sliding one source across the whole length (for one-dimensional sources, such as striations) or area (for two dimensional sources, such as impression marks) of the other source while keeping track of the value of a similarity measure.
 This mirrors the forensic examination process, as examiners visually rotate or align two pieces of evidence under comparison microscopes.
 In order to avoid embarrassing false accusations and a further erosion of the public's trust in science, we need to address the problem of multiple comparisons by controlling their effect on false discovery rates.
-%An explicit search, in constrast, occurs when we conduct database searches.
-%These searches often return the $N$ best matches from the database, but this requires making comparisons to all of the database entries which meet the search criteria.
-
-%The multiple comparison problems in forensics are distinct from the familywise error rate and false discovery rate problems that have been previously addressed in major ways: our tests are sequential, not concurrent, with dependencies depending on both the testing procedure and the data. In addition, an identification might be sufficient to end the search; as a result, this problem is more akin to a ``search until you find" problem than a situation where a family-wise error rate or false discovery rate is applicable - we are interested in the probability of at least one error in a series of sequential comparisons.
-
-%The multiple testing problem is closely related to issues which have caused embarrassing false accusations and mistrust of forensic pattern evidence: partial matches and database searches. %As we assemble research databases for explicitly making many comparisons and tackle problems which implicitly involve multiple comparisons, we must confront these issues before more embarrassing missteps lead the public to question the validity of forensic science.
 
 Here, we consider the multiple comparisons problem that arises from a relatively simple toolmark comparison: matching a cut wire to a wire-cutting tool.
 We describe the comparison approach, estimate the (minimal) number of comparisons needed, and discuss how the false discovery rate changes with the number of comparisons involved, using error rates derived from published black-box studies.
@@ -113,12 +107,13 @@ Of course, this overlooks the possibility of partial matches and assumes perfect
 \end{figure}
 
 At a maximum, both the blade and the wire are either digitally scanned at resolution $r$ mm, or visually examined using a microscope with a digital resolution that can be expressed as $r$ equivalent to the digital scan.
-In this case, there may be as many as $\ell/r - d/r + 1$ full comparisons performed in order to find the optimal alignment between the two samples.
-These comparisons are of course highly dependent, as each sequential comparison shares much of the same data with the previous and next comparisons; such dependency could be expressed via autocorrelation, but we will defer that derivation to a later paper.
-In this paper, let us consider the number of comparisons to lie somewhere between the minimum and maximum number of comparisons.
+In this case, there may be as many as $\ell/r - d/r + 1$ comparisons performed in order to find the optimal alignment between the two samples.
+These comparisons are of course highly dependent, as each sequential comparison shares much of the same data with the previous and next comparisons.
+% ; such dependency could be expressed via autocorrelation, but we will defer that derivation to a later paper.
+\svp{For simplicity}, let us consider the number of comparisons to lie somewhere between \svp{these two estimates}.
 
 Then, we must consider the number of surfaces which must be compared: the wire may have between one and two sets of striae (depending on tool configuration) and there may be between 2 and 4 different blade cut surfaces to examine.
-This results in a multiplier of between 2 and 8 comparisons to be conducted to compare the striations on the wire to the striations on the blade cuts, even before we consider the problem of cutting angles.
+This results in a multiplier of between 2 and 8 comparisons to be conducted to compare the striations on the wire to the striations on the blade cuts.
 
 \subsection*{A concrete example}
 
@@ -151,8 +146,8 @@ In this example, $\ell = \Sexpr{ell} mm$, $d = \Sexpr{2} mm$, and the minimal nu
 As there are two blade cuts (side A and side B), the minimal number of comparisons overall is \Sexpr{ncomp_min*2}, and these comparisons are independent.
 
 If the blade cuts and the wire edge are scanned at a resolution of $\Sexpr{res*1000} \mu m$, the resulting digital files will require \svp{approximately $\Sexpr{format(round(ncomp_max/1000)*1000, big.mark=',')}$ comparisons per blade cut; $\Sexpr{format(round(ncomp_max/1000)*2000, big.mark=',')}$ comparisons overall}.
-These comparisons are required in order to find the optimal alignment between the wire and the blade cut; they are implicit in the calculation of cross-correlation which is either the first step or the only step used to objectively assess the similarity between striated evidence such as bullets, aperture shear, and firing pin impressions.
-This problem is not unique to algorithms, however; and examiner would need to physically align the wire and the blade cut by searching along the length of the cut to visually match striations, performing the same process physically that the algorithm performs computationally.
+These comparisons are required in order to find the optimal alignment between the wire and the blade cut; they are implicit in the calculation of cross-correlation which is either the first or the only step used to objectively assess the similarity between striated evidence such as bullets, aperture shear, and firing pin impressions.
+This problem is not unique to algorithms; an examiner would need to physically align the wire and the blade cut by searching along the length of the cut to visually match striations, performing the same process physically that the algorithm performs computationally.
 While these sequential comparisons are of course highly autocorrelated, and we cannot assume sequential independence when calculating the probability of an error, they serve as an upper bound on the number of comparisons which could be performed.
 
 \section*{Probability of False Identifications}
@@ -168,16 +163,18 @@ knm <- c(2842, 774, 220)
 fpr <- sum(errors)/sum(knm)
 @
 
-Compounding this problem, open-set studies of striated comparisons (bullets, firing pin impressions) \citep{bajic2020, mattijssen2021,best2022} suggest the false positive rate for these comparisons is between 0.0045 \citep{best2022} and 0.072 \citep{mattijssen2021}; pooling data from these three studies yields a false positive rate of \Sexpr{sprintf("%.2f", fpr)}. %, which is high relative to the consequences of a false identification of evidence from different sources.
+Compounding this problem, open-set studies of striated comparisons (bullets and firing pin impressions) \citep{bajic2020, mattijssen2021,best2022} suggest \svp{that a starting point for estimating the} false positive rate for these comparisons is between 0.0045 \citep{best2022} and 0.072 \citep{mattijssen2021}; pooling data from these three studies yields a false positive rate of \Sexpr{sprintf("%.2f", fpr)}.
 
-If we begin by considering the multiple comparison problem relative to the $\ell/d$ independent comparisons between a blade cut and a wire, we can calculate the overall false positive rate for all comparisons using $r$, the false positive rate for one comparison, and simple probability. Let $F_n:=\{\text{at least one false positive in }n\text{ comparisons}\}$. Then, $P(F_1) = r$, $P(\overline{F_1}) = 1-r$, $P(F_n) = [1-r]^n$, and $P(\overline{F_n}) = 1 - \left[P(\overline{F_1})\right]^n$.
-Using this relationship between $F_n$ and the false positive rate $r$, we can determine what $r$ must be in order to limit $P(F_n)$ to an acceptable level by solving for $r$: $r = 1 - \left[1 - P(F_n)\right]^{1/n}$.
+If we begin by considering the multiple comparison problem relative to the $\ell/d$ independent comparisons between a blade cut and a wire, we can calculate the overall false positive rate for all comparisons using $r$, the false positive rate for one comparison, and simple probability. Let $$F_n:=\{\text{at least one false pos. in }n\text{ disjoint comparisons}\}.$$ Then, $P(F_1) = r$, $P(\overline{F_1}) = 1-r$, $P(F_n) = [1-r]^n$, and $P(\overline{F_n}) = 1 - \left[P(\overline{F_1})\right]^n$.
+% Using this relationship between $F_n$ and the false positive rate $r$, we can determine what $r$ must be in order to limit $P(F_n)$ to an acceptable level by solving for $r$: $r = 1 - \left[1 - P(F_n)\right]^{1/n}$.
+\svp{\Cref{fig:Accuracy} shows $P(\overline{F_n})$ on the y-axis; if we set 90\% as the acceptable probability, we can make 2 comparisons when the single-comparison FPR is 0.05 and 10 comparisons at 0.01. Thus, at an error rate of \Sexpr{sprintf("%.2f", fpr)}, we can conduct approximately 5 comparisons while keeping the FPR for all comparisons under 10\%.}
 
-\Cref{fig:control-overall-fpr} explores the implications of this relationship.
-The astonishing conclusion is that even at the smallest false positive error rate for striated comparisons, we have about a 3\% chance of at least one false positive conclusion when 10 comparisons are made and about a 37.5\% chance of at least one false positive conclusion when 100 comparisons are made.
-These results suggest that using current estimates of false positive error rates, it is nearly impossible for wire comparisons to provide compelling, 'beyond a reasonable doubt' levels of evidence.
+\svp{It is clear that under these constraints, the} accuracy of the aggregate comparison between a wire and a tool becomes questionable, as the number of candidate alignments that must be examined is too high.
+Even the most innocuous example we could come up with (small blade, only 2 cutting surfaces, and a relatively large wire) involved a minimum of \Sexpr{2*ncomp_min} completely independent comparisons.
+As a result, it seems improbable that a wire comparison made under current protocols (with corresponding error rates) would have an overall accuracy rate which would be reliable enough to be presented at trial.
+When we then consider that examiners would make cuts at multiple angles \citep{baikerToolmarkVariabilityQuality2015}, increasing the number of comparisons even in the simple case we have presented here, the probability of a false positive error increases further still.
 
-<<control-overall-fpr, fig.cap="Exploration of overall error rate estimates for different values of $r$, the false positive rate for a single comparison. Dotted vertical lines show false positive error rate estimates (from left to right, \\citep{best2022,bajic2020,mattijssen2021}).", fig.width = 8, fig.height = 4>>=
+<<control-overall-fpr, fig.cap="Exploration of overall error rate estimates for different values of $r$, the false positive rate for a single comparison. Dotted vertical lines show false positive error rate estimates (from left to right, \\citep{best2022,bajic2020,mattijssen2021}).", fig.width = 8, fig.height = 4, include = F>>=
 library(ggplot2)
 library(tidyr)
 library(dplyr)
@@ -213,17 +210,12 @@ ggplot(res, aes(x = single_rmp, y = overall, group = factor(N), color = factor(N
 #  geom_hline(yintercept = 0.1, colour="black")
 @
 
-If we look at this data differently, we can assess the probability that $N$ comparisons are made accurately (e.g. there are no coincidental matches or examiner errors).
-It is clear from \Cref{fig:Accuracy} that with existing false positive error rate estimates between 0.07 and 0.0045, the accuracy of the aggregate comparison between a wire and a tool becomes questionable, as the number of candidate alignments that must be examined is too high.
-Even the most innocuous example we could come up with (small blade, only 2 cutting surfaces, and a relatively large wire) involved a minimum of \Sexpr{2*ncomp_min} completely independent comparisons.
-As a result, it seems improbable that a wire comparison made under current protocols (with corresponding error rates) would have an overall accuracy rate which would be reliable enough to be presented at trial.
-When we then consider that examiners would make cuts at multiple angles \citep{baikerToolmarkVariabilityQuality2015}, increasing the number of comparisons even in the simple case we have presented here, the probability of a coincidental match increases further still.
 
 <<Accuracy, fig.cap="Probability of accurate decisions for $N$ comparisons for different error rates.", fig.width = 8, fig.height = 4>>=
 r_vals <- tibble(r = c(.0005, 0.001, 0.005, .01, 0.05),
                  rlab = sprintf("P(F[1])==%0.05f", r))
 res2 <- crossing(r = r_vals$r,
-                 N = c(seq(1, 11, .01),seq(11.1, 109.9, .1), seq(110, 1100, 1), seq(1110, 10000, 10))) %>%
+                 N = c(seq(1, 11, .01),seq(11.1, 109.9, .1), seq(110, 1100, 1))) %>%
   mutate(overall = (1 - r)^N) %>%
   left_join(r_vals)
 
@@ -283,7 +275,7 @@ These studies should be Type II studies as defined by Koehler \citep{koehlerIntu
 Finally, when databases are used at any stage of the forensic evidence evaluation process (from suitability assessment and triage to reports which will be used at trial), the number of database items searched and the number of results resturned must be reported. Furthermore, the number of results used for futher manual comparison should also be reported.
 This will help make the multiple comparison issue visible for everyone involved in evaluating the forensic evidence, from examiners themselves to jurors and judges.
 
-We believe that some of the multiple comparison problems we have assessed here can be overcome with targeted research and changes in how evidence is assessed, but the first step in this process has to be making the number of comparisons performed more visible to everyone involved in the process.
+We believe that the multiple comparison problems we have discussed here can be overcome with research and changes in evidence assessment procedures, but the first step is making the number of comparisons performed more visible to everyone involved in the process.
 
 % Note: please start your introduction without including the word ``Introduction'' as a section heading (except for math articles in the Physical Sciences section); this heading is implied in the first paragraph.
 
