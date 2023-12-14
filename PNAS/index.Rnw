@@ -55,7 +55,7 @@ options(digits = 4)
 \ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
 
 
-\firstpage[8]{6}
+\firstpage[8]{5}
 % Use \firstpage to indicate which paragraph and line will start the second page and subsequent formatting. In this example, there are a total of 11 paragraphs on the first page, counting the first level heading as a paragraph. The value {12} represents the number of the paragraph starting the second page. If a paragraph runs over onto the second page, include a bracket with the paragraph line number starting the second page, followed by the paragraph number in curly brackets, e.g. "\firstpage[4]{11}".
 
 
@@ -149,7 +149,7 @@ ncomp_max <- ell/res - d/res + 1
 In this example, $\ell = \Sexpr{ell} mm$, $d = \Sexpr{2} mm$, and the minimal number of comparisons between the wire and one blade cut is $\ell/d = \Sexpr{ncomp_min}$.
 As there are two blade cuts (side A and side B), the minimal number of comparisons overall is \Sexpr{ncomp_min*2}, and these comparisons are \ac{non-overlapping and} independent.
 
-If the blade cuts and the wire edge are scanned at a resolution of $\Sexpr{res*1000} \mu m$, the resulting digital files will require \svp{approximately $\Sexpr{format(round(ncomp_max/1000)*1000, big.mark=',')}$ comparisons per blade cut; $\Sexpr{format(round(ncomp_max/1000)*2000, big.mark=',')}$ comparisons overall}.
+If the blade cuts and the wire edge are scanned at a lateral resolution of $\Sexpr{res*1000} \mu m$ per pixel, the resulting digital files will require \svp{approximately $\Sexpr{format(round(ncomp_max/1000)*1000, big.mark=',')}$ comparisons per blade cut; $\Sexpr{format(round(ncomp_max/1000)*2000, big.mark=',')}$ comparisons overall}.
 These comparisons are required in order to find the optimal alignment between the wire and the blade cut; they are implicit in the calculation of cross-correlation which is the first \ac{and often} the only step used to objectively assess the similarity between striated evidence such as bullets, aperture shear, and firing pin impressions.
 This problem is not unique to algorithms; an examiner would need to physically align the wire and the blade cut by searching along the length of the cut to visually match striations, performing the same process physically that the algorithm performs computationally.
 While these sequential comparisons are highly autocorrelated, and we cannot assume sequential independence when calculating the probability of an error, they serve as an upper bound on the number of comparisons which could be performed.
