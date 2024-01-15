@@ -101,7 +101,7 @@ Each side of each blade cut will be compared to each side of the wire; depending
 
 In order to calculate the number of possible comparisons to be carried out in the course of the examination, we define $\ell$ to be the length of the blade cut, and $d$ to be the diameter of the wire. Without loss of generality, we assume that the wire is fully covered with striations suitable for comparison; if this is not the case, we adjust the value of $d$.
 An illustration of the sliding comparison process is shown in \Cref{fig:wire-blade}. Imagine that you start from the left end of the blade and move the wire surface $d$ units at a time along the blade.
-At minimum, there must be $\ell/d$ comparisons in order to assess whether one side of the blade cut matches one side of the wire; in this case, the comparisons are independent of each other (conditional on striation patterns) because each comparison involves different surfaces.
+At minimum, there must be $\ell/d$ comparisons in order to assess whether one side of the blade cut matches one side of the wire; in this case, the comparisons are physically separate and thus expected to be statistically independent, though empirically there will be nonzero correlations due to the physical similarities between striations.
 %no overlapping data is used.
 Of course, this overlooks the possibility of partial matches and assumes perfect alignment between the diameter of the wire and the portion of the blade used to cut the wire, which is unrealistic.
 
