@@ -160,7 +160,7 @@ Implicit comparisons are not unique to algorithms; an examiner would need to phy
 While these sequential comparisons are highly auto correlated, and we cannot assume sequential independence when calculating the probability of an error, they serve as an upper bound on the number of comparisons which could be performed.
 
 As the number of comparisons increases, the probability of encountering a coincidental match increases.
-Statisticians call this the \textit{familywise error rate} ("family" = number of comparisons); it is an important quantity to control when conducting a series of tests.
+Statisticians call this the \textit{family-wise error rate} $E$; it is an important quantity to control when conducting a series ("family") of tests.
 
 
 \section*{Probability of False Identifications}
@@ -171,9 +171,9 @@ Assuming that lab procedure errors are not a factor in studies, we use reported 
 %% Do we need to address the fact that wire cuts don't have external features to align, where bullets and firing pins do???
 The three studies we consider \citep{bajic2020, mattijssen2021,best2022} have false positive rates between 0.0045 \citep{best2022} and 0.072 \citep{mattijssen2021}; pooling data from these studies yields a false positive rate of \Sexpr{sprintf("%.2f", fpr)}.
 
-For a single-comparison FPR of $e$, the familywise FPR for $n$ comparisons is $1 - [1-e]^n$.
-\Cref{fig:Accuracy} shows the familywise accuracy rate on the y-axis; if 90\% is an acceptable overall accuracy, 2 comparisons can be made when $e = 0.05$; this increases to 10 comparisons when $e =  0.01$.
-Thus, at an error rate of \Sexpr{sprintf("e = %.2f", fpr)}, examiners can conduct approximately 5 comparisons without exceeding the familywise FPR of 10\%.
+For a single-comparison FPR of $e$, the family-wise FPR for $n$ comparisons, $E_n$ is $1 - [1-e]^n$.
+\Cref{fig:Accuracy} shows the family-wise accuracy rate on the y-axis; if 90\% is an acceptable overall accuracy, 2 comparisons can be made when $e = 0.05$; this increases to 10 comparisons when $e =  0.01$.
+Thus, at an error rate of \Sexpr{sprintf("e = %.2f", fpr)}, examiners can conduct approximately 5 comparisons without exceeding the family-wise FPR of 10\%.
 
 It is clear that under these constraints, the accuracy of an examination involving multiple comparisons between a wire and a tool will be low, as the number of candidate alignments that must be examined is high.
 Even the most innocuous example (small blade, only 2 cutting surfaces, and a relatively large wire) involved a minimum of \Sexpr{2*ncomp_min} completely independent comparisons.
@@ -266,21 +266,27 @@ ggplot(data = res2, aes(x = N, y = overall, color = factor(r), label = rlab)) +
 
 Forensic practitioners often report the findings from their examinations in the form of a categorical conclusion reflecting a single decision.
 This is misleading when the decision relies on multiple comparisons which are not individually presented in reports or testimony.
-In this short contribution, we have shown that the implicit comparisons performed during forensic analysis of wire cuts increase the familywise error rate.
+In this short contribution, we have shown that the implicit comparisons performed during forensic analysis of wire cuts increase the family-wise error rate.
 Omission of the underlying details is not necessarily due to malice; rather, it results from protocols which focus on finding the best possible match between two items and evaluating that match.
 
 In our example we highlight a simple case where a wire is cut using a two-sided blade, but the findings apply to many other situations where a forensic evaluation involves multiple comparisons against a set of accumulated information, such as database searches.
 It is critically important that forensic practitioners become aware of the impact of carrying out multiple comparisons on their final conclusions and that lab procedures and testimony are modified accordingly.
 We suggest three strategies to improve transparency of forensic examinations and to produce more reliable estimates of examination-wide error rates.
 
-First, examiners should report (or defense attorneys should request) the overall length or area of surfaces generated from blade cuts, test fires, and equivalent procedures intended to assess the marks made by a tool submitted for comparison with evidence.
-Examiners should also report the total consecutive length or area of the recovered evidence. These pieces of information will allow for calculations of minimum and maximum number of comparisons (as demonstrated in this paper), facilitating calculation of overall error rates.
+First, examiners should report (or defense attorneys should request) the overall length or area of surfaces generated during the examination process.
+% from blade cuts, test fires, and equivalent procedures intended to assess the marks made by a tool submitted for comparison with evidence.
+Examiners should also report the total consecutive length or area of the recovered evidence.
+These pieces of information will take the place of $\ell$ and $d$ and facilitate calculation of examination-wide error rates.
 
-Second, researchers should conduct studies relating the length/area of comparison surface to the error rate. For instance, we have pooled studies looking at bullet striations and firing pin shear marks. The striated surfaces are of orders of magnitude different lengths, but they represent our best estimate of the error rate for striated comparisons.
+Second, researchers should conduct studies relating the length/area of comparison surface to the error rate.
+For instance, we have pooled studies looking at bullet striations and firing pin shear marks.
+The striated surfaces are of orders of magnitude different lengths, but they represent our best estimate of the error rate for striated comparisons.
 This was necessary because we could not find black-box error rate studies of wire cuts.
-These studies should be Type II studies as defined by Koehler \citep{koehlerIntuitiveErrorRate2017a}, in that they should be designed to assess the actual error rate when examiners are making difficult comparisons.
+New studies should be Type II studies as defined by Koehler \citep{koehlerIntuitiveErrorRate2017a}, designed to assess the actual error rate when examiners are making difficult comparisons.
 
-Finally, when databases are used at any stage of the forensic evidence evaluation process (from suitability assessment and triage to reports which will be used at trial), the number of database items searched (or comparisons made) and the number of results returned must be reported. Furthermore, the number of results used for further manual comparison should also be reported. For example, if a firearms examiner searches a local NIBIN database with 1000 entries, requests the 20 closest matches to her evidence, and then carries out a physical examination of five exemplars from the list of 20, all of those values should be clearly reported to enable calculation of the potential FPR.
+Finally, when databases are used at any stage of the forensic evidence evaluation process (from suitability assessment and triage to reports which will be used at trial), the number of database items searched (or comparisons made) and the number of results returned must be reported.
+Additionally, the number of results used for further manual comparison should also be reported.
+For example, if a firearms examiner searches a local NIBIN database with 1000 entries, requests the 20 closest matches to her evidence, and then carries out a physical examination of five exemplars from the list of 20, all of those values should be clearly reported to enable estimation of the examination-wise error rate.
 This will help make the multiple comparison issue accessible to everyone involved in evaluating the value of forensic evidence, from examiners to lawyers to jurors and judges.
 
 %We believe that the multiple comparison problems we have discussed here can be overcome with research and changes in evidence assessment procedures, but the first step is making the number of comparisons performed more visible to everyone involved in the process.
