@@ -99,28 +99,25 @@ Each side of each blade cut will be compared to each side of the wire; depending
 
 \section*{Calculating the Number of Comparisons}
 
-In order to calculate the number of comparisons carried out in the course of one examination, we define $\ell$ to be the length of the blade cut, and $d$ to be the diameter of the wire. We assume that the wire is covered with striations suitable for comparison across its full diameter $d$. If this is not the case, we reduce the value $d$ correspondingly.
-An illustration of the sliding comparison process is shown in \Cref{fig:wire-blade}. Imagine that you start from the left end of the blade and move the wire surface $d$ units at a time along the blade.
+In order to calculate the number of comparisons carried out in the course of one examination, we define $\ell$ to be the length of the blade cut, and $d$ to be the diameter of the wire.
+We assume that the wire is covered with striations suitable for comparison across its full diameter $d$.
+If this is not the case, we reduce the value $d$.
+Both the blade and the wire are either digitally scanned at resolution $r$ mm per pixel, or visually examined using a microscope with a digital resolution that can be expressed as $r$ equivalent to the digital scan.
+An illustration of the sliding comparison process is shown in \Cref{fig:wire-blade}.
+Imagine that we move the cut wire along the blade cut in order to assess whether striations on the blade cut match the striations on the wire.
+We can move the wire unit-by-unit, or we can move the wire by its full length, with no overlap to the previous comparison.
 
-At minimum, there must be $\ell/d$ comparisons in order to assess whether one side of the blade cut matches one side of the wire; in this case, the comparisons are physically separate and thus expected to be statistically independent, though empirically there will be nonzero correlations due to the physical similarities between striations.
-%no overlapping data is used.
-This method of counting the number of comparisons assumes
-perfect alignment between the diameter of the wire and the portion of the blade used to cut the wire, which is unrealistic but provides us with a lower bound.
-
+The first option gives us the maximum number of comparisons ($\ell/r - d/r + 1$), while the second option gives us the minimum number of comparisons.
+In the first case, sequential comparisons share much of the same physical data and are highly related; in the second case, no data is shared between physical comparisons and we can expect that they are statistically independent, though empirically there will be nonzero correlations due to physical similarities between striations.
+For simplicity, let us consider the number of comparisons to lie somewhere between these two estimates.
 
 \begin{figure}[t]
 \includegraphics[width=\columnwidth]{../fig/wire-blade-comparison-label.png}
 \caption{A comparison between a wire and a blade cut requires sliding the wire along the entire blade cut length to determine the best match (or whether there is a match). Surfaces shown are rendered 2D topographical scans of a wire and blade cut taken with a confocal light microscope.}\label{fig:wire-blade}
 \end{figure}
 
-At a maximum, both the blade and the wire are either digitally scanned at resolution $r$ mm, or visually examined using a microscope with a digital resolution that can be expressed as $r$ equivalent to the digital scan.
-In this case, there may be as many as $\ell/r - d/r + 1$ comparisons performed in order to find the optimal alignment between the two samples.
-These comparisons are no longer independent, as each sequential comparison shares much of the same data with the previous and next comparisons.
-% ; such dependency could be expressed via autocorrelation, but we will defer that derivation to a later paper.
-For simplicity, let us consider the number of comparisons to lie somewhere between these two estimates.
-
-Finally, we must consider the number of surfaces which must be compared: the wire may have between one and two sets of striae (depending on tool configuration) and there may be between 2 and 4 different blade cut surfaces to examine.
-This results in a multiplier of between 2 and 8 comparisons to be conducted to compare the striations on the wire to the striations on the blade cuts.
+Finally, we must consider the number of surfaces which must be compared: the wire may have between one and two sets of striae and there may be between 2 and 4 different blade cut surfaces to examine, depending on tool configuration.
+This results in a multiplier of between 2 and 8 to calculate the total number of comparisons required.
 
 \subsection*{A concrete example}
 
