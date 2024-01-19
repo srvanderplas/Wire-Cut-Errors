@@ -158,8 +158,8 @@ While these sequential comparisons are highly auto correlated, and we cannot ass
 
 There are at least two contributors to a false positive rate: coincidental matches (that is, two pieces of evidence that happen to have similar characteristics but are not from the same source) and human/technical failures \citep[p 50]{pcast}.
 In objective disciplines with matching rules, such as DNA, these sources can be distinguished, and when coincidental match rates are very low, human/technical failures make up a large component of the error rate.
-However, in toolmark examination, we do not have an objective matching rule; examiners testify based on subjective, individual rules for how much similarity is enough for an identification.
-As a result, we cannot separate coincidental match rates from human/technical failures.
+However, in toolmark examination, no discipline-wide objective matching rule is used; examiners testify based on subjective, individual rules for how much similarity is enough for an identification.
+As a result, it is not possible to separate coincidental match rates from human/technical failures.
 <<fpr, include = F>>=
 errors <- c(20, 56, 1)
 knm <- c(2842, 774, 220)
@@ -167,12 +167,11 @@ knm <- c(2842, 774, 220)
 fpr <- sum(errors)/sum(knm)
 @
 
-%Compounding this problem, o
 Open-set studies of striated comparisons (bullets and firing pin impressions) \citep{bajic2020, mattijssen2021,best2022} suggest that a starting point for estimating the false positive rate for these comparisons is between 0.0045 \citep{best2022} and 0.072 \citep{mattijssen2021}; pooling data from these three studies yields a false positive rate of \Sexpr{sprintf("%.2f", fpr)}.
 
-If we begin by considering the multiple comparison problem relative to the minimal $\ell/d$ independent comparisons between a blade cut and a wire, we can compute the overall false positive rate for all comparisons using $e$, the false positive rate for one comparison, and simple probability calculations. Let $$F_n:=\{\text{at least one false pos. in }n\text{ disjoint comparisons}\}.$$ Then, $P(F_1) = e$, $P(\overline{F_1}) = 1-e$, $P(F_n) = [1-e]^n$, and $P(\overline{F_n}) = 1 - \left[P(\overline{F_1})\right]^n$.
+If we begin by considering the minimal $\ell/d$ independent comparisons between a blade cut and a wire, we can compute the overall false positive rate for all comparisons using $e$, the false positive rate for one comparison, and simple probability calculations. Let $$F_n:=\{\text{at least one false pos. in }n\text{ disjoint comparisons}\}.$$ Then, $P(F_1) = e$, $P(\overline{F_1}) = 1-e$, $P(F_n) = [1-e]^n$, and $P(\overline{F_n}) = 1 - \left[P(\overline{F_1})\right]^n$.
 % Using this relationship between $F_n$ and the false positive rate $r$, we can determine what $e$ must be in order to limit $P(F_n)$ to an acceptable level by solving for $e$: $e = 1 - \left[1 - P(F_n)\right]^{1/n}$.
-\Cref{fig:Accuracy} shows $P(\overline{F_n})$ on the y-axis; if we set 90\% as the acceptable examination-wide false positive rate (FPR), we can make 2 comparisons when the single-comparison FPR is 0.05 and 10 comparisons at 0.01. Thus, at an error rate of \Sexpr{sprintf("%.2f", fpr)}, we can conduct approximately 5 comparisons in the course of an examination without exceeding the examination-wide FPR of 10\%.
+\Cref{fig:Accuracy} shows $P(\overline{F_n})$ on the y-axis; if 90\% is an acceptable examination-wide false positive rate (FPR), 2 comparisons can be made when the single-comparison FPR is 0.05; this increases to 10 comparisons at 0.01. Thus, at an error rate of \Sexpr{sprintf("%.2f", fpr)}, examiners can conduct approximately 5 comparisons without exceeding the examination-wide FPR of 10\%.
 
 It is clear that under these constraints, the accuracy of a forensic evaluation involving multiple comparisons between a wire and a tool is likely to be low, as the number of candidate alignments that must be examined is too high.
 Even the most innocuous example we could find (small blade, only 2 cutting surfaces, and a relatively large wire) involved a minimum of \Sexpr{2*ncomp_min} completely independent comparisons.
@@ -263,7 +262,7 @@ ggplot(data = res2, aes(x = N, y = overall, color = factor(r), label = rlab)) +
 
 \section*{Discussion \& Conclusions}
 
-Forensic practitioners often report the findings from their examinations in the form of a categorical conclusion reflecting a single decision. This can be misleading when the one decision relies on multiple comparisons which are not individually presented in reports or testimony. In this short contribution, we have shown that the implicit comparisons performed during the forensic analysis of wire cuts have the potential to vastly increase the overall chance that at least one false positive error occurs.
+Forensic practitioners often report the findings from their examinations in the form of a categorical conclusion reflecting a single decision. This can be misleading when this decision relies on multiple comparisons which are not individually presented in reports or testimony. In this short contribution, we have shown that the implicit comparisons performed during the forensic analysis of wire cuts have the potential to vastly increase the overall chance that at least one false positive error occurs.
 %While often a forensic conclusion is presented as a single decision, underlying that decision are many more comparisons which are not discussed or reported upon.
 Omission of the underlying details is not necessarily due to malice; rather, it results from protocols which focus on finding the best possible match between two items and then evaluating that match, and also from lack of familiarity with basic statistical ideas.
 
