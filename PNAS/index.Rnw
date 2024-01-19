@@ -103,7 +103,9 @@ In order to calculate the number of possible comparisons to be carried out in th
 An illustration of the sliding comparison process is shown in \Cref{fig:wire-blade}. Imagine that you start from the left end of the blade and move the wire surface $d$ units at a time along the blade.
 At minimum, there must be $\ell/d$ comparisons in order to assess whether one side of the blade cut matches one side of the wire; in this case, the comparisons are physically separate and thus expected to be statistically independent, though empirically there will be nonzero correlations due to the physical similarities between striations.
 %no overlapping data is used.
-Of course, this overlooks the possibility of partial matches and assumes perfect alignment between the diameter of the wire and the portion of the blade used to cut the wire, which is unrealistic.
+This method of counting the number of comparisons assumes
+perfect alignment between the diameter of the wire and the portion of the blade used to cut the wire, which is unrealistic but provides us with a lower bound.
+
 
 \begin{figure}[t]
 \includegraphics[width=\columnwidth]{../fig/wire-blade-comparison-label.png}
