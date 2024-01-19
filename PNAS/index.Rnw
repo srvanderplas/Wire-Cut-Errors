@@ -11,7 +11,7 @@
 % {pnasmathematics} %= Template for a one-column mathematics article
 % {pnasinvited} %= Template for a PNAS invited submission
 
-\title{Mirror, mirror on the wall. Which's the best match of them all?}
+\title{Hidden Multiple Comparisons Increase Forensic Error Rates}
 
 % Use letters for affiliations, numbers to show equal authorship (if applicable) and to indicate the corresponding author
 \author[a,1,2]{Susan Vanderplas}
