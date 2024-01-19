@@ -36,7 +36,7 @@
 
 
 \begin{abstract}
-When wires are cut, the tool produces striations on the cut surfaced; as in other forms of forensic analysis, these striation marks are used to connect the evidence to the source that created them. Here, we argue that the practice of comparing two wire cut surfaces introduces complexities not present in better-investigated forensic examination  of toolmars such as those observed on bullets, as wire comparisons inherently require multiple distinct comparisons, increasing the expected false positive rate. We call attention to the multiple comparison problem in wire examination and relate it to other situations in forensics that involve multiple comparisons, such as database searches.
+When wires are cut, the tool produces striations on the cut surfaced; as in other forms of forensic analysis, these striation marks are used to connect the evidence to the source that created them. Here, we argue that the practice of comparing two wire cut surfaces introduces complexities not present in better-investigated forensic examination  of toolmarks such as those observed on bullets, as wire comparisons inherently require multiple distinct comparisons, increasing the expected false positive rate. We call attention to the multiple comparison problem in wire examination and relate it to other situations in forensics that involve multiple comparisons, such as database searches.
 \end{abstract}
 
 \dates{This manuscript was compiled on \today}
@@ -55,30 +55,15 @@ options(digits = 4)
 
 
 \firstpage[3]{6}
-% Use \firstpage to indicate which paragraph and line will start the second page and subsequent formatting. In this example, there are a total of 11 paragraphs on the first page, counting the first level heading as a paragraph. The value {12} represents the number of the paragraph starting the second page. If a paragraph runs over onto the second page, include a bracket with the paragraph line number starting the second page, followed by the paragraph number in curly brackets, e.g.\ "\firstpage[4]{11}".
-
-
-% If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
-% \dropcap{T}his PNAS journal template is provided to help you write your work in the correct journal format. Instructions for use are provided below.
 
 \dropcap{I}n forensic evaluations, a single conclusion often relies on  many comparisons, either implicitly or explicitly.
-Multiple comparisons arise persistently when developing statistical methods to address scientific problems \citep{benjaminiControllingFalseDiscovery1995}, and greatly increase the probability of false discoveries.  %Yet, this potentially significant issue is often ignored.
+Multiple comparisons arise persistently when developing statistical methods to address scientific problems \citep{benjaminiControllingFalseDiscovery1995}, and greatly increase the probability of false discoveries.
 Now that vast databases and efficient algorithms are routinely used in forensic evaluations to propose matches to crime scene items, the problem of close non-matches~\citep{pcast}  due to multiple comparisons becomes critically important.
 Scientists have the responsibility to address this often ignored issue to prevent a further erosion of the public's confidence in the justice system.
-%Researchers have been focusing on building up databases to develop algorithms for objective evidence comparisons.
-%\svp{Then, the algorithms facilitate} searches across (vast) databases, reporting the best $N$ matches to a particular piece of evidence.
-%This raises the critically important problem of .
 
-%and explore closest non-matches . While these databases (and open data) are critically important in forensics, we also need to be careful about how our methods are affected by the multiple comparison problem.
 
 The multiple comparison problem is not new: it has been raised in the past with regard to DNA~\citep{thompson2003} and latent print evaluations~ \citep{koehler2021}. One of the root causes~\citep{fine2006} leading to the wrongful accusation of Brandon Mayfield in the 2004 Madrid train bombing case was that the large size of the IAFIS database used to search for similar prints made it possible to locate `unusually' close non-matches.
 The probability of finding  close non-matches for an item of evidence is proportional to the size of the database available for searching; close non-matches occur more frequently as databases increase in size and algorithms become more powerful.
-% In this paper, we discuss that very close non-matches are far from an unusual phenomenon  but a direct consequence of a large number of comparisons, and simply reflect the power of the search algorithms.
-
-%
-% \hh{Database searches are an example where the number of searches is explicitly available as the number of objects meeting the search criteria. } % This doesn't seem super-relevant and distracts from the continuity between the algorithm discussion above and the next paragraph
-
-%\hh{XXX director's notes: XXX what is different between full and partial matches is that error rates in the literature are generally reported based on full length comparisons, where macro features are used to anchor comparisons (align along grooves, then zoom in and only 'wiggle' a bit to the left and right to adjust at the micro-scale). These kind of adjustments are 'baked' into published error rates. }
 
 Compounding this issue, the use of novel algorithms typically results in a large number of comparisons that may not obvious to the user.
 For example, the cross-correlation function~\citep{vorburgerApplicationsCrosscorrelationFunctions2011} was one of the first measures proposed for quantifying the similarity  between two patterns in response to the 2009 NRC report~\citep{nas2009}, and continues to be used in many pattern searching algorithms to find the best alignment between two images and to quantify their overall similarity.
@@ -168,7 +153,6 @@ There are at least two components of the false positive rate: identifying two pi
 In objective disciplines with standardized evaluation rules (e.g.\ DNA), these sources can be distinguished.
 However, in toolmark examination, no objective evaluation rules are used; examiners testify based on subjective, individual rules for how much similarity is sufficient for an identification.
 Assuming that lab procedure errors are not a factor in studies, we use reported error rates from striated evidence comparisons (e.g.\ excluding breech face comparisons) in open-set studies as an estimate of the coincidental match rate of a single wire-cut comparison.
-%% Do we need to address the fact that wire cuts don't have external features to align, where bullets and firing pins do???
 The three studies we consider \citep{bajic2020, mattijssen2021,best2022} have false positive rates between 0.0045 \citep{best2022} and 0.072 \citep{mattijssen2021}; pooling data from these studies yields a false positive rate of \Sexpr{sprintf("%.2f", fpr)}.
 
 For a single-comparison FPR of $e$, the family-wise FPR for $n$ comparisons, $E_n$ is $1 - [1-e]^n$.
@@ -274,7 +258,6 @@ It is critically important that forensic practitioners become aware of the impac
 We suggest three strategies to improve transparency of forensic examinations and to produce more reliable estimates of examination-wide error rates.
 
 First, examiners should report (or defense attorneys should request) the overall length or area of surfaces generated during the examination process.
-% from blade cuts, test fires, and equivalent procedures intended to assess the marks made by a tool submitted for comparison with evidence.
 Examiners should also report the total consecutive length or area of the recovered evidence.
 These pieces of information will take the place of $\ell$ and $d$ and facilitate calculation of examination-wide error rates.
 
@@ -289,144 +272,10 @@ Additionally, the number of results used for further manual comparison should al
 For example, if a firearms examiner searches a local NIBIN database with 1000 entries, requests the 20 closest matches to her evidence, and then carries out a physical examination of five exemplars from the list of 20, all of those values should be clearly reported to enable estimation of the examination-wise error rate.
 This will help make the multiple comparison issue accessible to everyone involved in evaluating the value of forensic evidence, from examiners to lawyers to jurors and judges.
 
-%We believe that the multiple comparison problems we have discussed here can be overcome with research and changes in evidence assessment procedures, but the first step is making the number of comparisons performed more visible to everyone involved in the process.
-
-% Note: please start your introduction without including the word ``Introduction'' as a section heading (except for math articles in the Physical Sciences section); this heading is implied in the first paragraph.
-
-% \section*{Guide to using this template on Overleaf}
-%
-% Please note that whilst this template provides a preview of the typeset manuscript for submission, to help in this preparation, it will not necessarily be the final publication layout. For more detailed information please see the \href{ https://www.pnas.org/page/authors/format}{PNAS Information for Authors}.
-%
-% If you have a question while using this template on Overleaf, please use the help menu (``?'') on the top bar to search for \href{https://www.overleaf.com/help}{help and tutorials}. You can also \href{https://www.overleaf.com/contact}{contact the Overleaf support team} at any time with specific questions about your manuscript or feedback on the template.
-%
-% \subsection*{Author Affiliations}
-%
-% Include department, institution, and complete address, with the ZIP/postal code, for each author. Use lower case letters to match authors with institutions, as shown in the example. PNAS strongly encourages authors to supply an \href{https://orcid.org/}{ORCID identifier} for each author. Individual authors must link their ORCID account to their PNAS account at \href{http://www.pnascentral.org/}{www.pnascentral.org}. For proper authentication, authors must provide their ORCID at submission and are not permitted to add ORCIDs on proofs.
-%
-% \subsection*{Submitting Manuscripts}
-%
-% All authors must submit their articles at \href{http://www.pnascentral.org/cgi-bin/main.plex}{PNAScentral}. If you are using Overleaf to write your article, you can use the ``Submit to PNAS'' option in the top bar of the editor window.
-%
-% \subsection*{Format}
-%
-% Many authors find it useful to organize their manuscripts with the following order of sections: title, author line and affiliations, keywords, abstract, introduction, results, discussion, materials and methods, acknowledgments, and references. Other orders and headings are permitted.
-%
-% \subsection*{Manuscript Length}
-%
-% Brief Reports are limited to 3 pages, which is approximately 1,600 words (including the manuscript text, title page, abstract, and figure legends), and 15 references. Supporting information (SI) is limited to extended methods, essential supporting datasets, and videos (no additional tables or figures).
-%
-%
-% \subsection*{References}
-%
-% References should be cited in numerical order as they appear in text; this will be done automatically via bibtex, e.g.\ \cite{belkin2002using} and \cite{berard1994embedding,coifman2005geometric,phdthesis,masterthesis}. All references cited in the main text should be included in the main manuscript file.
-%
-% \subsection*{Data Archival}
-%
-% PNAS must be able to archive the data essential to a published article. Where such archiving is not possible, deposition of data in public databases, such as GenBank, ArrayExpress, Protein Data Bank, Unidata, and others outlined in the \href{https://www.pnas.org/author-center/editorial-and-journal-policies#materials-and-data-availability}{Information for Authors}, is acceptable.
-%
-% \subsection*{Language-Editing Services}
-% Prior to submission, authors who believe their manuscripts would benefit from professional editing are encouraged to use a language-editing service (see list at https://www.pnas.org/author-center/language-editing). PNAS does not take responsibility for or endorse these services, and their use has no bearing on acceptance of a manuscript for publication.
-%
-% \begin{figure}[t!]
-% \centering
-% \includegraphics[width=.8\linewidth]{frog}
-% \caption{Placeholder image of a frog with a long example legend to show justification setting.}
-% \label{fig:frog}
-% \end{figure}
-%
-%
-% \begin{SCfigure*}[\sidecaptionrelwidth][t]
-% \centering
-% \includegraphics[width=11.4cm,height=11.4cm]{frog}
-% \caption{This legend would be placed at the side of the figure, rather than below it.}\label{fig:side}
-% \end{SCfigure*}
-%
-% \begin{table}[t!]
-% \centering
-% \caption{Comparison of the fitted potential energy surfaces and ab initio benchmark electronic energy calculations}
-% \begin{tabular}{lrrr}
-% Species & CBS & CV & G3 \\
-% \midrule
-% 1. Acetaldehyde & 0.0 & 0.0 & 0.0 \\
-% 2. Vinyl alcohol & 9.1 & 9.6 & 13.5 \\
-% 3. Hydroxyethylidene & 50.8 & 51.2 & 54.0\\
-% \bottomrule
-% \end{tabular}
-%
-% \addtabletext{nomenclature for the TSs refers to the numbered species in the table.}
-% \end{table}
-%
-%
-% \subsection*{Digital Figures}
-%
-% EPS, high-resolution PDF, and PowerPoint are preferred formats for figures that will be used in the main manuscript. Authors may submit PRC or U3D files for 3D images; these must be accompanied by 2D representations in TIFF, EPS, or high-resolution PDF format. Color images must be in RGB (red, green, blue) mode. Include the font files for any text.
-%
-% Images must be provided at final size, preferably 1 column width (8.7cm). Figures wider than 1 column should be sized to 11.4cm or 17.8cm wide. Numbers, letters, and symbols should be no smaller than 6 points (2mm) and no larger than 12 points (6mm) after reduction and must be consistent.
-%
-% Figures and tables should be labelled and referenced in the standard way using the \verb|\label{}| and \verb|\ref{}| commands.
-%
-% Figure \ref{fig:frog} shows an example of how to insert a column-wide figure. To insert a figure wider than one column, please use the \verb|\begin{figure*}...\end{figure*}| environment. Figures wider than one column should be sized to 11.4 cm or 17.8 cm wide. Use \verb|\begin{SCfigure*}...\end{SCfigure*}| for a wide figure with side legends.
-%
-% \subsection*{Tables}
-% Tables should be included in the main manuscript file and should not be uploaded separately.
-%
-% \subsection*{Single column equations}
-%
-% Authors may use 1- or 2-column equations in their article, according to their preference.
-%
-% To allow an equation to span both columns, use the \verb|\begin{figure*}...\end{figure*}| environment mentioned above for figures.
-%
-% Note that the use of the \verb|widetext| environment for equations is not recommended, and should not be used.
-%
-% \begin{figure*}[bt!]
-% \begin{align*}
-% (x+y)^3&=(x+y)(x+y)^2\\
-%        &=(x+y)(x^2+2xy+y^2) \numberthis \label{eqn:example} \\
-%        &=x^3+3x^2y+3xy^3+x^3.
-% \end{align*}
-% \end{figure*}
-%
-%
-%
-% \subsection*{Supporting Information (SI)}
-%
-% Authors are limited to the following types of SI: extended methods, datasets, videos, and 3D figures. Extended discussion is not permitted.
-%
-% \subsection*{SI Appendix}
-%
-% Supply extended materials and methods information in a separate SI Appendix PDF file. Include SI movie legends. SI will be published as provided by the authors; it will not be edited or composed. Supplementary figures and tables are not allowed.
-%
-%
-% \subsubsection*{SI Datasets}
-%
-% Supply .xlsx, .csv, .txt, .rtf, or .pdf files. This file type will be published in raw format and will not be edited or composed.
-%
-%
-% \subsubsection*{SI Movies}
-%
-% Supply Audio Video Interleave (avi), Quicktime (mov), Windows Media (wmv), animated GIF (gif), or MPEG files and and include a brief legend for each movie in the main manuscript file. All movies should be submitted at the desired reproduction size and length. Movies should be no more than 10 MB in size.
-%
-%
-%
-%
-% \matmethods{Please describe your materials and methods here. This can be more than one paragraph, and may contain subsections and equations as required.
-%
-% \subsection*{Subsection for Method}
-% Example text for subsection.
-% }
-%
-% \showmatmethods{} % Display the Materials and Methods section
 
 \acknow{This work was funded (or partially funded) by the Center for Statistics and Applications in Forensic Evidence (CSAFE) through Cooperative Agreements 70NANB15H176 and 70NANB20H019 between NIST and Iowa State University, which includes activities carried out at Carnegie Mellon University, Duke University, University of California Irvine, University of Virginia, West Virginia University, University of Pennsylvania, Swarthmore College and University of Nebraska, Lincoln.}
 
 \showacknow{} % Display the acknowledgments section
-
-% \bibsplit[3]
-% %Use \bibsplit to split the references from the body of the text. Value "[3]" represents the number of reference in the left column (Note: Please avoid single column figures & tables on this page.)
-
-
-% Bibliography
-% \bibliography{pnas-sample}
 
 \bibliography{../references}
 \end{document}
