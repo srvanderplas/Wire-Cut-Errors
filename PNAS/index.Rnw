@@ -121,32 +121,36 @@ This results in a multiplier of between 2 and 8 to calculate the total number of
 
 \subsection*{A concrete example}
 
-\begin{figure}[t!]
-\centering
-\includegraphics[width=\columnwidth]{../fig/wire_cutter_wires.png}
-\caption{RJ45 Crimp tool with a 1.5cm razor blade used for cutting. 1mm and 2mm diameter aluminum wires cut with the pliers are shown in a box in the top right corner.}\label{fig:tool-pic}
-\end{figure}
-
-Let us consider a wire-cutting tool with a 1.5 cm razor blade that meets a cast surface (one such tool is shown in \Cref{fig:tool-pic}); the wire is held against this rectangular cast surface as the blade is pushed into the wire, splitting it in two.
-This is a minimal scenario - the wire will acquire striations from one side of the blade, while the blade itself has two cutting edges, which we will call side A and side B.
-A blade cut of a sheet of aluminum will thus produce two striated edges corresponding to side A and side B which can be compared to cut wires to assess similarity.
-
-We also have a 12 gauge aluminum wire (2 mm diameter) which may have been cut by the wire-cutting tool described above.
-Class characteristics, which are shared by all tools of similar manufacture, appear to match:
-there is a flat impression on one side of the wire corresponding to the cast metal backstop of the tool,
-and the wire is cut such that the blade and the backstop appear to be perpendicular
-(that is, the wire appears to have been cut with a tool of similar configuration).
-
-<<simple-problem-setup, echo = F, warning = F, message = F>>=
+<<simple-problem-setup, include=F>>=
 ell <- 15
 d <- 2
 res <- 0.645/1000
 ncomp_min <- ell/d
 ncomp_max <- ell/res - d/res + 1
+
+# From 3 studies
+errors <- c(20, 56, 1)
+knm <- c(2842, 774, 220)
+
+fpr <- sum(errors)/sum(knm)
 @
 
+\begin{figure}[t!]
+\centering
+\includegraphics[width=\columnwidth]{../fig/wire_cutter_wires.png}
+\caption{RJ45 Crimp tool with a $\Sexpr{ell/10}$ cm razor blade used for cutting. 1 mm and 2 mm diameter aluminum wires cut with the pliers are shown in a box in the top right corner.}\label{fig:tool-pic}
+\end{figure}
 
-In this example, $\ell = \Sexpr{ell}$ mm, $d = \Sexpr{2}$ mm, and the minimal number of comparisons between the wire and one blade cut is $\ell/d = \Sexpr{ncomp_min}$.
+Let us consider a wire-cutting tool with a $\Sexpr{ell/10}$ cm razor blade that meets a cast surface (one such tool is shown in \Cref{fig:tool-pic}); the wire is held against this rectangular cast surface as the blade is pushed into the wire, splitting it in two.
+This is a minimal scenario - the wire will acquire striations from one side of the blade, while the blade itself has two cutting edges, which we will call side A and side B.
+A blade cut of a sheet of aluminum will thus produce two striated edges corresponding to side A and side B which can be compared to cut wires to assess similarity.
+We also have a 12 gauge aluminum wire ($\Sexpr{d}$ mm diameter) which may have been cut by the wire-cutting tool described above.
+Class characteristics, which are shared by all tools of similar manufacture, appear to match:
+there is a flat impression on one side of the wire corresponding to the cast metal backstop of the tool,
+and the wire is cut such that the blade and the backstop appear to be perpendicular
+(that is, the wire appears to have been cut with a tool of similar configuration).
+
+In this example, $\ell = \Sexpr{ell}$ mm, $d = \Sexpr{d}$ mm, and at minimum there are $\ell/d = \Sexpr{ncomp_min}$ comparisons between a wire cut and a blade cut.
 As there are two blade cuts (side A and side B), the minimal number of comparisons overall is \Sexpr{ncomp_min*2}, as these comparisons are non-overlapping and independent (on average).
 
 Let's assume a resolution of $\Sexpr{res*1000} \mu$m per pixel, the maximum number of comparisons per blade cut is approximately $\Sexpr{format(round(ncomp_max/1000)*1000, big.mark=',')}$ comparisons; thus, we need $\Sexpr{format(round(ncomp_max/1000)*2000, big.mark=',')}$ comparisons overall in order to find the optimal alignment between the wire and the blade cut.
@@ -155,25 +159,18 @@ Implicit comparisons are not unique to algorithms; an examiner would need to phy
 While these sequential comparisons are highly auto correlated, and we cannot assume sequential independence when calculating the probability of an error, they serve as an upper bound on the number of comparisons which could be performed.
 
 \section*{Probability of False Identifications}
-
-There are at least two contributors to a false positive rate: coincidental matches (that is, two pieces of evidence that happen to have similar characteristics but are not from the same source) and human/technical failures \citep[p 50]{pcast}.
-In objective disciplines with matching rules, such as DNA, these sources can be distinguished, and when coincidental match rates are very low, human/technical failures make up a large component of the error rate.
-However, in toolmark examination, no discipline-wide objective matching rule is used; examiners testify based on subjective, individual rules for how much similarity is enough for an identification.
-As a result, it is not possible to separate coincidental match rates from human/technical failures.
-<<fpr, include = F>>=
-errors <- c(20, 56, 1)
-knm <- c(2842, 774, 220)
-
-fpr <- sum(errors)/sum(knm)
-@
-
-Open-set studies of striated comparisons (bullets and firing pin impressions) \citep{bajic2020, mattijssen2021,best2022} suggest that a starting point for estimating the false positive rate for these comparisons is between 0.0045 \citep{best2022} and 0.072 \citep{mattijssen2021}; pooling data from these three studies yields a false positive rate of \Sexpr{sprintf("%.2f", fpr)}.
+There are at least two components of the false positive rate: identifying two pieces of evidence that have similar characteristics but are from different sources (a coincidental match) and procedural failures (e.g. lab process errors) \citep[p 50]{pcast}.
+In objective disciplines with standardized evaluation rules (e.g. DNA), these sources can be distinguished.
+However, in toolmark examination, no objective evaluation rules are used; examiners testify based on subjective, individual rules for how much similarity is sufficient for an identification.
+Assuming that lab procedure errors are not a factor in studies, we use reported error rates from striated evidence comparisons (e.g. excluding breech face comparisons) in open-set studies as an estimate of the coincidental match rate of a single wire-cut comparison.
+%% Do we need to address the fact that wire cuts don't have external features to align, where bullets and firing pins do???
+The three studies we consider \citep{bajic2020, mattijssen2021,best2022} have false positive rates between 0.0045 \citep{best2022} and 0.072 \citep{mattijssen2021}; pooling data from these studies yields a false positive rate of \Sexpr{sprintf("%.2f", fpr)}.
 
 If we begin by considering the minimal $\ell/d$ independent comparisons between a blade cut and a wire, we can compute the overall false positive rate for all comparisons using $e$, the false positive rate for one comparison, and simple probability calculations. Let $$F_n:=\{\text{at least one false pos. in }n\text{ disjoint comparisons}\}.$$ Then, $P(F_1) = e$, $P(\overline{F_1}) = 1-e$, $P(F_n) = [1-e]^n$, and $P(\overline{F_n}) = 1 - \left[P(\overline{F_1})\right]^n$.
 % Using this relationship between $F_n$ and the false positive rate $r$, we can determine what $e$ must be in order to limit $P(F_n)$ to an acceptable level by solving for $e$: $e = 1 - \left[1 - P(F_n)\right]^{1/n}$.
 \Cref{fig:Accuracy} shows $P(\overline{F_n})$ on the y-axis; if 90\% is an acceptable examination-wide false positive rate (FPR), 2 comparisons can be made when the single-comparison FPR is 0.05; this increases to 10 comparisons at 0.01. Thus, at an error rate of \Sexpr{sprintf("%.2f", fpr)}, examiners can conduct approximately 5 comparisons without exceeding the examination-wide FPR of 10\%.
 
-It is clear that under these constraints, the accuracy of a forensic evaluation involving multiple comparisons between a wire and a tool is likely to be low, as the number of candidate alignments that must be examined is too high.
+It is clear that under these constraints, the accuracy of an examination involving multiple comparisons between a wire and a tool is likely to be low, as the number of candidate alignments that must be examined is too high.
 Even the most innocuous example we could find (small blade, only 2 cutting surfaces, and a relatively large wire) involved a minimum of \Sexpr{2*ncomp_min} completely independent comparisons.
 As a result, findings from  wire comparisons made under current protocols (using error rates recently published in the forensics literature) are probably not reliable enough to be presented at trial.
 When we then consider that examiners would make cuts at multiple angles \citep{baikerToolmarkVariabilityQuality2015}, increasing the number of comparisons even in the simple case we have presented here, the probability of a false positive error increases further still.
