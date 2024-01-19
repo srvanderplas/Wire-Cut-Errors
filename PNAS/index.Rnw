@@ -96,12 +96,6 @@ The first option gives us the maximum number of comparisons ($\ell/r - d/r + 1$)
 In the first case, sequential comparisons share much of the same physical data and are highly related; in the second case, no data is shared between physical comparisons and we can expect that they are statistically independent, though empirically there will be nonzero correlations due to physical similarities between striations.
 For simplicity, let us consider the number of comparisons to lie somewhere between these two estimates.
 Note that when $\ell/d \approx 1$, as in bullet LEA comparisons, the minimal and the maximal number of comparisons are both close to 1.
-
-\begin{figure}[t]
-\includegraphics[width=\columnwidth]{../fig/wire-blade-comparison-label.png}
-\caption{A comparison between a wire and a blade cut requires sliding the wire along the entire blade cut length to determine the best match (or whether there is a match). Surfaces shown are rendered 2D topographical scans of a wire and blade cut taken with a confocal light microscope.}\label{fig:wire-blade}
-\end{figure}
-
 Finally, we must consider the number of surfaces which must be compared: the wire may have between one and two sets of striae and there may be between 2 and 4 different blade cut surfaces to examine, depending on tool configuration.
 This results in a multiplier of between 2 and 8 to calculate the total number of comparisons required.
 
@@ -123,8 +117,9 @@ fpr <- sum(errors)/sum(knm)
 
 \begin{figure}[t!]
 \centering
+\includegraphics[width=\columnwidth]{../fig/wire-blade-comparison-label.png}
 \includegraphics[width=\columnwidth]{../fig/wire_cutter_wires.png}
-\caption{RJ45 Crimp tool with a $\Sexpr{ell/10}$ cm razor blade used for cutting. 1 mm and 2 mm diameter aluminum wires cut with the pliers are shown in a box in the top right corner.}\label{fig:tool-pic}
+\caption{(Top) A comparison between a wire and a blade cut requires sliding the wire along the entire blade cut length to determine the best match (or whether there is a match). Surfaces shown are rendered 2D topographical scans of a wire and blade cut taken with a confocal light microscope. (Bottom) RJ45 Crimp tool with a $\Sexpr{ell/10}$ cm razor blade used for cutting. 1 mm and 2 mm diameter aluminum wires cut with the pliers are shown in a box in the top right corner.}\label{fig:tool-pic}\label{fig:wire-blade}
 \end{figure}
 
 Let us consider a wire-cutting tool with a $\Sexpr{ell/10}$ cm razor blade that meets a cast surface (one such tool is shown in \Cref{fig:tool-pic}); the wire is held against this rectangular cast surface as the blade is pushed into the wire, splitting it in two.
