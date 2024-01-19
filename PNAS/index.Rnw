@@ -129,13 +129,13 @@ This results in a multiplier of between 2 and 8 to calculate the total number of
 
 Let us consider a wire-cutting tool with a 1.5 cm razor blade that meets a cast surface (one such tool is shown in \Cref{fig:tool-pic}); the wire is held against this rectangular cast surface as the blade is pushed into the wire, splitting it in two.
 This is a minimal scenario - the wire will acquire striations from one side of the blade, while the blade itself has two cutting edges, which we will call side A and side B.
-The blade cuts of a sheet of aluminum that is 1.5 cm in width thus produce two striated edges corresponding to side A and side B which can be compared to other cuts to assess similarity.
+A blade cut of a sheet of aluminum will thus produce two striated edges corresponding to side A and side B which can be compared to cut wires to assess similarity.
 
-In addition, we have a 12 gauge aluminum wire (2 mm diameter) which may have been cut  by the wire-cutting tool described above.
+We also have a 12 gauge aluminum wire (2 mm diameter) which may have been cut by the wire-cutting tool described above.
 Class characteristics, which are shared by all tools of similar manufacture, appear to match:
 there is a flat impression on one side of the wire corresponding to the cast metal backstop of the tool,
 and the wire is cut such that the blade and the backstop appear to be perpendicular
-(that is, the wire appears to have been cut with a blade similar to the blade configuration of the tool in question).
+(that is, the wire appears to have been cut with a tool of similar configuration).
 
 <<simple-problem-setup, echo = F, warning = F, message = F>>=
 ell <- 15
@@ -146,13 +146,13 @@ ncomp_max <- ell/res - d/res + 1
 @
 
 
-In this example, $\ell = \Sexpr{ell} mm$, $d = \Sexpr{2} mm$, and the minimal number of comparisons between the wire and one blade cut is $\ell/d = \Sexpr{ncomp_min}$.
-As there are two blade cuts (side A and side B), the minimal number of comparisons overall is \Sexpr{ncomp_min*2}, and these comparisons are non-overlapping and independent.
+In this example, $\ell = \Sexpr{ell}$ mm, $d = \Sexpr{2}$ mm, and the minimal number of comparisons between the wire and one blade cut is $\ell/d = \Sexpr{ncomp_min}$.
+As there are two blade cuts (side A and side B), the minimal number of comparisons overall is \Sexpr{ncomp_min*2}, as these comparisons are non-overlapping and independent (on average).
 
-If the blade cuts and the wire edge are scanned at a resolution of $\Sexpr{res*1000} \mu m$, the resulting digital files will require approximately $\Sexpr{format(round(ncomp_max/1000)*1000, big.mark=',')}$ comparisons per blade cut; $\Sexpr{format(round(ncomp_max/1000)*2000, big.mark=',')}$ comparisons overall.
-These comparisons are required in order to find the optimal alignment between the wire and the blade cut; they are implicit in the calculation of cross-correlation which is the first and often the only step used to objectively assess the similarity between striated evidence such as bullets, aperture shear, and firing pin impressions.
-This problem is not unique to algorithms; an examiner would need to physically align the wire and the blade cut by searching along the length of the cut to visually match striations, performing the same process physically that the algorithm performs computationally.
-While these sequential comparisons are highly autocorrelated, and we cannot assume sequential independence when calculating the probability of an error, they serve as an upper bound on the number of comparisons which could be performed.
+Let's assume a resolution of $\Sexpr{res*1000} \mu$m per pixel, the maximum number of comparisons per blade cut is approximately $\Sexpr{format(round(ncomp_max/1000)*1000, big.mark=',')}$ comparisons; thus, we need $\Sexpr{format(round(ncomp_max/1000)*2000, big.mark=',')}$ comparisons overall in order to find the optimal alignment between the wire and the blade cut.
+These comparisons are implicit in the calculation of cross-correlation, which is the first and often the only step used to quantitatively assess the similarity between striated evidence such as bullets, aperture shear, and firing pin impressions.
+Implicit comparisons are not unique to algorithms; an examiner would need to physically align the wire and the blade cut by searching along the length of the cut to visually match striations, performing the same process physically that the algorithm performs computationally.
+While these sequential comparisons are highly auto correlated, and we cannot assume sequential independence when calculating the probability of an error, they serve as an upper bound on the number of comparisons which could be performed.
 
 \section*{Probability of False Identifications}
 
