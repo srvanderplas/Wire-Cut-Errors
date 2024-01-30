@@ -54,14 +54,12 @@ options(digits = 4)
 \ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
 
 
-\firstpage[3]{6}
+\firstpage[4]{5}
 
 \dropcap{I}n forensic evaluations, a single conclusion often relies on  many comparisons, either implicitly or explicitly.
 Multiple comparisons arise persistently when developing statistical methods to address scientific problems \citep{benjaminiControllingFalseDiscovery1995}, and greatly increase the probability of false discoveries.
 Now that vast databases and efficient algorithms are routinely used in forensic evaluations to propose matches to crime scene items, the problem of close non-matches~\citep{pcast}  due to multiple comparisons becomes critically important.
 Scientists have the responsibility to address this often ignored issue to prevent a further erosion of the public's confidence in the justice system.
-
-
 The multiple comparison problem is not new: it has been raised in the past with regard to DNA~\citep{thompson2003} and latent print evaluations~ \citep{koehler2021}. One of the root causes~\citep{fine2006} leading to the wrongful accusation of Brandon Mayfield in the 2004 Madrid train bombing case was that the large size of the IAFIS database used to search for similar prints made it possible to locate `unusually' close non-matches.
 The probability of finding  close non-matches for an item of evidence is proportional to the size of the database available for searching; close non-matches occur more frequently as databases increase in size and algorithms become more powerful.
 
@@ -130,7 +128,6 @@ Class characteristics, which are shared by all tools of similar manufacture, app
 there is a flat impression on one side of the wire corresponding to the cast metal backstop of the tool,
 and the wire is cut such that the blade and the backstop appear to be perpendicular
 (that is, the wire appears to have been cut with a tool of similar configuration).
-
 In this example, $\ell = \Sexpr{ell}$ mm, $d = \Sexpr{d}$ mm, and there are at least $\ell/d = \Sexpr{ncomp_min}$ comparisons between a wire cut and a blade cut.
 As there are two blade cuts (side A and side B), the minimal number of comparisons overall is \Sexpr{ncomp_min*2}, as these comparisons are non-overlapping and independent (on average).
 
@@ -138,7 +135,6 @@ Assuming a resolution of $\Sexpr{res*1000} \mu$m per pixel, the maximum number o
 These comparisons are implicit in the calculation of cross-correlation, which is the first and often the only step used to quantitatively assess the similarity between striated evidence such as bullets, aperture shear, and firing pin impressions.
 Implicit comparisons are not unique to algorithms; an examiner would need to physically align the wire and the blade cut by searching along the length of the cut to visually match striations, performing the same process physically that the algorithm performs computationally.
 While these sequential comparisons are highly auto correlated, and we cannot assume sequential independence when calculating the probability of an error, they serve as an upper bound on the number of comparisons which could be performed.
-
 As the number of comparisons increases, the probability of encountering a coincidental match increases.
 Statisticians call this the \textit{family-wise error rate} $E$; it is an important quantity to control when conducting a series ("family") of tests.
 
@@ -149,7 +145,6 @@ In objective disciplines with standardized evaluation rules (e.g.\ DNA), these s
 However, in toolmark examination, no objective evaluation rules are used; examiners testify based on subjective, individual rules for how much similarity is sufficient for an identification.
 Assuming that lab procedure errors are not a factor in studies, we use reported error rates from striated evidence comparisons (e.g.\ excluding breech face comparisons) in open-set studies as an estimate of the coincidental match rate of a single wire-cut comparison.
 The three studies we consider \citep{bajic2020, mattijssen2021,best2022} have false positive rates between 0.0045 \citep{best2022} and 0.072 \citep{mattijssen2021}; pooling data from these studies yields a false positive rate of \Sexpr{sprintf("%.2f", fpr)}.
-
 For a single-comparison FPR of $e$, the family-wise FPR for $n$ comparisons, $E_n$ is $1 - [1-e]^n$.
 \Cref{fig:Accuracy} shows the family-wise accuracy rate on the y-axis; if 90\% is an acceptable overall accuracy, 2 comparisons can be made when $e = 0.05$; this increases to 10 comparisons when $e =  0.01$.
 Thus, at an error rate of \Sexpr{sprintf("e = %.2f", fpr)}, examiners can conduct approximately 5 comparisons without exceeding the family-wise FPR of 10\%.
