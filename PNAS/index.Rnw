@@ -193,7 +193,7 @@ ggplot(res, aes(x = single_rmp, y = overall, group = factor(N), color = factor(N
 
 <<Accuracy, fig.cap="Probability of accurate decisions for $N$ comparisons for different error rates.", fig.width = 8, fig.height = 4>>=
 r_vals <- tibble(r = c(.0005, 0.001, 0.005, .01, 0.05),
-                 rlab = sprintf("P(F[1])==%0.05f", r))
+                 rlab = sprintf("e==%0.05f", r))
 res2 <- crossing(r = r_vals$r,
                  N = c(seq(1, 11, .01),seq(11.1, 109.9, .1), seq(110, 1100, 1))) %>%
   mutate(overall = (1 - r)^N) %>%
