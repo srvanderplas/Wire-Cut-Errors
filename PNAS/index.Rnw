@@ -36,7 +36,7 @@
 
 
 \begin{abstract}
-When wires are cut, the tool produces striations on the cut surfaced; as in other forms of forensic analysis, these striation marks are used to connect the evidence to the source that created them. Here, we argue that the practice of comparing two wire cut surfaces introduces complexities not present in better-investigated forensic examination  of toolmarks such as those observed on bullets, as wire comparisons inherently require multiple distinct comparisons, increasing the expected false positive rate. We call attention to the multiple comparison problem in wire examination and relate it to other situations in forensics that involve multiple comparisons, such as database searches.
+When wires are cut, the tool produces striations on the cut surface; as in other forms of forensic analysis, these striation marks are used to connect the evidence to the source that created them. Here, we argue that the practice of comparing two wire cut surfaces introduces complexities not present in better-investigated forensic examination  of toolmarks such as those observed on bullets, as wire comparisons inherently require multiple distinct comparisons, increasing the expected false positive rate. We call attention to the multiple comparison problem in wire examination and relate it to other situations in forensics that involve multiple comparisons, such as database searches.
 \end{abstract}
 
 \dates{This manuscript was compiled on \today}
@@ -54,14 +54,17 @@ options(digits = 4)
 \ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
 
 
+
+
+
 \firstpage[5]{5}
 
 \dropcap{I}n forensic evaluations, a single conclusion often relies on  many comparisons, either implicitly or explicitly.
 Multiple comparisons arise persistently when developing statistical methods to address scientific problems \citep{benjaminiControllingFalseDiscovery1995}, and greatly increase the probability of false discoveries.
-Now that vast databases and efficient algorithms are routinely used in forensic evaluations to propose matches to crime scene items, the problem of close non-matches~\citep{pcast}  due to multiple comparisons becomes critically important.
-Scientists have the responsibility to address this often ignored issue to prevent a further erosion of the public's confidence in the justice system.
+Now that vast databases and efficient algorithms are routinely used in forensic evaluations to propose matches to crime scene items, the problem of close non-matches~\citep{pcast} due to multiple comparisons becomes critically important.
+This often ignored issue increases the false positive rate, and can contribute to the erosion of public trust in the justice system.
 The multiple comparison problem is not new: it has been raised in the past with regard to DNA~\citep{thompson2003} and latent print evaluations~ \citep{koehler2021}. One of the root causes~\citep{fine2006} leading to the wrongful accusation of Brandon Mayfield in the 2004 Madrid train bombing case was that the large size of the IAFIS database used to search for similar prints made it possible to locate `unusually' close non-matches.
-The probability of finding  close non-matches for an item of evidence is proportional to the size of the database available for searching; close non-matches occur more frequently as databases increase in size and algorithms become more powerful.
+The probability of finding  close non-matches for an item of evidence is proportional to the size of the database available for searching; close non-matches occur more frequently as databases increase in size.
 
 Compounding this issue, the use of algorithms also results in a large number of comparisons that are not obvious to the user.
 For example, the cross-correlation function~\citep{vorburgerApplicationsCrosscorrelationFunctions2011} was one of the first measures proposed for quantifying the similarity between two patterns in response to the 2009 NRC report~\citep{nas2009}, and continues to be used in many pattern searching algorithms to find the best alignment between two images and to quantify their overall similarity.
@@ -91,11 +94,11 @@ Imagine that we move the cut wire along the blade cut in order to assess whether
 We can move the wire unit-by-unit, or we can move the wire by its full length, with no overlap to the previous comparison.
 
 The first option gives us the maximum number of comparisons ($\ell/r - d/r + 1$), while the second option gives us the minimum number of comparisons $\ell/d$.
-In the first case, sequential comparisons share much of the same physical data and are highly related; in the second case, no data is shared between physical comparisons and we can expect that they are statistically independent, though empirically there will be nonzero correlations due to physical similarities between striations.
+In the first case, sequential comparisons share much of the same physical data and are highly related; in the second case, no data are shared between physical comparisons and we can expect that they are statistically independent, though empirically there will be nonzero correlations due to physical similarities between striations.
 For simplicity, let us consider the number of comparisons to lie somewhere between these two estimates.
-Note that when $\ell/d \approx 1$, as in bullet LEA comparisons, the minimal and the maximal number of comparisons are both close to 1.
-Finally, we must consider the number of surfaces which must be compared: the wire may have between one and two sets of striae and there may be 2-4 different blade cut surfaces to examine, depending on tool configuration.
-This results in a multiplier of between 2 and 8 to calculate the total number of comparisons required.
+Note that when $\ell/d \approx 1$, as in some toolmark comparisons, the upper number of comparisons goes to 1.
+Finally, we must consider the number of surfaces which must be compared: the wire may have one or two sets of striae and there may be  two to four blade cut surfaces to examine, depending on the tool.
+This results in a multiplier of as much as 8.
 
 \subsection*{A concrete example}
 
@@ -241,11 +244,12 @@ ggplot(data = res2, aes(x = N, y = overall, color = factor(r), label = rlab)) +
 Forensic practitioners often report the findings from their examinations in the form of a categorical conclusion reflecting a single decision.
 This is misleading when the decision relies on multiple comparisons which are not individually presented in reports or testimony.
 In this short contribution, we have shown that the implicit comparisons performed during forensic analysis of wire cuts increase the family-wise error rate.
-Omission of the underlying details is not necessarily due to malice; rather, it results from protocols which focus on finding the best possible match between two items and evaluating that match.
+%Omission of the underlying details is not necessarily due to malice; rather, it results from protocols which focus on finding the best possible match between two items and evaluating that match.
 
-In our example we highlight a simple case where a wire is cut using a two-sided blade, but the findings apply to many other situations where a forensic evaluation involves multiple comparisons against a set of accumulated information, such as database searches.
-It is critically important that forensic practitioners become aware of the impact of carrying out multiple comparisons on their final conclusions and that lab procedures and testimony are modified accordingly.
-We suggest three strategies to improve transparency of forensic examinations and to produce more reliable estimates of examination-wide error rates.
+We describe a simple scenario where a wire is cut using a two-sided blade, but findings apply to any situation where a forensic evaluation involves multiple comparisons, including, e.g., database searches.  Forensic practitioners should understand how the number of comparisons can affect the accuracy of their final conclusion. We propose three strategies to enhance transparency and enable more reliable estimates of examination-specific error rates.
+%In our example we highlight a simple case where a wire is cut using a two-sided blade, but the findings apply to many other situations where a forensic evaluation involves multiple comparisons against a set of accumulated information, such as database searches.
+%It is critically important that forensic practitioners become aware of the impact of carrying out multiple comparisons on their final conclusions and that lab procedures and testimony are modified accordingly.
+%We suggest three strategies to improve transparency of forensic examinations and to produce more reliable estimates of examination-wide error rates.
 
 First, examiners should report (or defense attorneys should request) the overall length or area of surfaces generated during the examination process, along with the total consecutive length or area of the recovered evidence.
 These pieces of information will take the place of $\ell$ and $d$ and facilitate calculation of examination-wide error rates.
