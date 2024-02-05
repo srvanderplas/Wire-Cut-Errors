@@ -147,10 +147,12 @@ There are at least two components of the false positive rate (FPR): identifying 
 In objective disciplines with standardized evaluation rules (e.g.\ DNA), these sources can be distinguished.
 However, in toolmark examination, no objective evaluation rules are used; examiners testify based on subjective, individual rules for how much similarity is sufficient for an identification.
 Assuming that lab procedure errors are not a factor in studies, we use reported error rates from open-set studies of striated evidence comparisons to estimate the coincidental match rate of a single wire-cut comparison.
-The three studies we consider \citep{bajic2020, mattijssen2021,best2022} have FPRs between 0.0045 \citep{best2022} and 0.072 \citep{mattijssen2021}; pooling data from these studies yields a FPR of \Sexpr{sprintf("%.2f", fpr)}.
+The three studies we consider \citep{bajic2020, mattijssen2021,best2022} have FPRs between 0.0045 \citep{best2022} and 0.072 \citep{mattijssen2021}; pooling data from these studies yields an FPR of \Sexpr{sprintf("%.2f", fpr)}.
 For a single-comparison FPR of $e$, the family-wise FPR for $n$ comparisons, $E_n$ is $1 - [1-e]^n$.
-\Cref{fig:Accuracy} shows the family-wise accuracy rate on the y-axis; if 90\% is an acceptable overall accuracy, 2 comparisons can be made when $e = 0.05$; increasing to 10 comparisons when $e =  0.01$.
-Thus, at an error rate of \Sexpr{sprintf("e = %.2f", fpr)}, examiners can conduct comparisons before exceeding the family-wise FPR of 10\%.
+\hh{\Cref{tab:familywise} shows the impact the number of comparisons has on these published error rates. With an error rate of 0.07, as suggested by Bajic (2020), examiners can make up to 14 comparisons, i.e. only the comparisons of one wire to a single-bladed tool are safely covered without exceeding an upper bound of 10\% for the family wise false identification error.}
+%\Cref{tab:Accuracy} shows the family-wise accuracy rate on the y-axis; if 90\% is an acceptable overall accuracy, 2 comparisons can be made when $e = 0.05$; increasing to 10 comparisons when $e =  0.01$.
+%Thus, at an error rate of \Sexpr{sprintf("e = %.2f", fpr)}, examiners can conduct comparisons before exceeding the family-wise FPR of 10\%.
+\hh{For a modestly sized database search of size 1000, the initial false positive rate should not exceed 1 in 10,000 to guarantee a family-wise total false identification error of at most 10\%. }
 
 Under these constraints, the accuracy of an examination involving multiple comparisons between a wire and a tool will be low, as the number of candidate alignments that must be examined is high.
 Even the most innocuous example (small blade, only 2 cutting surfaces, and a relatively large wire) involved a minimum of \Sexpr{2*ncomp_min} completely independent comparisons.
@@ -165,6 +167,7 @@ library(dplyr)
 library(geomtextpath)
 single_rmp = exp(seq(-1000, 0, .1))
 N = c(10, 100, 1000, 10000)
+
 
 res = crossing(single_rmp, N) %>%
   mutate(overall = 1 - (1 - single_rmp)^N)
@@ -194,50 +197,126 @@ ggplot(res, aes(x = single_rmp, y = overall, group = factor(N), color = factor(N
 @
 
 
-<<Accuracy, fig.cap="Probability of accurate decisions for $N$ comparisons for different error rates.", fig.width = 8, fig.height = 4>>=
-r_vals <- tibble(r = c(.0005, 0.001, 0.005, .01, 0.05),
-                 rlab = sprintf("e==%0.05f", r))
-res2 <- crossing(r = r_vals$r,
-                 N = c(seq(1, 11, .01),seq(11.1, 109.9, .1), seq(110, 1100, 1))) %>%
-  mutate(overall = (1 - r)^N) %>%
-  left_join(r_vals)
+<<Accuracy, eval=FALSE,  fig.cap="Probability of accurate decisions for $N$ comparisons for different error rates.", fig.width = 8, fig.height = 4>>=
+
+comp_allowed <- function(e, at_most=0.1) {
+  floor(log(1-at_most)/log(1-e))
+}
+
+family_wise <- function(e, N) {
+  1 - (1 - e)^N
+}
+
+r_vals <- tibble(r = c(0.004545, 0.00704, 0.02, 0.0724, 0.001, 0.0001, 0.00001),
+                 Study = c("Best (2022)","Bajic (2020)", "Pooled Error",  "Mattijssen (2021)", "", "", "")) %>% arrange(desc(r))
+#                 rlab = sprintf("e==%0.05f", r)) %>% arrange(desc(r))
+
+r_vals <- r_vals %>% mutate(
+#  E1 = r,
+  E10 = family_wise(r, 10),
+  E100 = family_wise(r, 100),
+  E1000 = family_wise(r, 1000),
+  allowed = comp_allowed(r)
+)
+
+data <- r_vals %>%
+  mutate(
+    FPR = c("7.24%", "2.00%", "0.70%", "0.45%", "1 in 1,000", "1 in 10,000", "1 in 100,000")
+  ) %>%
+  select(Study, FPR, E10, E100, E1000, allowed)
+
+library(gt)
+
+gt_tab <- data %>%
+  mutate(across(c(E10, E100, E1000), function(x) 100*x)) %>%
+  gt() %>%
+  tab_spanner(label = "False Positive Error (in %) based on N comparisons", columns = matches("E10")) %>%
+  fmt_number(columns = c(E10, E100, E1000), decimals = 1) %>%
+  fmt_number(columns = c(allowed), sep_mark = ",", decimals=0) %>%
+  tab_header(
+    title = md("False identification rates increase with the number of comparisons made.")
+  ) %>%
+ cols_label(
+    E10 = "N = 10",
+    E100 = "N = 100",
+    E1000 = "N = 1,000",
+    allowed = "Number of comparisons\nfor error below 10%",
+    FPR = "False Positive Rate"
+  )
+
+# include modified latex based on latex produced below:
+as_latex(gt_tab)
+
+# r_vals <- r_vals %>% mutate(
+#   study = sprintf("%s:e=%s", study, r)
+# )
 
 
-breakpt <- .9
+# res2 <- crossing(r = r_vals$r,
+#                  N = c(seq(1, 11, .01),seq(11.1, 109.9, .1), seq(110, 1100, 1))) %>%
+#   mutate(overall = (1 - r)^N) %>%
+#   left_join(r_vals)
+#
 
-error_res <- filter(res2, lead(overall, 1) <= breakpt)
-res2 <- filter(res2, overall >= breakpt)
-
-res2sum <- res2 %>% group_by(r) %>% filter(overall == min(overall))
-
-
-ggplot(data = res2, aes(x = N, y = overall, color = factor(r), label = rlab)) +
-  geom_textline(parse = T, gap = F, straight = F,
-                padding = unit(1, "mm"), vjust = 0, linewidth = 1) +
-  xlab("Number of comparisons") +
-  scale_x_log10(
-    breaks = c(1, 1000, 10000, res2sum$N),
-    labels = c("1", "1000", "10000", round(res2sum$N)),
-    minor_breaks = c((1:9)[-2],10*(3:9), 100*3:9, 1000*1:9)
-  ) +
-  geom_hline(yintercept = breakpt, linewidth = 1) +
-#  geom_label(
-#    data = res2sum,
-#    aes(x = N, y = breakpt, label = paste0("N == ", round(N))),
-#    parse = T, vjust = 1, hjust = 1) +
-  geom_segment(data = res2sum,
-     aes(x = N, xend=N, y = -Inf, yend=0.9, color=factor(r)),
-     linewidth=0.5) +
-  geom_line(data = error_res, linetype = 2, linewidth = 0.75, alpha =0.5) +
-  ylab("1 - Probability of false positive\n(N comparisons)") +
-  ggtitle("# Comparisons and Overall Accuracy") +
-  scale_color_discrete("FP Rate for single comparison", guide = 'none') +
-  theme_bw() +
-  coord_cartesian(ylim = c(0.775, 1.0)) +
-  theme(axis.text.y = element_text(hjust = 0.5, vjust = 0.5, angle = 90))
+# breakpt <- .9
+#
+# error_res <- filter(res2, lead(overall, 1) <= breakpt)
+# res2 <- filter(res2, overall >= breakpt)
+#
+# res2sum <- res2 %>% group_by(r) %>% filter(overall == min(overall))
+#
+#
+# ggplot(data = res2, aes(x = N, y = 1-overall, color = study, label = rlab)) +
+# #  geom_textline(parse = T, gap = F, straight = F,
+# #                padding = unit(1, "mm"), vjust = 0, linewidth = 1) +
+#   geom_line(linewidth = 1) +
+#   geom_line(linewidth = 1, data = error_res, alpha = 0.5) +
+#   xlab("Number of comparisons n") +
+#   scale_x_log10(
+#     breaks = c(1, 10000, res2sum$N),
+#     labels = c("1", "10000", round(res2sum$N)[-4], "1.4"),
+#     minor_breaks = c((1:9)[-2],10*(3:9), 100*3:9, 1000*1:9)
+#   ) +
+#   geom_hline(yintercept = 0.1, linewidth = 1) +
+# #  geom_label(
+# #    data = res2sum,
+# #    aes(x = N, y = breakpt, label = paste0("N == ", round(N))),
+# #    parse = T, vjust = 1, hjust = 1) +
+#   geom_point(data = res2sum,
+#      aes(x = N, y = 0.1, color=study),
+#      size=10) +
+# #  geom_segment(data = res2sum,
+# #     aes(x = N, xend=N, y = -Inf, yend=0.1, color=study),
+# #     linewidth=0.5) +
+# #  geom_line(data = error_res, linetype = 2, linewidth = 0.75, alpha =0.5) +
+#   ylab("Family-wise false positive rate E") +
+#   ggtitle("# Comparisons and Overall Accuracy") +
+#   scale_color_discrete("FP Rate for \nsingle comparison") +
+#   theme_bw() +
+#   coord_cartesian(ylim = c(0, .15)) +
+#   theme(axis.text.y = element_text(hjust = 0.5, vjust = 0.5, angle = 90))
 
 @
 
+\begin{table}
+\scalebox{.95}{
+\begin{tabular}{lcrrrr}
+\toprule
+ &  & \multicolumn{3}{p{25mm}}{False Positives (\%) in N comparisons} &  \\
+\cmidrule(lr){3-5}
+Study & FPR $e$ & $E_{10}$ & $E_{100}$ & $E_{1,000}$ & $E_N < 0.1$ \\
+\midrule\addlinespace[2.5pt]
+Mattijssen (2021) & 7.24\% & $52.8$ & $99.9$ & $100.0$ & $1$ \\
+Pooled Error & 2.00\% & $18.3$ & $86.7$ & $100.0$ & $5$ \\
+Bajic (2020) & 0.70\% & $6.8$ & $50.7$ & $99.9$ & $14$ \\
+Best (2022) & 0.45\% & $4.5$ & $36.6$ & $98.9$ & $23$ \\
+ & 1 in 1,000 & $1.0$ & $9.5$ & $63.2$ & $105$ \\
+ & 1 in 10,000 & $0.1$ & $1.0$ & $9.5$ & $1,053$ \\
+ & 1 in 100,000 & $10^{-4}$ & $0.1$ & $1.0$ & $10,535$ \\
+\bottomrule
+\end{tabular}}
+\caption{\label{tab:family-wise}Table showing the relationship between false positive rates and the chance of false identifications in $N$ comparisons for a set of different FPRs and different number of comparisons. The last column gives the number of comparisons allowed while ensuring a false identification percentage of at most 10\%.}
+\end{table}
 
 \section*{Discussion \& Conclusions}
 
