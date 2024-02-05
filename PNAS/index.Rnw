@@ -149,15 +149,19 @@ However, in toolmark examination, no objective evaluation rules are used; examin
 Assuming that lab procedure errors are not a factor in studies, we use reported error rates from open-set studies of striated evidence comparisons to estimate the coincidental match rate of a single wire-cut comparison.
 The three studies we consider \citep{bajic2020, mattijssen2021,best2022} have FPRs between 0.0045 \citep{best2022} and 0.072 \citep{mattijssen2021}; pooling data from these studies yields an FPR of \Sexpr{sprintf("%.2f", fpr)}.
 For a single-comparison FPR of $e$, the family-wise FPR for $n$ comparisons, $E_n$ is $1 - [1-e]^n$.
-\hh{\Cref{tab:familywise} shows the impact the number of comparisons has on these published error rates. With an error rate of 0.07, as suggested by Bajic (2020), examiners can make up to 14 comparisons, i.e. only the comparisons of one wire to a single-bladed tool are safely covered without exceeding an upper bound of 10\% for the family wise false identification error.}
+\Cref{tab:familywise} \hh{shows the impact the number of comparisons has on these published error rates. With an error rate of 0.07, as suggested by Bajic (2020), examiners can make up to 14 comparisons, i.e. only the comparisons of one wire to a single-bladed tool are safely covered without exceeding an upper bound of 10\% for the family wise false identification error.}
 %\Cref{tab:Accuracy} shows the family-wise accuracy rate on the y-axis; if 90\% is an acceptable overall accuracy, 2 comparisons can be made when $e = 0.05$; increasing to 10 comparisons when $e =  0.01$.
 %Thus, at an error rate of \Sexpr{sprintf("e = %.2f", fpr)}, examiners can conduct comparisons before exceeding the family-wise FPR of 10\%.
 \hh{For a modestly sized database search of size 1000, the initial false positive rate should not exceed 1 in 10,000 to guarantee a family-wise total false identification error of at most 10\%. }
 
 Under these constraints, the accuracy of an examination involving multiple comparisons between a wire and a tool will be low, as the number of candidate alignments that must be examined is high.
-Even the most innocuous example (small blade, only 2 cutting surfaces, and a relatively large wire) involved a minimum of \Sexpr{2*ncomp_min} completely independent comparisons.
-When we then consider that examiners would make cuts at multiple angles \citep{baikerToolmarkVariabilityQuality2015}, increasing the number of comparisons, the probability of a false identification becomes even more likely.
+Even the most innocuous example (small blade, only 2 cutting surfaces, and a relatively large wire) involves a minimum of \Sexpr{2*ncomp_min} %completely independent
+comparisons.
+When we then consider that examiners would make cuts under multiple angles \citep{baikerToolmarkVariabilityQuality2015}, increasing the number of comparisons, the probability of a false identification becomes even more likely.
 As a result, it is questionable whether wire comparisons made under current protocols are reliable enough to be presented at trial.
+
+\hh{Obviously, we need studies for wire evidence. It is also clear, based on the error rates, that larger studies are needed. }
+\hh{Going forward, we need to move away from  the binary assessment of 'match' or 'non-match' and quantify (a) the similarity of striations expressed between two pieces of evidence, and (b) the frequency of the observed pattern. Unusual striation patterns should be assigned more weight in the process.  }
 
 <<control-overall-fpr, fig.cap="Exploration of overall error rate estimates for different values of $e$, the FPR for a single comparison. Dotted vertical lines show false positive error rate estimates (from left to right, \\citep{best2022,bajic2020,mattijssen2021}).", fig.width = 8, fig.height = 4, include = F>>=
 library(ggplot2)
