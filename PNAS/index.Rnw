@@ -152,7 +152,7 @@ However, in toolmark examination, no objective evaluation rules are used; examin
 Assuming that lab procedure errors are not a factor in studies, we use reported error rates from open-set studies of striated evidence comparisons to estimate the coincidental match rate of a single wire-cut comparison.
 The three studies we consider \citep{bajic2020, mattijssen2021,best2022} have FPRs between 0.0045 \citep{best2022} and 0.072 \citep{mattijssen2021}; pooling data from these studies yields an FPR of \Sexpr{sprintf("%.2f", fpr)}.
 For a single-comparison FPR of $e$, the family-wise FPR for $n$ comparisons, $E_n$ is $1 - [1-e]^n$.
-\Cref{tab:family-wise} \hh{shows the impact the number of comparisons has on these published error rates. With an error rate of 0.07, as suggested by Bajic (2020), examiners can make up to 14 comparisons, i.e.} \svp{even the simple example in this paper exceeds} \hh{an upper bound of 10\% for the family wise false identification error.}
+\Cref{tab:family-wise} shows the impact the number of comparisons has on these published error rates. With an error rate of 0.07, as suggested by Bajic (2020), examiners can make up to 14 comparisons, i.e.\ even the simple example in this paper exceeds an upper bound of 10\% for the family wise false identification error.
 %\Cref{tab:Accuracy} shows the family-wise accuracy rate on the y-axis; if 90\% is an acceptable overall accuracy, 2 comparisons can be made when $e = 0.05$; increasing to 10 comparisons when $e =  0.01$.
 %Thus, at an error rate of \Sexpr{sprintf("e = %.2f", fpr)}, examiners can conduct comparisons before exceeding the family-wise FPR of 10\%.
 \svp{To conduct a search of a modestly sized database with 1000 entries, the initial FPR cannot}
