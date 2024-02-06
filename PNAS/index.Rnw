@@ -307,6 +307,7 @@ as_latex(gt_tab)
 @
 
 \begin{table}
+\hspace{-8pt}
 \scalebox{.95}{
 \begin{tabular}{lcrrrr}
 \toprule
