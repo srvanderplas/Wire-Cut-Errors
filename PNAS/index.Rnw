@@ -71,7 +71,7 @@ Compounding this issue, the use of algorithms also results in a large number of 
 For example, the cross-correlation function~\citep{vorburgerApplicationsCrosscorrelationFunctions2011} was one of the first measures proposed for quantifying the similarity between two patterns in response to the 2009 NRC report~\citep{nas2009}, and continues to be used in many pattern searching algorithms to find the best alignment between two images and to quantify their overall similarity.
 Finding the best alignment often consists in sliding one surface across the whole length (for one-dimensional patterns, such as striations) or area (for two dimensional sources, such as impression marks) of the other item while keeping track of the value of a similarity measure.
 This mirrors the forensic examination process: the examiner visually rotates and shifts items under a comparison microscope to align two surfaces.
-In order to avoid false accusations and further erosions of public trust in science, we must address the problem of multiple comparisons and control their effect on false discovery rates.
+In order to avoid false accusations and the corresponding impact on public perception of forensics, we must address the problem of multiple comparisons and control their effect on false discovery rates.
 
 Here, we consider the multiple comparisons problem that arises from a relatively simple toolmark examination: matching a cut wire to a wire-cutting tool.
 We describe the comparison approach, estimate the (minimal) number of comparisons that are needed to carry out the examination, and discuss how the false discovery rate changes with the number of comparisons involved, using error rates derived from published black-box studies.
@@ -88,7 +88,7 @@ different tool designs have between 2 and 4 cutting surfaces in contact with the
 
 \section*{Calculating the Number of Comparisons}
 
-In order to calculate the number of comparisons carried out in the course of one examination, we define $\ell$ to be the length of the blade cut, and $d$ to be the diameter of the wire.
+In order to calculate the number of comparisons carried out in the course of one examination, we define $b$ to be the length of the blade cut, and $d$ to be the diameter of the wire.
 We assume that the wire is covered with striations suitable for comparison across its full diameter $d$.
 If this is not the case, we reduce the value $d$.
 Both the blade and the wire are either digitally scanned at resolution $r$ mm per pixel, or visually examined using a microscope with a digital resolution that can be expressed as $r$ equivalent to the digital scan.
@@ -96,21 +96,21 @@ An illustration of the sliding comparison process is shown in \Cref{fig:wire-bla
 Imagine that we move the cut wire along the blade cut in order to assess whether striations on the blade cut match the striations on the wire.
 We can move the wire unit-by-unit, or we can move the wire by its full length, with no overlap to the previous comparison.
 
-The first option gives us the maximum number of comparisons ($\ell/r - d/r + 1$), while the second option gives us the minimum number of comparisons $\ell/d$.
+The first option gives us the maximum number of comparisons ($b/r - d/r + 1$), while the second option gives us the minimum number of comparisons $b/d$.
 In the first case, sequential comparisons share much of the same physical data and are highly related; in the second case, no data are shared between physical comparisons and we can expect that they are statistically independent, though empirically there will be nonzero correlations due to physical similarities between striations.
 For simplicity, let us consider the number of comparisons to lie somewhere between these two estimates.
-Note that when $\ell/d \approx 1$, as in some toolmark comparisons, the upper number of comparisons goes to 1.
+Note that when $b/d \approx 1$, as in some toolmark comparisons, the upper number of comparisons goes to 1.
 Finally, we must consider the number of surfaces which must be compared: the wire may have one or two sets of striae and there may be  two to four blade cut surfaces to examine, depending on the tool.
 This results in a multiplier of as much as 8.
 
 \subsection*{A concrete example}
 
 <<simple-problem-setup, include=F>>=
-ell <- 15
+b <- 15
 d <- 2
 res <- 0.645/1000
-ncomp_min <- ell/d
-ncomp_max <- ell/res - d/res + 1
+ncomp_min <- b/d
+ncomp_max <- b/res - d/res + 1
 
 # From 3 studies
 errors <- c(20, 56, 1)
@@ -123,10 +123,10 @@ fpr <- sum(errors)/sum(knm)
 \centering
 \includegraphics[width=\columnwidth]{../fig/wire-blade-comparison-label.png}
 \includegraphics[width=\columnwidth]{../fig/wire_cutter_wires.png}
-\caption{(Top) A comparison between a wire and a blade cut requires sliding the wire along the entire blade cut length to determine the best match (or whether there is a match). Surfaces shown are rendered 2D topographical scans of a wire and blade cut taken with a confocal light microscope. (Bottom) RJ45 Crimp tool with a $\Sexpr{ell/10}$ cm razor blade used for cutting. 1 mm and 2 mm diameter aluminum wires cut with the pliers are shown in a box in the top right corner.}\label{fig:tool-pic}\label{fig:wire-blade}
+\caption{(Top) A comparison between a wire and a blade cut requires sliding the wire along the entire blade cut length to determine the best match (or whether there is a match). Surfaces shown are rendered 2D topographical scans of a wire and blade cut taken with a confocal light microscope. (Bottom) RJ45 Crimp tool with a $\Sexpr{b/10}$ cm razor blade used for cutting. 1 mm and 2 mm diameter aluminum wires cut with the pliers are shown in a box in the top right corner.}\label{fig:tool-pic}\label{fig:wire-blade}
 \end{figure}
 
-Let us consider a wire-cutting tool with a $\Sexpr{ell/10}$ cm razor blade that meets a cast surface (one such tool is shown in \Cref{fig:tool-pic}); the wire is held against this rectangular cast surface as the blade is pushed into the wire, splitting it in two.
+Let us consider a wire-cutting tool with a $\Sexpr{b/10}$ cm razor blade that meets a cast surface (one such tool is shown in \Cref{fig:tool-pic}); the wire is held against this rectangular cast surface as the blade is pushed into the wire, splitting it in two.
 This is a minimal scenario - the wire will acquire striations from one side of the blade, while the blade itself has two cutting edges, which we will call side A and side B.
 A blade cut of a sheet of aluminum will thus produce two striated edges corresponding to side A and side B which are compared to cut wires to assess similarity.
 We also have a 12 gauge aluminum wire ($\Sexpr{d}$ mm diameter) which may have been cut by the wire-cutting tool described above.
@@ -134,7 +134,7 @@ Class characteristics, which are shared by all tools of similar manufacture, app
 there is a flat impression on one side of the wire corresponding to the cast metal backstop of the tool,
 and the wire is cut such that the blade and the backstop appear to be perpendicular
 (that is, the wire appears to have been cut with a tool of similar configuration).
-In this example, $\ell = \Sexpr{ell}$ mm, $d = \Sexpr{d}$ mm, and there are at least $\ell/d = \Sexpr{ncomp_min}$ comparisons between a wire cut and a blade cut.
+In this example, $b = \Sexpr{b}$ mm, $d = \Sexpr{d}$ mm, and there are at least $b/d = \Sexpr{ncomp_min}$ comparisons between a wire cut and a blade cut.
 As there are two blade cuts (side A and side B), the minimal number of comparisons overall is \Sexpr{ncomp_min*2}, as these comparisons are non-overlapping and independent (on average).
 
 Assuming a resolution of $\Sexpr{res*1000} \mu$m per pixel, the maximum number of comparisons per blade cut is around $\Sexpr{format(round(ncomp_max/1000)*1000, big.mark=',')}$; thus, we need $\Sexpr{format(round(ncomp_max/1000)*2000, big.mark=',')}$ comparisons overall in order to find the optimal alignment between the wire and the blade cut.
@@ -148,9 +148,9 @@ Statisticians call this the \textit{family-wise error rate} $E$; it is an import
 \section*{Probability of False Identifications}
 There are at least two components of the false positive rate (FPR): identifying two pieces of evidence that have similar characteristics but are from different sources (a coincidental match) and procedural failures (e.g.\ lab process errors) \citep[p 50]{pcast}.
 In objective disciplines with standardized evaluation rules (e.g.\ DNA), these sources can be distinguished.
-However, in toolmark examination, no objective evaluation rules are used; examiners testify based on subjective, individual rules for how much similarity is sufficient for an identification.
-Assuming that lab procedure errors are not a factor in studies, we use reported error rates from open-set studies of striated evidence comparisons to estimate the coincidental match rate of a single wire-cut comparison.
-The three studies we consider \citep{bajic2020, mattijssen2021,best2022} have FPRs between 0.0045 \citep{best2022} and 0.072 \citep{mattijssen2021}; pooling data from these studies yields an FPR of \Sexpr{sprintf("%.2f", fpr)}.
+However, in toolmark examination, no objective evaluation rules are used; examiners testify based on subjective rules for how much similarity is sufficient for an identification.
+Assuming that lab procedure errors are not a factor in studies, we use reported error rates from three open-set studies of striated evidence\citep{bajic2020, mattijssen2021,best2022} to obtain a ballpark estimate of the coincidental match rate of a single wire-cut comparison.
+These studies have FPRs between 0.0045 \citep{best2022} and 0.072 \citep{mattijssen2021}; pooling data from these studies weighted by sample size yields an FPR of \Sexpr{sprintf("%.2f", fpr)}.
 For a single-comparison FPR of $e$, the family-wise FPR for $n$ comparisons, $E_n$ is $1 - [1-e]^n$.
 \Cref{tab:family-wise} shows the impact the number of comparisons has on these published error rates. With an error rate of 0.07, as suggested by Bajic (2020), examiners can make up to 14 comparisons, i.e.\ even the simple example in this paper exceeds an upper bound of 10\% for the family wise false identification error.
 %\Cref{tab:Accuracy} shows the family-wise accuracy rate on the y-axis; if 90\% is an acceptable overall accuracy, 2 comparisons can be made when $e = 0.05$; increasing to 10 comparisons when $e =  0.01$.
@@ -340,7 +340,7 @@ We describe a simple scenario where a wire is cut using a two-sided blade, but f
 %We suggest three strategies to improve transparency of forensic examinations and to produce more reliable estimates of examination-wide error rates.
 
 First, examiners should report (or defense attorneys should request) the overall length or area of surfaces generated during the examination process, along with the total consecutive length or area of the recovered evidence.
-These pieces of information will take the place of $\ell$ and $d$ and facilitate calculation of examination-wide error rates.
+These pieces of information will take the place of $b$ and $d$ and facilitate calculation of examination-wide error rates.
 
 Second, researchers should conduct studies relating the length/area of comparison surface to the error rate.
 For instance, we have pooled studies looking at bullet striations and firing pin shear marks because we could not find black-box error rate studies of wire cuts.
