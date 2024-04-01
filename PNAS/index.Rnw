@@ -36,7 +36,7 @@
 
 
 \begin{abstract}
-When wires are cut, the tool produces striations on the cut surface; as in other forms of forensic analysis, these striation marks are used to connect the evidence to the source that created them. Here, we argue that the practice of comparing two wire cut surfaces introduces complexities not present in better-investigated forensic examination  of toolmarks such as those observed on bullets, as wire comparisons inherently require multiple distinct comparisons, increasing the expected false positive rate. We call attention to the multiple comparison problem in wire examination and relate it to other situations in forensics that involve multiple comparisons, such as database searches.
+When wires are cut, the tool produces striations on the cut surface; as in other forms of forensic analysis, these striation marks are used to connect the evidence to the source that created them. Here, we argue that the practice of comparing two wire cut surfaces introduces complexities not present in better-investigated forensic examination  of toolmarks such as those observed on bullets, as wire comparisons inherently require multiple distinct comparisons, increasing the expected false discovery rate. We call attention to the multiple comparison problem in wire examination and relate it to other situations in forensics that involve multiple comparisons, such as database searches.
 \end{abstract}
 
 \dates{This manuscript was compiled on \today}
@@ -145,16 +145,16 @@ Statisticians call this the \textit{family-wise error rate} $E$; it is an import
 
 
 \section*{Probability of False Identifications}
-There are at least two components of the false positive rate (FPR): identifying two pieces of evidence that have similar characteristics but are from different sources (a coincidental match) and procedural failures (e.g.\ lab process errors) \citep[p 50]{pcast}.
+There are at least two components of the false discovery rate (FDR): identifying two pieces of evidence that have similar characteristics but are from different sources (a coincidental match) and procedural failures (e.g.\ lab process errors) \citep[p 50]{pcast}.
 In objective disciplines with standardized evaluation rules (e.g.\ DNA), these sources can be distinguished.
 However, in toolmark examination, no objective evaluation rules are used; examiners testify based on subjective rules for how much similarity is sufficient for an identification.
 Assuming that lab procedure errors are not a factor in studies, we use reported error rates from three open-set studies of striated evidence\citep{bajic2020, mattijssen2021,best2022} to obtain a ballpark estimate of the coincidental match rate of a single wire-cut comparison.
-These studies have FPRs between 0.0045 \citep{best2022} and 0.072 \citep{mattijssen2021}; pooling data from these studies weighted by sample size yields an FPR of \Sexpr{sprintf("%.2f", fpr)}.
-For a single-comparison FPR of $e$, the family-wise FPR for $n$ comparisons, $E_n$ is $1 - [1-e]^n$.
+These studies have FDRs between 0.0045 \citep{best2022} and 0.072 \citep{mattijssen2021}; pooling data from these studies weighted by sample size yields an FDR of \Sexpr{sprintf("%.2f", fpr)}.
+For a single-comparison FDR of $e$, the family-wise FDR for $n$ comparisons, $E_n$ is $1 - [1-e]^n$.
 \Cref{tab:family-wise} shows the impact the number of comparisons has on these published error rates. With an error rate of 0.07, as suggested by Bajic (2020), examiners can make up to 14 comparisons, i.e.\ even the simple example in this paper exceeds an upper bound of 10\% for the family wise false identification error.
 %\Cref{tab:Accuracy} shows the family-wise accuracy rate on the y-axis; if 90\% is an acceptable overall accuracy, 2 comparisons can be made when $e = 0.05$; increasing to 10 comparisons when $e =  0.01$.
-%Thus, at an error rate of \Sexpr{sprintf("e = %.2f", fpr)}, examiners can conduct comparisons before exceeding the family-wise FPR of 10\%.
-To conduct a search of a modestly sized database with 1000 entries, the initial FPR cannot
+%Thus, at an error rate of \Sexpr{sprintf("e = %.2f", fpr)}, examiners can conduct comparisons before exceeding the family-wise FDR of 10\%.
+To conduct a search of a modestly sized database with 1000 entries, the initial FDR cannot
 exceed 1 in 10,000 to guarantee a family-wise total false identification error of at most 10\%.
 
 Under these constraints, the accuracy of an examination involving multiple comparisons between a wire and a tool will be low, as the number of candidate alignments that must be examined is high.
@@ -166,7 +166,7 @@ As a result, it is questionable whether wire comparisons made under current prot
 Clearly, studies for wire evidence, and larger studies for striated evidence in general, are necessary.
 Moving away from binary assessments toward quantification of striation similarity and observed pattern frequency will also reduce the severity of this issue and allow examiners to assign unusual striation patterns more weight in the process.
 
-<<control-overall-fpr, fig.cap="Exploration of overall error rate estimates for different values of $e$, the FPR for a single comparison. Dotted vertical lines show false positive error rate estimates (from left to right, \\citep{best2022,bajic2020,mattijssen2021}).", fig.width = 8, fig.height = 4, include = F>>=
+<<control-overall-fpr, fig.cap="Exploration of familywise error rate estimates for different values of $e$, the FDR for a single comparison. Dotted vertical lines show false discovery error rate estimates (from left to right, \\citep{best2022,bajic2020,mattijssen2021}).", fig.width = 8, fig.height = 4, include = F>>=
 library(ggplot2)
 library(tidyr)
 library(dplyr)
@@ -182,9 +182,9 @@ res = crossing(single_rmp, N) %>%
 studies <- tibble(single_rmp = c( 0.004545,0.00704, 0.0724), study = c("Best (2022)","Bajic (2020)",  "Mattijssen (2021)"), y = c(-0.025, .15, 0.6), hjust = c(0, 0, 1))
 ggplot(res, aes(x = single_rmp, y = overall, group = factor(N), color = factor(N))) +
   coord_cartesian(xlim = c(0, 0.07), ylim = c(0, 1)) +
-  ylab("Probability of a false positive\n(N comparisons)") +
-  xlab("Probability of a false positive\n(1 comparison)") +
-  ggtitle("Wire Comparison: Controlling Overall False Positive Rate") +
+  ylab("Probability of a false discovery\n(N comparisons)") +
+  xlab("Probability of a false discovery\n(1 comparison)") +
+  ggtitle("Wire Comparison: Controlling Familywise False Discovery Rate") +
   geom_vline(xintercept = 0.02, linetype = "dashed", color = "grey40") +
   geom_vline(xintercept = studies$single_rmp, linetype = "51", color = "grey50") +
   geom_label(data = studies[1,], aes(x = single_rmp, y = y, label = study), inherit.aes = F, hjust = studies$hjust[1], vjust = 0) +
@@ -237,18 +237,18 @@ library(gt)
 gt_tab <- data %>%
   mutate(across(c(E10, E100, E1000), function(x) 100*x)) %>%
   gt() %>%
-  tab_spanner(label = "False Positive Error (in %) based on N comparisons", columns = matches("E10")) %>%
+  tab_spanner(label = "False Discovery Error (in %) based on N comparisons", columns = matches("E10")) %>%
   fmt_number(columns = c(E10, E100, E1000), decimals = 1) %>%
   fmt_number(columns = c(allowed), sep_mark = ",", decimals=0) %>%
   tab_header(
-    title = md("False identification rates increase with the number of comparisons made.")
+    title = md("False discovery rates increase with the number of comparisons made.")
   ) %>%
  cols_label(
     E10 = "N = 10",
     E100 = "N = 100",
     E1000 = "N = 1,000",
     allowed = "Number of comparisons\nfor error below 10%",
-    FPR = "False Positive Rate"
+    FPR = "False Discovery Rate"
   )
 
 # include modified latex based on latex produced below:
@@ -296,9 +296,9 @@ as_latex(gt_tab)
 # #     aes(x = N, xend=N, y = -Inf, yend=0.1, color=study),
 # #     linewidth=0.5) +
 # #  geom_line(data = error_res, linetype = 2, linewidth = 0.75, alpha =0.5) +
-#   ylab("Family-wise false positive rate E") +
+#   ylab("Family-wise false discovery rate E") +
 #   ggtitle("# Comparisons and Overall Accuracy") +
-#   scale_color_discrete("FP Rate for \nsingle comparison") +
+#   scale_color_discrete("FD Rate for \nsingle comparison") +
 #   theme_bw() +
 #   coord_cartesian(ylim = c(0, .15)) +
 #   theme(axis.text.y = element_text(hjust = 0.5, vjust = 0.5, angle = 90))
@@ -310,9 +310,9 @@ as_latex(gt_tab)
 \scalebox{.95}{
 \begin{tabular}{lcrrrr}
 \toprule
- &  & \multicolumn{3}{p{25mm}}{False Positives (\%) in N comparisons} &  \\
+ &  & \multicolumn{3}{p{25mm}}{False Discoveries (\%) in N comparisons} &  \\
 \cmidrule(lr){3-5}
-Study & FPR $e$ & $E_{10}$ & $E_{100}$ & $E_{1,000}$ & $E_N < 0.1$ \\
+Study & FDR $e$ & $E_{10}$ & $E_{100}$ & $E_{1,000}$ & $E_N < 0.1$ \\
 \midrule\addlinespace[2.5pt]
 Mattijssen (2021) & 7.24\% & $52.8$ & $99.9$ & $100.0$ & $1$ \\
 Pooled Error & 2.00\% & $18.3$ & $86.7$ & $100.0$ & $5$ \\
@@ -323,7 +323,7 @@ Best (2022) & 0.45\% & $4.5$ & $36.6$ & $98.9$ & $23$ \\
  & 1 in 100,000 & $10^{-4}$ & $0.1$ & $1.0$ & $10,535$ \\
 \bottomrule
 \end{tabular}}
-\caption{\label{tab:family-wise}Table showing the relationship between false positive rates and the chance of false identifications in $N$ comparisons for a set of different FPRs and different number of comparisons. The last column gives the number of comparisons allowed while ensuring a false identification percentage of at most 10\%.}
+\caption{\label{tab:family-wise}Table showing the relationship between false discovery rates and the chance of false identifications in $N$ comparisons for a set of different FDRs and different number of comparisons. The last column gives the number of comparisons allowed while ensuring a false identification percentage of at most 10\%.}
 \end{table}
 
 \section*{Discussion \& Conclusions}
