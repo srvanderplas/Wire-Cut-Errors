@@ -62,16 +62,15 @@ options(digits = 4)
 \dropcap{I}n forensic evaluations, a single conclusion often relies on  many comparisons, either implicitly or explicitly.
 Multiple comparisons arise persistently when developing statistical methods to address scientific problems \citep{benjaminiControllingFalseDiscovery1995}, and greatly increase the probability of false discoveries.
 Now that vast databases and efficient algorithms are routinely used in forensic evaluations to propose matches to crime scene items, the problem of close non-matches~\citep{pcast} due to multiple comparisons becomes critically important.
-This often ignored issue increases the false positive rate, and can contribute to the erosion of public trust in the justice system.
+This often ignored issue increases the false discovery rate, and can contribute to the erosion of public trust in the justice system through conviction of innocent individuals.
 The multiple comparison problem is not new: it has been raised in the past with regard to DNA~\citep{thompson2003} and latent print evaluations~ \citep{koehler2021}. One of the root causes~\citep{fine2006} leading to the wrongful accusation of Brandon Mayfield in the 2004 Madrid train bombing case was that the large size of the IAFIS database used to search for similar prints made it possible to locate `unusually' close non-matches.
-% The probability of finding  close non-matches for an item of evidence is proportional to the size of the database available for searching; close non-matches occur more frequently as databases increase in size.
 As database size increases, so does the probability of finding a close non-match.
 
 Compounding this issue, the use of algorithms also results in a large number of comparisons that are not obvious to the user.
 For example, the cross-correlation function~\citep{vorburgerApplicationsCrosscorrelationFunctions2011} was one of the first measures proposed for quantifying the similarity between two patterns in response to the 2009 NRC report~\citep{nas2009}, and continues to be used in many pattern searching algorithms to find the best alignment between two images and to quantify their overall similarity.
 Finding the best alignment often consists in sliding one surface across the whole length (for one-dimensional patterns, such as striations) or area (for two dimensional sources, such as impression marks) of the other item while keeping track of the value of a similarity measure.
 This mirrors the forensic examination process: the examiner visually rotates and shifts items under a comparison microscope to align two surfaces.
-In order to avoid false accusations and the corresponding impact on public perception of forensics, we must address the problem of multiple comparisons and control their effect on false discovery rates.
+In order to avoid false accusations and the corresponding impact on public perception of forensics, we must address the problem of multiple comparisons in database and alignment searches and control their effect on false discovery rates.
 
 Here, we consider the multiple comparisons problem that arises from a relatively simple toolmark examination: matching a cut wire to a wire-cutting tool.
 We describe the comparison approach, estimate the (minimal) number of comparisons that are needed to carry out the examination, and discuss how the false discovery rate changes with the number of comparisons involved, using error rates derived from published black-box studies.

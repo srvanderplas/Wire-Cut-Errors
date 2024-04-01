@@ -1,0 +1,18 @@
+---
+title: "Reviewer Response"
+author: "Susan Vanderplas, Heike Hofmann, Alicia Carriquiry"
+format: pdf
+---
+
+# General Comments
+
+We thank both reviewers for their insightful comments. While we respond point-by-point below, the reviews of this paper are both careful, considerate, and helpful, and will serve to improve this paper.
+
+# Reviewer 1
+
+- **Points 1 and 2**: Existing alternative solutions to multiple comparisons problems and existing psychological literature that speaks to this kind of comparison task.
+
+> We appreciate the reviewer's helpful suggestions about additional situations which may be similar and/or which may help to resolve the multiple comparison problem. One extremely unique factor of wire cuts that is not true of duct tape fits, bullets, or cartridge cases is that there is not any external structure which can assist with the multiple comparison problem. In duct tape, the tape has edges (and internal fibers) that provide structure. In bullets, there are lands and grooves which provide some structure and a way to sequence the lands according to the physical bullet orientation; this reduces a $n^2$ comparison problem to an $n$ comparison problem, where $n$ is the number of lands (though of course, database searches make even this a challenge). In cartridge cases, the extractor marks are of limited width and comparable size to the mechanism itself. In contrast, with wire cuts, there is a blade cut and a wire, and the wire could have been cut at any point along the blade; in most cases there is not any structure beyond the striation marks themselves. Thus, wire cuts serve as a uniquely problematic example within the wider issue of multiple comparisons in forensics. The Prusinowski paper is a good paper, but the holistic judgement process demonstrated in e.g. Fig 7 of the manuscript is predicated on edge alignment as a first step; no physical analogue to this exists for wire cuts. While the Prusinowski paper's method is one way to avoid cross-correlation, it inherently relies on an assumption which is not true in most striation marks: that the length of the striated region is the same for the evidence as for the comparison sample. 
+
+> Similarly, the psychological concepts relating to holistic judgements are difficult to apply to wire cuts and even bullets, because examination of the striations visually precludes examination of the entire entity, either due to the length (e.g. the blade cut is many times longer than the wire diameter) or due to curvature (in the case of bullets). While it is possible that a talented cognitive psychologist could provide an improved examination procedure that would systematize this sort of comparison, we aren't aware of any such procedures implemented in labs at the moment that are aimed at addressing this problem; in addition, as we are limited to 3 pages, it seems quite impossible to do the topic any justice. We would be most interested to collaborate with Reviewer 1 on an exloration of the zoomed-in vs. holistic cognition of striated mark comparisons, if they are a cognitive psychologist, as two of the three authors of this paper are statisticians who occasionally dabble in psychology-adjacent disciplines such as perception of statistical graphics. 
+
