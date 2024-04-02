@@ -1,6 +1,6 @@
 \documentclass[9pt,twocolumn,twoside]{pnas-new}\usepackage[]{graphicx}\usepackage[dvipsnames]{xcolor}
 %DIF LATEXDIFF DIFFERENCE FILE
-%DIF DEL index-old.tex   Tue Feb  6 08:14:32 2024
+%DIF DEL index-old.tex   Tue Apr  2 17:21:27 2024
 %DIF ADD index.tex       Tue Apr  2 11:18:37 2024
 % maxwidth is the original width if it is less than linewidth
 % otherwise use linewidth (to make sure the graphics do not exceed the margin)
@@ -185,9 +185,7 @@ Now that vast databases and efficient algorithms are routinely used in forensic 
 This often ignored issue increases the false \DIFdelbegin \DIFdel{positive }\DIFdelend \DIFaddbegin \DIFadd{discovery }\DIFaddend rate, and can contribute to the erosion of public trust in the justice system \DIFaddbegin \DIFadd{through conviction of innocent individuals}\DIFaddend .
 The multiple comparison problem is not new: it has been raised in the past with regard to DNA~\citep{thompson2003} and latent print evaluations~ \citep{koehler2021}. One of the root causes~\citep{fine2006} leading to the wrongful accusation of Brandon Mayfield in the 2004 Madrid train bombing case was that the large size of the IAFIS database used to search for similar prints made it possible to locate `unusually' close non-matches.
 %DIF <  The probability of finding  close non-matches for an item of evidence is proportional to the size of the database available for searching; close non-matches occur more frequently as databases increase in size.
-\DIFdelbegin \DIFdel{\svp{As database size increases, so does the probability of finding a close non-match.}
-}\DIFdelend \DIFaddbegin \DIFadd{As database size increases, so does the probability of finding a close non-match.
-}\DIFaddend 
+As database size increases, so does the probability of finding a close non-match.
 
 Compounding this issue, the use of algorithms also results in a large number of comparisons that are not obvious to the user.
 For example, the cross-correlation function~\citep{vorburgerApplicationsCrosscorrelationFunctions2011}\DIFaddbegin \DIFadd{, which computes the correlation for each alignment of two sequences, }\DIFaddend was one of the first measures proposed \DIFdelbegin \DIFdel{for quantifying }\DIFdelend \DIFaddbegin \DIFadd{to quantify }\DIFaddend the similarity between two patterns in response to the 2009 NRC report~\citep{nas2009}, and continues to be used in many pattern searching algorithms to find the best alignment between two images and to quantify their overall similarity.
@@ -205,10 +203,7 @@ A forensics examiner tasked with determining whether a wire in evidence was cut 
 These cuts are made in a sheet of material \DIFdelbegin \DIFdel{similar to the wire 's }\DIFdelend \DIFaddbegin \DIFadd{matching the wire }\DIFaddend composition, and may be performed at multiple angles, as the angle of the tool to the substrate can affect which striations are recorded on the substrate surface.
 The blade cuts will then be compared to the wire under a comparison microscope, though eventually, automatic comparison algorithms may also be validated for lab use.
 Each side of each blade cut will be compared to each side of the wire;
-\DIFdelbegin \DIFdel{\svp{different tool designs have between 2 and 4 cutting surfaces in contact with the substrate.}
-%DIF <  depending on the tool design, there can be between two and four cutting surfaces in contact with the substrate.
-}\DIFdelend \DIFaddbegin \DIFadd{different tool designs have between 2 and 4 cutting surfaces in contact with the substrate.
-}\DIFaddend 
+different tool designs have between 2 and 4 cutting surfaces in contact with the substrate.
 
 
 \section*{Calculating the Number of Comparisons}
@@ -271,30 +266,18 @@ to obtain a ballpark estimate of }\DIFaddend the coincidental match rate of a si
 \citep{bajic2020, mattijssen2021,best2022} }\hskip0pt%DIFAUXCMD
 have FPRs }\DIFdelend \DIFaddbegin \DIFadd{These studies have FDRs }\DIFaddend between 0.0045 \citep{best2022} and 0.072 \citep{mattijssen2021}; pooling data from these studies \DIFdelbegin \DIFdel{yields an FPR }\DIFdelend \DIFaddbegin \DIFadd{weighted by sample size yields an FDR }\DIFaddend of 0.02.
 For a single-comparison \DIFdelbegin \DIFdel{FPR }\DIFdelend \DIFaddbegin \DIFadd{FDR }\DIFaddend of $e$, the family-wise \DIFdelbegin \DIFdel{FPR }\DIFdelend \DIFaddbegin \DIFadd{FDR }\DIFaddend for $n$ comparisons, $E_n$ is $1 - [1-e]^n$.
-\Cref{tab:family-wise} \DIFdelbegin \DIFdel{\hh{shows the impact the number of comparisons has on these published error rates. With an error rate of 0.07, as suggested by Bajic (2020), examiners can make up to 14 comparisons, i.e.} \svp{even the simple example in this paper exceeds} \hh{an upper bound of 10\% for the family wise false identification error.}
-%DIF < \Cref{tab:Accuracy} shows the family-wise accuracy rate on the y-axis; if 90\% is an acceptable overall accuracy, 2 comparisons can be made when $e = 0.05$; increasing to 10 comparisons when $e =  0.01$.
-%DIF < Thus, at an error rate of sprintf("e = %.2f", fpr), examiners can conduct comparisons before exceeding the family-wise FPR of 10\%.
-\svp{To conduct a search of a modestly sized database with 1000 entries, the initial FPR cannot}
-%DIF <  \hh{For a modestly sized database search of size 1000, the initial false positive rate should not
-\hh{exceed 1 in 10,000 to guarantee a family-wise total false identification error of at most 10\%. }
-}\DIFdelend \DIFaddbegin \DIFadd{shows the impact the number of comparisons has on these published error rates. With an error rate of 0.07, as suggested by Bajic (2020), examiners can make up to 14 comparisons, i.e.\ even the simple example in this paper exceeds an upper bound of 10\% for the family wise false discovery error.
-To conduct a search of a modestly sized database with 1000 entries, the initial FDR cannot
-exceed 1 in 10,000 to guarantee a family-wise total false discovery error of at most 10\%.
-}\DIFaddend 
+\Cref{tab:family-wise} shows the impact the number of comparisons has on these published error rates. With an error rate of 0.07, as suggested by Bajic (2020), examiners can make up to 14 comparisons, i.e.\DIFaddbegin \DIFadd{\ }\DIFaddend even the simple example in this paper exceeds an upper bound of 10\% for the family wise false \DIFdelbegin \DIFdel{identification }\DIFdelend \DIFaddbegin \DIFadd{discovery }\DIFaddend error.
+To conduct a search of a modestly sized database with 1000 entries, the initial \DIFdelbegin \DIFdel{FPR }\DIFdelend \DIFaddbegin \DIFadd{FDR }\DIFaddend cannot
+exceed 1 in 10,000 to guarantee a family-wise total false \DIFdelbegin \DIFdel{identification }\DIFdelend \DIFaddbegin \DIFadd{discovery }\DIFaddend error of at most 10\%.
 
 Under these constraints, the accuracy of an examination involving multiple comparisons between a wire and a tool will be low, as the number of candidate alignments that must be examined is high.
 Even the most innocuous example (small blade, only 2 cutting surfaces, and a relatively large wire) involves a minimum of 15  %DIF < completely independent
 comparisons.
-Examiners would make cuts under multiple angles \citep{baikerToolmarkVariabilityQuality2015}, increasing the number of comparisons \DIFdelbegin \DIFdel{\svp{and making a} false identification even more \svp{probable}}\DIFdelend \DIFaddbegin \DIFadd{and making a false discovery even more probable}\DIFaddend .
+Examiners would make cuts under multiple angles \citep{baikerToolmarkVariabilityQuality2015}, increasing the number of comparisons and making a false \DIFdelbegin \DIFdel{identification }\DIFdelend \DIFaddbegin \DIFadd{discovery }\DIFaddend even more probable.
 As a result, it is questionable whether wire comparisons made under current protocols are reliable enough to be presented at trial.
 
-\DIFdelbegin \DIFdel{\svp{Clearly, studies for wire evidence, and larger studies for striated evidence in general, are necessary.}
-%DIF <  \hh{Obviously, we need studies for wire evidence. It is also clear, based on the error rates, that larger studies are needed. }
-\svp{Moving away from binary assessments toward quantification of striation similarity and observed pattern frequency will also reduce the severity of this issue and allow examiners to assign unusual striation patterns more weight in the process.}
-%DIF <  \hh{Going forward, we need to move away from  the binary assessment of 'match' or 'non-match' and quantify (a) the similarity of striations expressed between two pieces of evidence, and (b) the frequency of the observed pattern. Unusual striation patterns should be assigned more weight in the process.  }
-}\DIFdelend \DIFaddbegin \DIFadd{Clearly, studies for wire evidence, and larger studies for striated evidence in general, are necessary.
+Clearly, studies for wire evidence, and larger studies for striated evidence in general, are necessary.
 Moving away from binary assessments toward quantification of striation similarity and observed pattern frequency will also reduce the severity of this issue and allow examiners to assign unusual striation patterns more weight in the process.
-}\DIFaddend 
 
 
 
