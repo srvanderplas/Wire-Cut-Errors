@@ -11,6 +11,8 @@
 % {pnasmathematics} %= Template for a one-column mathematics article
 % {pnasinvited} %= Template for a PNAS invited submission
 
+
+\graphicspath{{../fig}}
 \title{Hidden Multiple Comparisons Increase Forensic Error Rates}
 
 % Use letters for affiliations, numbers to show equal authorship (if applicable) and to indicate the corresponding author
@@ -120,8 +122,7 @@ fpr <- sum(errors)/sum(knm)
 
 \begin{figure}[t!]
 \centering
-\includegraphics[width=\columnwidth]{../fig/wire-blade-comparison-label.png}
-\includegraphics[width=\columnwidth]{../fig/wire_cutter_wires.png}
+\includegraphics[width=\columnwidth]{full-wire-cutter-fig.pdf}
 \caption{(Top) A comparison between a wire and a blade cut requires sliding the wire along the entire blade cut length to determine the best match (or whether there is a match). Surfaces shown are rendered 2D topographical scans of a wire and blade cut taken with a confocal light microscope. (Bottom) RJ45 Crimp tool with a $\Sexpr{b/10}$ cm razor blade used for cutting. 1 mm and 2 mm diameter aluminum wires cut with the pliers are shown in a box in the top right corner.}\label{fig:tool-pic}\label{fig:wire-blade}
 \end{figure}
 
