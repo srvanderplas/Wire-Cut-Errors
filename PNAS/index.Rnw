@@ -12,7 +12,7 @@
 % {pnasinvited} %= Template for a PNAS invited submission
 
 
-\graphicspath{{../fig}}
+\graphicspath{{../fig/}}
 \title{Hidden Multiple Comparisons Increase Forensic Error Rates}
 
 % Use letters for affiliations, numbers to show equal authorship (if applicable) and to indicate the corresponding author
